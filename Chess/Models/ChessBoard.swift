@@ -56,53 +56,59 @@ extension ChessBoard {
         let potentialMoves = piece.getAllMoves()
         var legalMoves: [ChessBoardLocation] = []
         
-        switch piece.type {
-        case .king:
-            for move in potentialMoves {
-                if !doesConflictWithTeam(move: move, myColor: piece.color) {
-                    legalMoves.append(move)
-                }
-            }
-        case .queen:
-            for move in potentialMoves {
-                if !doesConflictWithTeam(move: move, myColor: piece.color) {
-                    legalMoves.append(move)
-                }
-            }
-        case .bishop:
-            for move in potentialMoves {
-                if !doesConflictWithTeam(move: move, myColor: piece.color) {
-                    if let cell = cells.first (where: { cell in cell.location == move }) {
-                        if let otherPiece = cell.piece {
-                            if abs(otherPiece.location.row - piece.location.row) == abs(otherPiece.location.column - piece.location.column) {
-                                for index in potentialMoves.indices {
-                                    if abs(potentialMoves[index].row - otherPiece.location.row) == abs(potentialMoves[index].column - otherPiece.location.column) {
-                                        
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    legalMoves.append(move)
-                }
-            }
-        case .knight:
-            for move in potentialMoves {
-                if !doesConflictWithTeam(move: move, myColor: piece.color) {
-                    legalMoves.append(move)
-                }
-            }
-        case .rook:
-            for move in potentialMoves {
-                if !doesConflictWithTeam(move: move, myColor: piece.color) {
-                    legalMoves.append(move)
-                }
-            }
-        case .pawn:
-            for move in potentialMoves {
-                if !doesConflictWithTeam(move: move, myColor: piece.color) {
-                    legalMoves.append(move)
-                }
+//        switch piece.type {
+//        case .king:
+//            for move in potentialMoves {
+//                if !doesConflictWithTeam(move: move, myColor: piece.color) {
+//                    legalMoves.append(move)
+//                }
+//            }
+//        case .queen:
+//            for move in potentialMoves {
+//                if !doesConflictWithTeam(move: move, myColor: piece.color) {
+//                    legalMoves.append(move)
+//                }
+//            }
+//        case .bishop:
+//            for move in potentialMoves {
+//                if !doesConflictWithTeam(move: move, myColor: piece.color) {
+//                    if let cell = cells.first (where: { cell in cell.location == move }) {
+//                        if let otherPiece = cell.piece {
+//                            if abs(otherPiece.location.row - piece.location.row) == abs(otherPiece.location.column - piece.location.column) {
+//                                for index in potentialMoves.indices {
+//                                    if abs(potentialMoves[index].row - otherPiece.location.row) == abs(potentialMoves[index].column - otherPiece.location.column) {
+//                                        
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    legalMoves.append(move)
+//                }
+//            }
+//        case .knight:
+//            for move in potentialMoves {
+//                if !doesConflictWithTeam(move: move, myColor: piece.color) {
+//                    legalMoves.append(move)
+//                }
+//            }
+//        case .rook:
+//            for move in potentialMoves {
+//                if !doesConflictWithTeam(move: move, myColor: piece.color) {
+//                    legalMoves.append(move)
+//                }
+//            }
+//        case .pawn:
+//            for move in potentialMoves {
+//                if !doesConflictWithTeam(move: move, myColor: piece.color) {
+//                    legalMoves.append(move)
+//                }
+//            }
+//        }
+        
+        for move in potentialMoves {
+            if !doesConflictWithTeam(move: move, myColor: piece.color) {
+                legalMoves.append(move)
             }
         }
         
