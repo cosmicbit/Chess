@@ -17,10 +17,27 @@ struct ChessBoardLocation: Equatable, Hashable, Comparable {
     }
     
     
-    var row: Int = 0
+    var row: Int
     var column: Int
     
     func getLocationAsString() -> String {
         return "(\(row), \(column))"
+    }
+    
+    static func initializeObjectIfValid(row: Int, column: Int) -> ChessBoardLocation? {
+        if 0 <= row && row < 8 && 0 <= column && column < 8 {
+            return ChessBoardLocation(row: row, column: column)
+        }
+        return nil
+    }
+    
+    init?(row: Int, column: Int) {
+        if 0 <= row && row < 8 && 0 <= column && column < 8 {
+            //return ChessBoardLocation(row: row, column: column)
+            self.row = row
+            self.column = column
+            return
+        }
+        return nil
     }
 }

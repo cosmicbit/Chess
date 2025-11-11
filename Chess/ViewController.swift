@@ -44,7 +44,11 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.board.cells.count
+        var count = 0
+        viewModel.board.cells.forEach { row in
+            count += row.count
+        }
+        return 64
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -53,12 +57,9 @@ extension ViewController: UICollectionViewDataSource {
         let rowIndex = indexPath.item / 8
         let columnIndex = indexPath.item % 8
         let location = ChessBoardLocation(row: rowIndex, column: columnIndex)
-        
-        if let chessBoardCell = viewModel.board.cells.first(where: { $0.location == location }) {
-            cell.configure(cell: chessBoardCell)
-            cell.backgroundColor = chessBoardCell.currentColor.uiColor
-            return cell
-        }
+        let chessBoardCell = viewModel.board.cells[rowIndex][columnIndex]
+        cell.configure(cell: chessBoardCell)
+        cell.backgroundColor = chessBoardCell.currentColor.uiColor
         
         return cell
     }
@@ -69,8 +70,9 @@ extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let rowIndex = indexPath.item / 8
         let columnIndex = indexPath.item % 8
-        let location = ChessBoardLocation(row: rowIndex, column: columnIndex)
-        print("(\(location.row), \(location.column)) => Tapped")
+        if let location = ChessBoardLocation(row: rowIndex, column: columnIndex) {
+            print("(\(location.row), \(location.column)) => Tapped")
+        }
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? ChessBoardCollectionViewCell,
         let currentTappedCell = cell.chessBoardCell

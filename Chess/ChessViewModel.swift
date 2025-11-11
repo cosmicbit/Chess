@@ -37,15 +37,24 @@ class ChessViewModel {
         guard let piece = piece else { return }
         let locations = board.getLegalMoves(for: piece)
         for location in locations {
-            let cell = board.cells.first { $0.location == location}
-            cell?.currentColor = .yellow
+            let i = location.row
+            let j = location.column
+            board.cells[i][j].currentColor = .yellow
+//            let cell = board.cells.first { $0.location == location}
+//            cell?.currentColor = .yellow
         }
             
         
     }
     
     func resetBoardColors() {
-        board.cells.forEach { $0.currentColor = $0.defaultColor }
+        //board.cells.forEach { $0.currentColor = $0.defaultColor }
+        for i in 0..<8 {
+            for j in 0..<8 {
+                let cell = board.cells[i][j]
+                cell.currentColor = cell.defaultColor
+            }
+        }
     }
     
     func resetAll() {
