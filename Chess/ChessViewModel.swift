@@ -67,7 +67,7 @@ class ChessViewModel {
     func didTapOnCell(_ currentTappedCell: ChessBoardCell) {
 
         if let lastTappedCell = lastTappedCell {
-            print("Last Tapped cell is at \(lastTappedCell.location.getLocationAsString())")
+            //print("Last Tapped cell is at \(lastTappedCell.location.getLocationAsString())")
             
             if let currentTappedPiece = currentTappedCell.piece {
                 // current tapped cell have a piece
@@ -82,10 +82,15 @@ class ChessViewModel {
                         shouldMovePiece = true
                         print("------Move To be made--------")
                     } else {
-                        // this place will be used to cut down pieces
-                        
-                        
                         resetBoardColors()
+                        if shouldMovePiece {
+                            // this place will be used to cut down pieces
+                            shouldMovePiece = false
+                        } else {
+                            seeAllMoves(of: currentTappedPiece)
+                            shouldMovePiece = true
+                            print("------Move To be made--------")
+                        }
                     }
                 } else {
                     // last tapped cell donot have a piece but current tapped cell have a piece

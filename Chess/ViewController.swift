@@ -56,7 +56,7 @@ extension ViewController: UICollectionViewDataSource {
         
         let rowIndex = indexPath.item / 8
         let columnIndex = indexPath.item % 8
-        let location = ChessBoardLocation(row: rowIndex, column: columnIndex)
+        //let location = ChessBoardLocation(row: rowIndex, column: columnIndex)
         let chessBoardCell = viewModel.board.cells[rowIndex][columnIndex]
         cell.configure(cell: chessBoardCell)
         cell.backgroundColor = chessBoardCell.currentColor.uiColor
@@ -71,7 +71,7 @@ extension ViewController: UICollectionViewDelegate {
         let rowIndex = indexPath.item / 8
         let columnIndex = indexPath.item % 8
         if let location = ChessBoardLocation(row: rowIndex, column: columnIndex) {
-            print("(\(location.row), \(location.column)) => Tapped")
+            //print("(\(location.row), \(location.column)) => Tapped")
         }
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? ChessBoardCollectionViewCell,

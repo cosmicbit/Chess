@@ -1,0 +1,27 @@
+//
+//  .gitignore
+//  Chess
+//
+//  Created by Philips Jose on 11/11/25.
+//
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+
+## Build generated
+build/
+DerivedData/
+
+xcuserdata/
+
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+*.xcworkspace
+
+Pods/
