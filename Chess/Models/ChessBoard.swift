@@ -54,22 +54,65 @@ class ChessBoard {
 }
 
 extension ChessBoard {
-    func getLegalMoves(for piece: ChessPiece) -> [ChessBoardLocation] {
+    func getLegalMoves(for piece: ChessPiece) -> [ChessMove] {
         let potentialMoves = piece.getAllMoves()
-        var legalMoves: [ChessBoardLocation] = []
+        var legalMoves: [ChessMove] = []
+        let location = piece.location
         
-        for move in potentialMoves {
-            if !doesConflictWithTeam(move: move, myColor: piece.color) {
+        switch piece.type {
+            
+        case .king:
+            for move in potentialMoves {
+                if !doesConflictWithTeam(move: move, myColor: piece.color) {
+                    legalMoves.append(move)
+                }
+            }
+        case .queen:
+            for move in potentialMoves {
+                if !doesConflictWithTeam(move: move, myColor: piece.color) {
+                    legalMoves.append(move)
+                }
+            }
+        case .bishop:
+           
+            for move in potentialMoves {
                 legalMoves.append(move)
+                
+//                if let movePiece = cells[move.row][move.column].piece {
+//                    if movePiece.location < piece.location {
+//                        
+//                    }
+//                }
+            }
+        case .knight:
+            for move in potentialMoves {
+                if !doesConflictWithTeam(move: move, myColor: piece.color) {
+                    legalMoves.append(move)
+                }
+            }
+        case .rook:
+            for move in potentialMoves {
+                if !doesConflictWithTeam(move: move, myColor: piece.color) {
+                    legalMoves.append(move)
+                }
+            }
+        case .pawn:
+            for move in potentialMoves {
+                if !doesConflictWithTeam(move: move, myColor: piece.color) {
+                    legalMoves.append(move)
+                }
             }
         }
+        
+        
+        
         
         return legalMoves
     }
     
-    private func doesConflictWithTeam(move: ChessBoardLocation, myColor: ChessPieceColor) -> Bool {
-        let i = move.row
-        let j = move.column
+    private func doesConflictWithTeam(move: ChessMove, myColor: ChessPieceColor) -> Bool {
+        let i = move.endLocation.row
+        let j = move.endLocation.column
         if cells[i][j].piece?.color == myColor {
             return true
         } else {

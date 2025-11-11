@@ -35,13 +35,11 @@ class ChessViewModel {
     
     func seeAllMoves(of piece: ChessPiece?) {
         guard let piece = piece else { return }
-        let locations = board.getLegalMoves(for: piece)
-        for location in locations {
-            let i = location.row
-            let j = location.column
+        let moves = board.getLegalMoves(for: piece)
+        moves.forEach {
+            let i = $0.endLocation.row
+            let j = $0.endLocation.column
             board.cells[i][j].currentColor = .yellow
-//            let cell = board.cells.first { $0.location == location}
-//            cell?.currentColor = .yellow
         }
             
         
@@ -108,7 +106,9 @@ class ChessViewModel {
                     // last tapped cell have a piece but current tapped cell donot have a piece
                     
                     print("Last: HAVE, Current: NIL")
-                    if lastTappedPiece.getAllMoves().contains(currentTappedCell.location) {
+                    let endLocations = lastTappedPiece.getAllMoves().map { $0.endLocation }
+                    
+                    if endLocations.contains(currentTappedCell.location) {
                         print("Valid Move")
                         currentTappedCell.piece = lastTappedPiece
                         currentTappedCell.piece?.location = currentTappedCell.location

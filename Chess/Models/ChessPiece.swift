@@ -71,10 +71,12 @@ extension ChessPiece {
         self.type.image(color: self.color)
     }
     
-    func getAllMoves() -> [ChessBoardLocation] {
+    func getAllMoves() -> [ChessMove] {
         let location = self.location
+        var moves: [ChessMove] = []
         switch self.type {
         case .king:
+            
             var locations: [ChessBoardLocation?] = []
             locations = [
                 ChessBoardLocation(row: location.row + 1, column: location.column),
@@ -86,7 +88,12 @@ extension ChessPiece {
                 ChessBoardLocation(row: location.row - 1, column: location.column + 1),
                 ChessBoardLocation(row: location.row - 1, column: location.column - 1),
             ]
-            return locations.compactMap { $0 }
+            locations.forEach { loc in
+                if let loc = loc {
+                    moves.append(ChessMove(startLocation: location, endLocation: loc, piece: self))
+                }
+            }
+            return moves
         case .queen:
             var locations: [ChessBoardLocation?] = []
             
@@ -100,7 +107,12 @@ extension ChessPiece {
                 locations.append(ChessBoardLocation(row: location.row, column: location.column - i))
                 locations.append(ChessBoardLocation(row: location.row + i, column: location.column - i))
             }
-            return locations.compactMap { $0 }
+            locations.forEach { loc in
+                if let loc = loc {
+                    moves.append(ChessMove(startLocation: location, endLocation: loc, piece: self))
+                }
+            }
+            return moves
         case .bishop:
             var locations: [ChessBoardLocation?] = []
             for i in 1..<8 {
@@ -109,7 +121,12 @@ extension ChessPiece {
                 locations.append(ChessBoardLocation(row: location.row + i, column: location.column - i))
                 locations.append(ChessBoardLocation(row: location.row - i, column: location.column + i))
             }
-            return locations.compactMap { $0 }
+            locations.forEach { loc in
+                if let loc = loc {
+                    moves.append(ChessMove(startLocation: location, endLocation: loc, piece: self))
+                }
+            }
+            return moves
         case .knight:
             let locations = [
                 ChessBoardLocation(row: location.row + 2, column: location.column + 1),
@@ -121,7 +138,12 @@ extension ChessPiece {
                 ChessBoardLocation(row: location.row - 1, column: location.column + 2),
                 ChessBoardLocation(row: location.row - 1, column: location.column - 2),
             ]
-            return locations.compactMap { $0 }
+            locations.forEach { loc in
+                if let loc = loc {
+                    moves.append(ChessMove(startLocation: location, endLocation: loc, piece: self))
+                }
+            }
+            return moves
         case .rook:
             var locations: [ChessBoardLocation?] = []
             for i in 1..<8 {
@@ -130,7 +152,12 @@ extension ChessPiece {
                 locations.append(ChessBoardLocation(row: location.row - i, column: location.column))
                 locations.append(ChessBoardLocation(row: location.row, column: location.column - i))
             }
-            return locations.compactMap { $0 }
+            locations.forEach { loc in
+                if let loc = loc {
+                    moves.append(ChessMove(startLocation: location, endLocation: loc, piece: self))
+                }
+            }
+            return moves
         case .pawn:
             switch self.color {
             case .white:
@@ -140,7 +167,12 @@ extension ChessPiece {
                     ChessBoardLocation(row: location.row - 2, column: location.column),
                     ChessBoardLocation(row: location.row - 1, column: location.column + 1),
                 ]
-                return locations.compactMap { $0 }
+                locations.forEach { loc in
+                    if let loc = loc {
+                        moves.append(ChessMove(startLocation: location, endLocation: loc, piece: self))
+                    }
+                }
+                return moves
             case .black:
                 let locations = [
                     ChessBoardLocation(row: location.row + 1, column: location.column - 1),
@@ -148,7 +180,14 @@ extension ChessPiece {
                     ChessBoardLocation(row: location.row + 2, column: location.column),
                     ChessBoardLocation(row: location.row + 1, column: location.column + 1),
                 ]
-                return locations.compactMap { $0 }
+                
+                locations.forEach { loc in
+                    if let loc = loc {
+                        moves.append(ChessMove(startLocation: location, endLocation: loc, piece: self))
+                    }
+                }
+                
+                return moves
             }
         }
     }
