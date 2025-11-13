@@ -31,13 +31,13 @@ struct ChessBoardLocation: Equatable, Hashable, Comparable {
         return nil
     }
     
-    init?(row: Int, column: Int) {
-        if 0 <= row && row < 8 && 0 <= column && column < 8 {
-            //return ChessBoardLocation(row: row, column: column)
-            self.row = row
-            self.column = column
-            return
-        }
-        return nil
-    }
+//    init(row: Int, column: Int) {
+//        if 0 <= row && row < 8 && 0 <= column && column < 8 {
+//            //return ChessBoardLocation(row: row, column: column)
+//            self.row = row
+//            self.column = column
+//            return
+//        }
+//        return nil
+//    }
 }

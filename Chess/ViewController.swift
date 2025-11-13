@@ -70,9 +70,9 @@ extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let rowIndex = indexPath.item / 8
         let columnIndex = indexPath.item % 8
-        if let location = ChessBoardLocation(row: rowIndex, column: columnIndex) {
-            //print("(\(location.row), \(location.column)) => Tapped")
-        }
+        let location = ChessBoardLocation(row: rowIndex, column: columnIndex)
+        print("(\(location.row), \(location.column)) => Tapped")
+        
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? ChessBoardCollectionViewCell,
         let currentTappedCell = cell.chessBoardCell

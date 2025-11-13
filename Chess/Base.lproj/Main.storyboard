@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="229.66666666666663" width="393" height="393"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8cg-Vm-PQm">
-                                        <rect key="frame" x="15" y="15" width="363" height="363"/>
+                                        <rect key="frame" x="9.6666666666666572" y="9.6666666666666856" width="373.66666666666674" height="373.33333333333331"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="8cg-Vm-PQm" secondAttribute="height" multiplier="1:1" id="OHC-fZ-EEJ"/>
@@ -42,14 +42,14 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="OFP-zs-W9M">
-                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                            <rect key="frame" x="5" y="5" width="118" height="118"/>
                                                         </imageView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="OFP-zs-W9M" firstAttribute="leading" secondItem="x2w-yl-8TI" secondAttribute="leading" id="6mX-js-PRD"/>
-                                                        <constraint firstItem="OFP-zs-W9M" firstAttribute="top" secondItem="x2w-yl-8TI" secondAttribute="top" id="Jrn-rL-LKR"/>
-                                                        <constraint firstAttribute="trailing" secondItem="OFP-zs-W9M" secondAttribute="trailing" id="i6l-hK-RVS"/>
-                                                        <constraint firstAttribute="bottom" secondItem="OFP-zs-W9M" secondAttribute="bottom" id="pyN-yZ-1Eg"/>
+                                                        <constraint firstItem="OFP-zs-W9M" firstAttribute="leading" secondItem="x2w-yl-8TI" secondAttribute="leading" constant="5" id="6mX-js-PRD"/>
+                                                        <constraint firstItem="OFP-zs-W9M" firstAttribute="top" secondItem="x2w-yl-8TI" secondAttribute="top" constant="5" id="Jrn-rL-LKR"/>
+                                                        <constraint firstAttribute="trailing" secondItem="OFP-zs-W9M" secondAttribute="trailing" constant="5" id="i6l-hK-RVS"/>
+                                                        <constraint firstAttribute="bottom" secondItem="OFP-zs-W9M" secondAttribute="bottom" constant="5" id="pyN-yZ-1Eg"/>
                                                     </constraints>
                                                 </collectionViewCellContentView>
                                                 <connections>
@@ -65,10 +65,10 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="8cg-Vm-PQm" secondAttribute="trailing" constant="15" id="0c1-IT-gC3"/>
-                                    <constraint firstItem="8cg-Vm-PQm" firstAttribute="leading" secondItem="xCg-mt-mb7" secondAttribute="leading" constant="15" id="7c5-QB-0S5"/>
                                     <constraint firstAttribute="width" secondItem="xCg-mt-mb7" secondAttribute="height" id="Tp6-JU-hhg"/>
+                                    <constraint firstItem="8cg-Vm-PQm" firstAttribute="width" secondItem="xCg-mt-mb7" secondAttribute="width" multiplier="0.95" id="dPx-3I-NVv"/>
                                     <constraint firstItem="8cg-Vm-PQm" firstAttribute="centerY" secondItem="xCg-mt-mb7" secondAttribute="centerY" id="o7e-fs-T4M"/>
+                                    <constraint firstItem="8cg-Vm-PQm" firstAttribute="centerX" secondItem="xCg-mt-mb7" secondAttribute="centerX" id="zNu-Hq-FR8"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CKF-vm-QPX">
@@ -92,6 +92,7 @@
                             <constraint firstItem="CKF-vm-QPX" firstAttribute="top" secondItem="xCg-mt-mb7" secondAttribute="bottom" constant="75" id="ZhD-z9-t9Z"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CKF-vm-QPX" secondAttribute="trailing" constant="20" id="g2f-5S-3gT"/>
                             <constraint firstItem="CKF-vm-QPX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="izg-sz-CjC"/>
+                            <constraint firstItem="xCg-mt-mb7" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ouy-wR-Ykb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xCg-mt-mb7" secondAttribute="trailing" id="wlh-ki-JSD"/>
                             <constraint firstItem="xCg-mt-mb7" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="xRI-9S-BMj"/>
                         </constraints>
@@ -108,13 +109,13 @@
     </scenes>
     <resources>
         <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
