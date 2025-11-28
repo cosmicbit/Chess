@@ -30,9 +30,7 @@ class ViewController: UIViewController {
         viewModel.$lastTappedCell
             .receive(on: DispatchQueue.main)
             .sink { cell in
-                //print("Reloading collectionView ....")
                 self.chessBoardCollectionView?.reloadData()
-                //self.viewModel.board.snapshot()
             }
             .store(in: &cancellables)
     }

@@ -194,3 +194,56 @@ extension ChessPiece {
     
     
 }
+
+extension ChessPiece {
+    func getDirections() -> [Direction] {
+        var directions = [(rowChange: Int, colChange: Int, key: String)]()
+        switch self.type {
+            
+        case .king, .queen:
+            directions = [
+                (-1, -1, "UL"), // UpLeft
+                (-1, 0, "U"), // Up
+                (-1, 1, "UR"), // UpRight
+                (0, 1, "R"),  // Right
+                (1, 1, "DR"),  // DownRight
+                (1, 0, "D"),  // Down
+                (1, -1, "DL"),  // DownLeft
+                (0, -1, "L"),  // Left
+            ]
+        case .bishop:
+            directions = [
+                (-1, -1, "UL"), // UpLeft
+                (-1, 1, "UR"),  // UpRight
+                (1, 1, "DR"),  // DownRight
+                (1, -1, "DL")  // DownLeft
+            ]
+            
+        case .rook:
+            directions = [
+                (-1, 0, "U"), // Up
+                (0, 1, "R"),  // Right
+                (1, 0, "D"),  // Down
+                (0, -1, "L")  // Left
+            ]
+            
+        case .knight:
+            directions = [
+                (-2, -1, "UL"),
+                (-2, 1, "UR"),
+                (-1, 2, "RU"),
+                (1, 2, "RD"),
+                (2, 1, "DR"),
+                (2, -1, "DL"),
+                (1, -2, "LD"),
+                (-1, -2, "LU")
+            ]
+        default:
+            return []
+            
+        }
+        return directions.compactMap {
+            Direction(rowChange: $0.rowChange, colChange: $0.colChange, key: $0.key)
+        }
+    }
+}

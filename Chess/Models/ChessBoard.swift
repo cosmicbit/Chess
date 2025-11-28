@@ -38,7 +38,6 @@ class ChessBoard {
             }
             cells.append(row)
         }
-        //cells = cells.sorted(by: { $0.location < $1.location })
         
         print("Chess Board is initialized with \(cells[0].count) cells.")
         chessPieces.forEach { piece in
@@ -67,378 +66,116 @@ class ChessBoard {
 }
 
 extension ChessBoard {
+    private typealias PossibleMove = (move: ChessMove, isAttack: Bool)
+    
     func getLegalMoves(for piece: ChessPiece) -> [ChessMove] {
-        let potentialMoves = piece.getAllMoves()
-        var legalMoves: [ChessMove] = []
-        let location = piece.location
+        var legalMoves = [ChessMove]()
         
         switch piece.type {
             
-        case .king:
-            
-            let sameRow = location.row
-            let upRow = location.row - 1
-            let downRow = location.row + 1
-            
-            let sameColumn = location.column
-            let rightColumn = location.column + 1
-            let leftColumn = location.column - 1
-            
-            if isThisCellValidToMove(row: upRow, column: leftColumn) {
-                let endLocation = ChessBoardLocation(row: upRow, column: leftColumn)
-                legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
+        case .king, .knight:
+            legalMoves = piece.getDirections().compactMap { direction -> ChessMove? in
+                return getValidMove(for: piece, rowDelta: direction.rowChange, colDelta: direction.colChange, distance: 1)
             }
             
-            if isThisCellValidToMove(row: upRow, column: rightColumn) {
-                let endLocation = ChessBoardLocation(row: upRow, column: rightColumn)
-                legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
+        case .queen, .bishop, .rook:
+            legalMoves = piece.getDirections().flatMap { direction in
+                return generateMovesInDirection(for: piece, rowDelta: direction.rowChange, colDelta: direction.colChange)
             }
             
-            if isThisCellValidToMove(row: downRow, column: rightColumn) {
-                let endLocation = ChessBoardLocation(row: downRow, column: rightColumn)
-                legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-            }
-            
-            if isThisCellValidToMove(row: downRow, column: leftColumn) {
-                let endLocation = ChessBoardLocation(row: downRow, column: leftColumn)
-                legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-            }
-            
-            if isThisCellValidToMove(row: upRow, column: sameColumn) {
-                let endLocation = ChessBoardLocation(row: upRow, column: sameColumn)
-                legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-            }
-            
-            
-            if isThisCellValidToMove(row: sameRow, column: rightColumn) {
-                let endLocation = ChessBoardLocation(row: sameRow, column: rightColumn)
-                legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-            }
-            
-            if isThisCellValidToMove(row: downRow, column: sameColumn) {
-                let endLocation = ChessBoardLocation(row: downRow, column: sameColumn)
-                legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-            }
-            
-            if isThisCellValidToMove(row: sameRow, column: leftColumn) {
-                let endLocation = ChessBoardLocation(row: sameRow, column: leftColumn)
-                legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-            }
-            
-        case .queen:
-            var skipU = false
-            var skipR = false
-            var skipD = false
-            var skipL = false
-            var skipUL = false
-            var skipUR = false
-            var skipDL = false
-            var skipDR = false
-            
-            for i in 1..<8 {
-                
-                let sameRow = location.row
-                let sameColumn = location.column
-                let upRow = location.row - i
-                let downRow = location.row + i
-                let rightColumn = location.column + i
-                let leftColumn = location.column - i
-                
-                if isThisCellInChessBoardRange(row: upRow, column: leftColumn) &&
-                   !skipUL {
-                    print("UL", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: upRow, column: leftColumn) {
-                        let endLocation = ChessBoardLocation(row: upRow, column: leftColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipUL = true
-                    }
-                } else {
-                    print("NO UL")
-                }
-                
-                if isThisCellInChessBoardRange(row: upRow, column: rightColumn) &&
-                   !skipUR {
-                    print("UR", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: upRow, column: rightColumn) {
-                        let endLocation = ChessBoardLocation(row: upRow, column: rightColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipUR = true
-                    }
-                } else {
-                    print("NO UR")
-                }
-                
-                if isThisCellInChessBoardRange(row: downRow, column: rightColumn) &&
-                   !skipDR {
-                    print("DR", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: downRow, column: rightColumn) {
-                        let endLocation = ChessBoardLocation(row: downRow, column: rightColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipDR = true
-                    }
-                } else {
-                    print("NO DR")
-                }
-                
-                if isThisCellInChessBoardRange(row: downRow, column: leftColumn) &&
-                   !skipDL {
-                    print("DL", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: downRow, column: leftColumn) {
-                        let endLocation = ChessBoardLocation(row: downRow, column: leftColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipDL = true
-                    }
-                } else {
-                    print("NO DL")
-                }
-                
-                if isThisCellInChessBoardRange(row: upRow, column: sameColumn) &&
-                   !skipU {
-                    print("U", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: upRow, column: sameColumn) {
-                        let endLocation = ChessBoardLocation(row: upRow, column: sameColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipU = true
-                    }
-                } else {
-                    print("NO U")
-                }
-                
-                if isThisCellInChessBoardRange(row: sameRow, column: rightColumn) &&
-                   !skipR {
-                    print("R", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: sameRow, column: rightColumn) {
-                        let endLocation = ChessBoardLocation(row: sameRow, column: rightColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipR = true
-                    }
-                } else {
-                    print("NO R")
-                }
-                
-                if isThisCellInChessBoardRange(row: downRow, column: sameColumn) &&
-                   !skipD {
-                    print("D", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: downRow, column: sameColumn) {
-                        let endLocation = ChessBoardLocation(row: downRow, column: sameColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipD = true
-                    }
-                } else {
-                    print("NO D")
-                }
-                
-                if isThisCellInChessBoardRange(row: sameRow, column: leftColumn) &&
-                   !skipL {
-                    print("L", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: sameRow, column: leftColumn) {
-                        let endLocation = ChessBoardLocation(row: sameRow, column: leftColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipL = true
-                    }
-                } else {
-                    print("NO L")
-                }
-            }
-        case .bishop:
-            print(location.getLocationAsString())
-            
-            var skipUL = false
-            var skipUR = false
-            var skipDL = false
-            var skipDR = false
-            
-            for i in 1..<8 {
-                
-                let upRow = location.row - i
-                let downRow = location.row + i
-                let rightColumn = location.column + i
-                let leftColumn = location.column - i
-                
-                if isThisCellInChessBoardRange(row: upRow, column: leftColumn) &&
-                   !skipUL {
-                    print("UL", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: upRow, column: leftColumn) {
-                        let endLocation = ChessBoardLocation(row: upRow, column: leftColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipUL = true
-                    }
-                } else {
-                    print("NO UL")
-                }
-                
-                if isThisCellInChessBoardRange(row: upRow, column: rightColumn) &&
-                   !skipUR {
-                    print("UR", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: upRow, column: rightColumn) {
-                        let endLocation = ChessBoardLocation(row: upRow, column: rightColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipUR = true
-                    }
-                } else {
-                    print("NO UR")
-                }
-                
-                if isThisCellInChessBoardRange(row: downRow, column: rightColumn) &&
-                   !skipDR {
-                    print("DR", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: downRow, column: rightColumn) {
-                        let endLocation = ChessBoardLocation(row: downRow, column: rightColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipDR = true
-                    }
-                } else {
-                    print("NO DR")
-                }
-                
-                if isThisCellInChessBoardRange(row: downRow, column: leftColumn) &&
-                   !skipDL {
-                    print("DL", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: downRow, column: leftColumn) {
-                        let endLocation = ChessBoardLocation(row: downRow, column: leftColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipDL = true
-                    }
-                } else {
-                    print("NO DL")
-                }
-            }
-            
-        case .knight:
-            for move in potentialMoves {
-                print(move)
-                if !doesConflictWithTeam(move: move, myColor: piece.color) {
-                    legalMoves.append(move)
-                }
-            }
-        case .rook:
-            print(location.getLocationAsString())
-            
-            var skipU = false
-            var skipR = false
-            var skipD = false
-            var skipL = false
-            
-            for i in 1..<8 {
-                let sameRow = location.row
-                let sameColumn = location.column
-                let upRow = location.row - i
-                let downRow = location.row + i
-                let rightColumn = location.column + i
-                let leftColumn = location.column - i
-                
-                if isThisCellInChessBoardRange(row: upRow, column: sameColumn) &&
-                   !skipU {
-                    print("U", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: upRow, column: sameColumn) {
-                        let endLocation = ChessBoardLocation(row: upRow, column: sameColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipU = true
-                    }
-                } else {
-                    print("NO U")
-                }
-                
-                if isThisCellInChessBoardRange(row: sameRow, column: rightColumn) &&
-                   !skipR {
-                    print("R", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: sameRow, column: rightColumn) {
-                        let endLocation = ChessBoardLocation(row: sameRow, column: rightColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipR = true
-                    }
-                } else {
-                    print("NO R")
-                }
-                
-                if isThisCellInChessBoardRange(row: downRow, column: sameColumn) &&
-                   !skipD {
-                    print("D", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: downRow, column: sameColumn) {
-                        let endLocation = ChessBoardLocation(row: downRow, column: sameColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipD = true
-                    }
-                } else {
-                    print("NO D")
-                }
-                
-                if isThisCellInChessBoardRange(row: sameRow, column: leftColumn) &&
-                   !skipL {
-                    print("L", terminator: " ")
-                    if !isThisCellHaveAnyPieceOnIt(row: sameRow, column: leftColumn) {
-                        let endLocation = ChessBoardLocation(row: sameRow, column: leftColumn)
-                        legalMoves.append(ChessMove(startLocation: location, endLocation: endLocation, piece: piece))
-                    } else {
-                        skipL = true
-                    }
-                } else {
-                    print("NO L")
-                }
-            }
         case .pawn:
-            for move in potentialMoves {
-                if !doesConflictWithTeam(move: move, myColor: piece.color) {
-                    legalMoves.append(move)
+            for move in piece.getAllMoves() {
+                let row = move.endLocation.row
+                let column = move.endLocation.column
+                if isThisCellValidToMove(row: row, column: column) {
+                    legalMoves.append(ChessMove(startLocation: piece.location, endLocation: move.endLocation, piece: piece))
                 }
             }
         }
-        
-        
-        
         
         return legalMoves
     }
     
-    private func doesConflictWithTeam(move: ChessMove, myColor: ChessPieceColor) -> Bool {
-        let i = move.endLocation.row
-        let j = move.endLocation.column
-        print(i ,j)
+    private func getValidMove(for piece: ChessPiece,
+                              rowDelta: Int,
+                              colDelta: Int,
+                              distance: Int) -> ChessMove? {
+        let location = piece.location
+        let targetRow = location.row + rowDelta * distance
+        let targetColumn = location.column + colDelta * distance
         
-        if cells[i][j].piece?.color == myColor {
-            return true
+        guard isThisCellInChessBoardRange(row: targetRow, column: targetColumn) else {
+            return nil
+        }
+        
+        let endLocation = ChessBoardLocation(row: targetRow, column: targetColumn)
+        let move = ChessMove(startLocation: location, endLocation: endLocation, piece: piece)
+
+        if !doesThisCellHaveAnyPieceOnIt(row: targetRow, column: targetColumn) {
+            move.isAttacking = false
+            return move
         } else {
-            return false
+            if isThePieceInTheCellOfSameColor(piece: piece, row: targetRow, column: targetColumn) {
+                // Friendly piece
+                return nil
+            } else {
+                // Enemy Piece
+                move.isAttacking = true
+                return move
+            }
         }
     }
     
-    private func isThisCellHaveAnyPieceOnIt(row: Int, column: Int) -> Bool {
-        print("Is Cell have Piece Check: ", row, column)
+    private func generateMovesInDirection(for piece: ChessPiece,
+                                  rowDelta: Int,
+                                  colDelta: Int) -> [ChessMove] {
+        
+        var moves: [ChessMove] = []
+        let maxDistance = 7
+
+        for distance in 1...maxDistance {
+            
+            if let validMove = getValidMove(for: piece,
+                                            rowDelta: rowDelta,
+                                            colDelta: colDelta,
+                                            distance: distance) {
+                
+                moves.append(validMove)
+                
+                if validMove.isAttacking {
+                    break
+                }
+                
+            } else {
+                break
+            }
+            
+        }
+        
+        return moves
+    }
+    
+    private func doesThisCellHaveAnyPieceOnIt(row: Int, column: Int) -> Bool {
         if let _ = cells[row][column].piece {
             return true
         }
-        
         return false
     }
     
     private func isThisCellInChessBoardRange(row: Int, column: Int) -> Bool {
-        print("Is Cell in Board Check: ", row, column)
         return rowRange.contains(row) && columnRange.contains(column)
     }
     
     private func isThisCellValidToMove(row: Int, column: Int) -> Bool {
-        if isThisCellInChessBoardRange(row: row, column: column) {
-            print("UL", terminator: " ")
-            if !isThisCellHaveAnyPieceOnIt(row: row, column: column) {
-                return true
-            }
+        if isThisCellInChessBoardRange(row: row, column: column) &&
+           !doesThisCellHaveAnyPieceOnIt(row: row, column: column) {
+            return true
         }
-        
         return false
+    }
+    
+    private func isThePieceInTheCellOfSameColor(piece: ChessPiece, row: Int, column: Int) -> Bool {
+        guard let pieceOnCell = cells[row][column].piece else { return true }
+        return piece.color == pieceOnCell.color ? true : false
     }
 }

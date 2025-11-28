@@ -9,6 +9,7 @@ class ChessMove {
     let startLocation: ChessBoardLocation
     let endLocation: ChessBoardLocation
     let piece: ChessPiece
+    var isAttacking: Bool = false
     
     init(startLocation: ChessBoardLocation, endLocation: ChessBoardLocation, piece: ChessPiece) {
         self.startLocation = startLocation

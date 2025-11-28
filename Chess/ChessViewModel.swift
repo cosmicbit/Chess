@@ -37,12 +37,15 @@ class ChessViewModel {
         guard let piece = piece else { return }
         let moves = board.getLegalMoves(for: piece)
         moves.forEach {
-            let i = $0.endLocation.row
-            let j = $0.endLocation.column
-            board.cells[i][j].currentColor = .yellow
+            let color = $0.isAttacking ? ChessBoardCellColor.red : ChessBoardCellColor.yellow
+            colorCell(in: $0, with: color)
         }
             
-        
+        func colorCell(in move: ChessMove, with color: ChessBoardCellColor) {
+            let i = move.endLocation.row
+            let j = move.endLocation.column
+            board.cells[i][j].currentColor = color
+        }
     }
     
     func resetBoardColors() {
