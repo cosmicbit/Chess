@@ -38,26 +38,6 @@ enum ChessPieceType: String {
         }
     }
     
-//    func getDirections() -> [Direction] {
-//        var directions = [Direction]()
-//        switch self {
-//        case .king:
-//            
-//            directions = [.upLeft, .up, .upRight, .Right, .downRight, .down, .downLeft, .Left]
-//        case .queen:
-//            directions = [.upLeft, .up, .upRight, .Right, .downRight, .down, .downLeft, .Left]
-//        case .bishop:
-//            directions = [.upLeft, .upRight, .downRight, .downLeft]
-//        case .knight:
-//            <#code#>
-//        case .rook:
-//            <#code#>
-//        case .pawn:
-//            <#code#>
-//        }
-//        return directions
-//    }
-    
 }
 
 enum ChessPieceColor: String {
@@ -93,29 +73,11 @@ enum ChessBoardCellColor {
     }
 }
 
-//enum Direction {
-//    case upLeft, up, upRight, Right, downRight, down, downLeft, Left
-//    case rightUp, rightDown, leftDown, leftUp
-//    case forward, forwardTwice
-//    case rightTwice, leftThrice
-//}
-//
-//enum KingDirections: Int, CaseIterable {
-//    case upLeft, up, upRight, Right, downRight, down, downLeft, Left
-//}
-//
-//enum QueenDirections: Int, CaseIterable {
-//    case upLeft, up, upRight, Right, downRight, down, downLeft, Left
-//}
-//
-//enum RookDirections: Int, CaseIterable {
-//    case up, Right, down, Left
-//}
-//
-//enum BishopDirections: Int, CaseIterable {
-//    case upLeft, upRight, downRight, downLeft
-//}
-//
-//enum KnightDirections: Int, CaseIterable {
-//    case upLeft, upRight, rightUp, rightDown, downLeft, downRight, leftDown, leftUp
-//}
+enum MoveResult {
+    case success
+    case failure(reason: FailureReason)
+    
+    enum FailureReason {
+        case noPieceAtStart, wrongTurn, illegalMove
+    }
+}

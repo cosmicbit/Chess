@@ -70,7 +70,7 @@ extension ChessPiece {
     var asset: UIImage {
         self.type.image(color: self.color)
     }
-    
+    /*
     func getAllMoves() -> [ChessMove] {
         let location = self.location
         var moves: [ChessMove] = []
@@ -191,7 +191,7 @@ extension ChessPiece {
             }
         }
     }
-    
+    */
     
 }
 
@@ -238,8 +238,25 @@ extension ChessPiece {
                 (1, -2, "LD"),
                 (-1, -2, "LU")
             ]
-        default:
-            return []
+            
+        case .pawn:
+            switch self.color {
+                
+            case .white:
+                directions = [
+                    (-1, -1, "UL"),
+                    (-2, 0, "UU"),
+                    (-1, 0, "U"),
+                    (-1, 1, "R")
+                ]
+            case .black:
+                directions = [
+                    (1, 1, "UL"),
+                    (2, 0, "UU"),
+                    (1, 0, "U"),
+                    (1, -1, "R")
+                ]
+            }
             
         }
         return directions.compactMap {

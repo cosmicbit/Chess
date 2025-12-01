@@ -20,7 +20,6 @@ class ChessBoardCell: Hashable, Equatable {
             defaultColor = .white
         }
         currentColor = defaultColor
-        //print("(\(location.row), \(location.column)) => \(defaultColor)")
     }
     
     static func==(lhs: ChessBoardCell, rhs: ChessBoardCell) -> Bool {
@@ -31,3 +30,4 @@ class ChessBoardCell: Hashable, Equatable {
         hasher.combine(location)
     }
 }
+

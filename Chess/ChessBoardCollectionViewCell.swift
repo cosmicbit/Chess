@@ -8,6 +8,9 @@
 import UIKit
 
 class ChessBoardCollectionViewCell: UICollectionViewCell {
+    
+    static let id = "ChessBoardCollectionViewCell"
+    
     @IBOutlet private weak var label: UILabel!
     @IBOutlet private weak var chessPieceImageView: UIImageView!
     
@@ -15,11 +18,12 @@ class ChessBoardCollectionViewCell: UICollectionViewCell {
     
     func configure(cell: ChessBoardCell) {
         self.chessBoardCell = cell
-        assignImage()
+        setupUI()
     }
     
-    private func assignImage() {
+    private func setupUI() {
         
         chessPieceImageView?.image = chessBoardCell?.piece?.asset
+        self.backgroundColor = chessBoardCell?.currentColor.uiColor
     }
 }
