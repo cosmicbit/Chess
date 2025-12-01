@@ -5,6 +5,8 @@
 //  Created by Philips Jose on 06/11/25.
 //
 
+import Foundation
+
 struct ChessBoardLocation: Equatable, Hashable, Comparable {
     static func < (lhs: ChessBoardLocation, rhs: ChessBoardLocation) -> Bool {
         if lhs.row < rhs.row {

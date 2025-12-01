@@ -98,7 +98,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="chessBoardCollectionView" destination="8cg-Vm-PQm" id="nLQ-7w-emw"/>
+                        <outlet property="collectionView" destination="8cg-Vm-PQm" id="nLQ-7w-emw"/>
                         <outlet property="resetBoardButton" destination="CKF-vm-QPX" id="N6F-ln-h3D"/>
                     </connections>
                 </viewController>

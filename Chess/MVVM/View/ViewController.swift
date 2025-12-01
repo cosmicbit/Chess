@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet private weak var chessBoardCollectionView: UICollectionView!
+    @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet weak var resetBoardButton: UIButton!
     
     private let viewModel = ChessViewModel()
@@ -26,10 +26,49 @@ class ViewController: UIViewController {
     
     func bindViewModel() {
         
-        viewModel.updateUI = { [weak self] in
-            self?.chessBoardCollectionView.reloadData()
-            
+        viewModel.reloadView = { [weak self] in
+            self?.collectionView.reloadData()
         }
+        
+        viewModel.updateUIForIndexPaths = { [weak self] indexPaths, isAttacking in
+            guard let self = self else { return}
+            if isAttacking {
+                animatePiece(from: indexPaths[0], to: indexPaths[1])
+            } else {
+                collectionView.reloadItems(at: indexPaths)
+            }
+        }
+    }
+    
+    func animatePiece(from startPath: IndexPath, to endPath: IndexPath) {
+        // 1. Get the starting cell and the piece's view (e.g., ImageView)
+        guard let startViewCell = collectionView.cellForItem(at: startPath) as? ChessBoardCollectionViewCell,
+              let startPieceView = startViewCell.chessPieceImageView else { return }
+        
+        guard let endViewCell = collectionView.cellForItem(at: endPath) as? ChessBoardCollectionViewCell,
+              let endPieceView = endViewCell.chessPieceImageView else { return }
+        
+        // 2. Determine the destination frame (in the collectionView's coordinate space)
+        let endFrame = collectionView.convert(endPieceView.frame, from: endViewCell.contentView)
+
+        // 3. Move the piece view from the cell to the collectionView's root view layer
+        let animatingPieceView = UIImageView(image: startPieceView.image)
+        animatingPieceView.frame = collectionView.convert(startPieceView.frame, from: startViewCell.contentView)
+        collectionView.addSubview(animatingPieceView)
+        
+        // 4. Hide the piece in the starting cell immediately
+        startPieceView.isHidden = true
+        
+        // 5. Animate the piece
+        UIView.animate(withDuration: 0.3, animations: {
+            // Move the animating view to the target cell's frame
+            animatingPieceView.frame = endFrame
+        }, completion: { _ in
+           
+            animatingPieceView.removeFromSuperview()
+            self.collectionView.reloadData()//reloadItems(at: [startPath, endPath])
+            
+        })
     }
 
     @IBAction func resetBoardButtonTapped(_ sender: Any) {
@@ -38,6 +77,11 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.board.numberOfCells
     }

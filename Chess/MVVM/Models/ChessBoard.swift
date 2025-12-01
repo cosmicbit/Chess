@@ -14,10 +14,8 @@ class ChessBoard {
     var gameState = GameState()
     
     init() {
-        let blackPieces = ChessPiece.getBlackPieces()
-        let whitePieces = ChessPiece.getWhitePieces()
-        self.chessPieces = blackPieces + whitePieces
-        
+        self.chessPieces = ChessPiece.loadPiecesFromFile(fileName: Constants.chessPieceDataFile.fileName, fileExtension: Constants.chessPieceDataFile.fileExtension) ?? []
+        self.chessPieces.forEach { $0.board = self }
         self.pieceMap = self.chessPieces.reduce(into: [:]) { (result, piece) in
             result[piece.location] = piece
         }
@@ -25,10 +23,7 @@ class ChessBoard {
         self.cells = (0..<8).map { row in
             (0..<8).map { column in
                 let location = ChessBoardLocation(row: row, column: column)
-                // Look up the piece from the map created in step 2
                 let pieceAtLocation = self.pieceMap[location]
-                
-                // Create the cell and assign the piece (pieceAtLocation will be nil if no piece there)
                 return ChessBoardCell(location: location, piece: pieceAtLocation)
             }
         }
@@ -51,6 +46,7 @@ class ChessBoard {
     }
 }
 
+//MARK: - State Changes
 extension ChessBoard {
     func changeCellColor(at location: ChessBoardLocation, with color: ChessBoardCellColor) {
         let cell = getCell(from: location)
@@ -66,6 +62,16 @@ extension ChessBoard {
     }
 }
 
+// MARK: State Info
+
+extension ChessBoard {
+    func getCell(from location: ChessBoardLocation) -> ChessBoardCell {
+        return cells[location.row][location.column]
+    }
+}
+
+
+//MARK: - Move Generation
 extension ChessBoard {
     
     func getLegalMoves(for piece: ChessPiece) -> [ChessMove] {
@@ -161,6 +167,7 @@ extension ChessBoard {
     }
 }
 
+// MARK: - Move Execution
 extension ChessBoard {
     func attemptMove(from startLocation: ChessBoardLocation,
                          to endLocation: ChessBoardLocation) -> MoveResult {
@@ -183,19 +190,14 @@ extension ChessBoard {
 
         self.executeMove(move)
         
-        return .success
+        return .success(move: move)
     }
     
     private func executeMove(_ move: ChessMove) {
         let startCell = getCell(from: move.startLocation)
         let endCell = getCell(from: move.endLocation)
         endCell.piece = startCell.piece
-        endCell.piece?.location = endCell.location
         startCell.piece = nil
         gameState.togglePlayer()
-    }
-    
-    func getCell(from location: ChessBoardLocation) -> ChessBoardCell {
-        return cells[location.row][location.column]
     }
 }

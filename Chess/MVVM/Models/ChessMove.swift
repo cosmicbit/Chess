@@ -9,14 +9,13 @@ struct ChessMove {
     let startLocation: ChessBoardLocation
     let endLocation: ChessBoardLocation
     let piece: ChessPiece
-    var isAttacking: Bool = false
-    var capturedPiece: ChessPiece? = nil
-    var isPawnDoubleStep: Bool = false
-    var isEnPassant: Bool = false
-    var isCastling: Bool = false
-    var isPromotion: Bool = false
-    
-    var promotionType: ChessPieceType? = nil
+    var isAttacking: Bool
+    var capturedPiece: ChessPiece?
+    var isPawnDoubleStep: Bool
+    var isEnPassant: Bool
+    var isCastling: Bool
+    var isPromotion: Bool
+    var promotionType: ChessPieceType?
     
     init(start: ChessBoardLocation,
              end: ChessBoardLocation,

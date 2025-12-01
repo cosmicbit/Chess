@@ -10,7 +10,11 @@ class ChessBoardCell: Hashable, Equatable {
     let location: ChessBoardLocation
     let defaultColor: ChessBoardCellColor
     var currentColor: ChessBoardCellColor
-    var piece: ChessPiece?
+    var piece: ChessPiece? {
+        didSet {
+            piece?.location = location
+        }
+    }
     init(location: ChessBoardLocation, piece: ChessPiece? = nil) {
         self.location = location
         self.piece = piece

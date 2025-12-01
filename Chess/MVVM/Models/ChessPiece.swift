@@ -13,6 +13,8 @@ class ChessPiece {
     let color: ChessPieceColor
     let type: ChessPieceType
     var location: ChessBoardLocation
+    var hasMoved: Bool = false
+    var board: ChessBoard?
     
     init(color: ChessPieceColor, type: ChessPieceType, location: ChessBoardLocation) {
         self.color = color
@@ -261,6 +263,71 @@ extension ChessPiece {
         }
         return directions.compactMap {
             Direction(rowChange: $0.rowChange, colChange: $0.colChange, key: $0.key)
+        }
+    }
+}
+
+// MARK: - Parsing Function
+
+extension ChessPiece {
+    /**
+     Reads and parses chess piece data from a text file.
+     
+     - Parameter fileName: The name of the text file (e.g., "board_setup").
+     - Parameter fileExtension: The extension of the text file (e.g., "txt").
+     - Returns: An array of ChessPiece objects, or nil if loading/parsing fails.
+     */
+    static func loadPiecesFromFile(fileName: String, fileExtension: String) -> [ChessPiece]? {
+        guard let path = Bundle.main.path(forResource: fileName, ofType: fileExtension) else {
+            print("Error: File not found in bundle.")
+            return nil
+        }
+        
+        let fileURL = URL(fileURLWithPath: path)
+        var pieces: [ChessPiece] = []
+        
+        do {
+            // 1. Read the entire file content as a single string
+            let fileContents = try String(contentsOf: fileURL, encoding: .utf8)
+            
+            // 2. Split the string into individual lines
+            let lines = fileContents.components(separatedBy: .newlines)
+            
+            // 3. Process each line
+            for line in lines {
+                // Ignore empty lines (often the last line)
+                let trimmedLine = line.trimmingCharacters(in: .whitespacesAndNewlines)
+                if trimmedLine.isEmpty { continue }
+                
+                // Split the line by the comma delimiter
+                let components = trimmedLine.components(separatedBy: ",")
+                
+                // A valid piece entry must have exactly 4 components: color, type, row, column
+                guard components.count == 4 else {
+                    print("Skipping malformed line: \(trimmedLine)")
+                    continue
+                }
+                
+                // 4. Safely initialize the piece components
+                guard let color = ChessPieceColor(rawValue: components[0]),
+                      let type = ChessPieceType(rawValue: components[1]),
+                      let row = Int(components[2]),
+                      let column = Int(components[3]) else {
+                    print("Skipping line due to invalid component value: \(trimmedLine)")
+                    continue
+                }
+                
+                // 5. Create and append the ChessPiece
+                let location = ChessBoardLocation(row: row, column: column)
+                let piece = ChessPiece(color: color, type: type, location: location)
+                pieces.append(piece)
+            }
+            
+            return pieces
+            
+        } catch {
+            print("Error reading file: \(error)")
+            return nil
         }
     }
 }

@@ -42,15 +42,6 @@ enum ChessPieceType: String {
 
 enum ChessPieceColor: String {
     case white, black
-    
-    var uiColor: UIColor {
-        switch self {
-        case .white:
-            UIColor.boardWhite
-        case .black:
-            UIColor.boardBlack
-        }
-    }
 }
 
 enum ChessBoardCellColor {
@@ -74,7 +65,7 @@ enum ChessBoardCellColor {
 }
 
 enum MoveResult {
-    case success
+    case success(move: ChessMove)
     case failure(reason: FailureReason)
     
     enum FailureReason {

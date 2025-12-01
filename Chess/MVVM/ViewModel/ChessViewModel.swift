@@ -11,14 +11,21 @@ class ChessViewModel {
     private(set) var board = ChessBoard()
     private(set) var lastTappedCell: ChessBoardCell?
     
-    var updateUI: (() -> Void)?
+    var reloadView: (() -> Void)?
+    var updateUIForIndexPaths: ((_ indexPaths: [IndexPath], _ isAttacking: Bool) -> Void)?
     
-    func getCell(for indexPath: IndexPath) -> ChessBoardCell{
+    func getCell(for indexPath: IndexPath) -> ChessBoardCell {
         let rowIndex = indexPath.item / 8
         let columnIndex = indexPath.item % 8
         return board.cells[rowIndex][columnIndex]
     }
     
+    func getIndexPath(for location: ChessBoardLocation) -> IndexPath {
+        let item = location.row * 8 + location.column
+        print(location.getLocationAsString())
+        return IndexPath(item: item, section: 0)
+    }
+ 
     func getCellSize(for collectionViewBounds: CGRect) -> CGSize{
         let cellSpacing: CGFloat = 0.5
         let marginSpacing: CGFloat = 0
@@ -32,6 +39,15 @@ class ChessViewModel {
         return CGSize(width: cellWidth, height: cellWidth)
     }
     
+    func updateUIForAllCells() {
+        let indexPaths = board.cells.flatMap { rowCells in
+            rowCells.map { cell in
+                getIndexPath(for: cell.location)
+            }
+        }
+        updateUIForIndexPaths?(indexPaths, false)
+    }
+    
     func colorCell(at location: ChessBoardLocation, with color: ChessBoardCellColor) {
         let i = location.row
         let j = location.column
@@ -43,13 +59,14 @@ class ChessViewModel {
             let color = $0.isAttacking ? ChessBoardCellColor.red : ChessBoardCellColor.yellow
             board.changeCellColor(at: $0.endLocation, with: color)
         }
+        reloadView?()
     }
     
     func resetAll() {
         print("Reseting Board.....")
         board = ChessBoard()
         lastTappedCell = nil
-        updateUI?()
+        reloadView?()
     }
     
     func didTapOnCell(_ currentTappedCell: ChessBoardCell) {
@@ -63,7 +80,6 @@ class ChessViewModel {
                 let legalMoves = board.getLegalMoves(for: piece)
                 highlightCells(for: legalMoves)
                 lastTappedCell = currentTappedCell
-                updateUI?()
                 return
             }
         }
@@ -71,19 +87,20 @@ class ChessViewModel {
         // 2. Handle Move Attempt (Second Tap on an empty or enemy cell)
         if let startCell = lastTappedCell {
             let startLocation = startCell.location
-            
-            // **DELEGATE CORE LOGIC TO THE BOARD**
+            board.resetCellColors()
+            //updateUIForAllCells()
+
             let result = board.attemptMove(from: startLocation, to: currentCellLocation)
             
-            board.resetCellColors()
-            
             switch result {
-            case .success:
-                break
+            case .success(let move):
+                let indexPaths = [move.startLocation, move.endLocation].map { getIndexPath(for: $0) }
+                //updateUIForIndexPaths?(indexPaths, true)
+                reloadView?()
             case .failure(let reason):
                 print("Move Failed: \(reason)")
+                reloadView?()
             }
-            updateUI?()
             lastTappedCell = nil
         }
     }
