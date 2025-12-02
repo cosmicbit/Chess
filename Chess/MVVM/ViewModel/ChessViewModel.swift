@@ -73,7 +73,7 @@ class ChessViewModel {
         let currentCellLocation = currentTappedCell.location
 
         // 1. Handle Selection (First Tap or Tapping a new piece)
-        if lastTappedCell == nil {
+        if lastTappedCell == nil || lastTappedCell?.piece?.color == currentTappedCell.piece?.color {
             board.resetCellColors()
             
             if let piece = currentTappedCell.piece {
@@ -88,19 +88,15 @@ class ChessViewModel {
         if let startCell = lastTappedCell {
             let startLocation = startCell.location
             board.resetCellColors()
-            //updateUIForAllCells()
-
             let result = board.attemptMove(from: startLocation, to: currentCellLocation)
             
             switch result {
             case .success(let move):
                 let indexPaths = [move.startLocation, move.endLocation].map { getIndexPath(for: $0) }
-                //updateUIForIndexPaths?(indexPaths, true)
-                reloadView?()
             case .failure(let reason):
                 print("Move Failed: \(reason)")
-                reloadView?()
             }
+            reloadView?()
             lastTappedCell = nil
         }
     }
