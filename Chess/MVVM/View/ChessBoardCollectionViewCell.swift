@@ -9,7 +9,7 @@ import UIKit
 
 class ChessBoardCollectionViewCell: UICollectionViewCell {
     
-    static let id = "ChessBoardCollectionViewCell"
+    static let id = Constants.collectionViewCellID
     
     @IBOutlet weak var chessPieceImageView: UIImageView!
     

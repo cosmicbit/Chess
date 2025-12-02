@@ -6,8 +6,13 @@
 //
 
 struct Constants {
-    struct chessPieceDataFile {
-        static let fileName = "ChessPieceData"
-        static let fileExtension = ".txt"
-    }
+    static let chessPieceDataFile = "ChessPieceData.txt"
+    static let collectionViewCellID = "ChessBoardCollectionViewCell"
+    static let kingDirections = "KingDirections.txt"
+    static let queenDirections = "KingDirections.txt"
+    static let bishopDirections = "BishopDirections.txt"
+    static let rookDirections = "RookDirections.txt"
+    static let knightDirections = "KnightDirections.txt"
+    static let whitePawnDirections = "WhitePawnDirections.txt"
+    static let blackPawnDirections = "BlackPawnDirections.txt"
 }
