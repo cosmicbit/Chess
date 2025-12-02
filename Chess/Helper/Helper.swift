@@ -37,4 +37,19 @@ class Helper {
             return nil
         }
     }
+    
+    static func parseFromLine(_ line: String, componentCount: Int) -> [String]? {
+        let components = line.components(separatedBy: ",")
+        guard components.count == componentCount else {
+            print("Skipping malformed line: \(line)")
+            return nil
+        }
+        return components
+    }
+    
+    static func getFileNameComponents(_ file: String) -> [String]? {
+        let components = file.components(separatedBy: ".")
+        guard components.count == 2 else { return nil}
+        return components
+    }
 }
