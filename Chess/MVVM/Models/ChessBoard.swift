@@ -14,7 +14,7 @@ class ChessBoard {
     var gameState = GameState()
     
     init() {
-        self.chessPieces = ChessPiece.loadPiecesFromFile(fileName: Constants.chessPieceDataFile.fileName, fileExtension: Constants.chessPieceDataFile.fileExtension) ?? []
+        self.chessPieces = ChessPiece.loadPiecesFromFile(file: Constants.chessPieceDataFile) ?? []
         self.chessPieces.forEach { $0.board = self }
         self.pieceMap = self.chessPieces.reduce(into: [:]) { (result, piece) in
             result[piece.location] = piece
