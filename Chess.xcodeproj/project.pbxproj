@@ -20,11 +20,24 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		44C60EF32EDEAD07008A7C75 /* Exceptions for "Chess" folder in "Compile Sources" phase from "Chess" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 447B4A582EBCA5B800255281 /* Sources */;
+			membershipExceptions = (
+				Resources/DataFiles/BishopDirections.txt,
+				Resources/DataFiles/KingDirections.txt,
+				Resources/DataFiles/KnightDirections.txt,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		447B4A5E2EBCA5B800255281 /* Chess */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				447B4A6E2EBCA5BB00255281 /* Exceptions for "Chess" folder in "Chess" target */,
+				44C60EF32EDEAD07008A7C75 /* Exceptions for "Chess" folder in "Compile Sources" phase from "Chess" target */,
 			);
 			path = Chess;
 			sourceTree = "<group>";
