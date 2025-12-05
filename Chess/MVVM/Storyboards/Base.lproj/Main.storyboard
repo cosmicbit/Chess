@@ -41,19 +41,37 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="X7P-NM-bhY">
+                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                        </imageView>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="cNq-iG-9oK">
+                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                        </imageView>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="OFP-zs-W9M">
-                                                            <rect key="frame" x="5" y="5" width="118" height="118"/>
+                                                            <rect key="frame" x="3.3333333333333357" y="3.3333333333333357" width="121.33333333333331" height="121.33333333333331"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="OFP-zs-W9M" secondAttribute="height" multiplier="1:1" id="Gir-ZI-hti"/>
+                                                            </constraints>
                                                         </imageView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="OFP-zs-W9M" firstAttribute="leading" secondItem="x2w-yl-8TI" secondAttribute="leading" constant="5" id="6mX-js-PRD"/>
-                                                        <constraint firstItem="OFP-zs-W9M" firstAttribute="top" secondItem="x2w-yl-8TI" secondAttribute="top" constant="5" id="Jrn-rL-LKR"/>
-                                                        <constraint firstAttribute="trailing" secondItem="OFP-zs-W9M" secondAttribute="trailing" constant="5" id="i6l-hK-RVS"/>
-                                                        <constraint firstAttribute="bottom" secondItem="OFP-zs-W9M" secondAttribute="bottom" constant="5" id="pyN-yZ-1Eg"/>
+                                                        <constraint firstItem="cNq-iG-9oK" firstAttribute="top" secondItem="x2w-yl-8TI" secondAttribute="top" id="1NT-6Z-0Ri"/>
+                                                        <constraint firstItem="cNq-iG-9oK" firstAttribute="leading" secondItem="x2w-yl-8TI" secondAttribute="leading" id="3mY-a6-phf"/>
+                                                        <constraint firstAttribute="trailing" secondItem="cNq-iG-9oK" secondAttribute="trailing" id="9oL-4g-rAW"/>
+                                                        <constraint firstItem="OFP-zs-W9M" firstAttribute="centerY" secondItem="x2w-yl-8TI" secondAttribute="centerY" id="FaB-Uc-DF6"/>
+                                                        <constraint firstAttribute="trailing" secondItem="X7P-NM-bhY" secondAttribute="trailing" id="OJ8-Tg-L0z"/>
+                                                        <constraint firstItem="OFP-zs-W9M" firstAttribute="centerX" secondItem="x2w-yl-8TI" secondAttribute="centerX" id="Pw6-Ym-dXA"/>
+                                                        <constraint firstItem="X7P-NM-bhY" firstAttribute="leading" secondItem="x2w-yl-8TI" secondAttribute="leading" id="TWR-Bg-jLn"/>
+                                                        <constraint firstItem="OFP-zs-W9M" firstAttribute="width" secondItem="x2w-yl-8TI" secondAttribute="width" multiplier="0.95" id="Zfr-lg-v5R"/>
+                                                        <constraint firstAttribute="bottom" secondItem="X7P-NM-bhY" secondAttribute="bottom" id="iGi-ih-Ng7"/>
+                                                        <constraint firstAttribute="bottom" secondItem="cNq-iG-9oK" secondAttribute="bottom" id="jgX-ZX-vrC"/>
+                                                        <constraint firstItem="X7P-NM-bhY" firstAttribute="top" secondItem="x2w-yl-8TI" secondAttribute="top" id="wgC-d6-AQt"/>
                                                     </constraints>
                                                 </collectionViewCellContentView>
                                                 <connections>
+                                                    <outlet property="backgroundImageView" destination="X7P-NM-bhY" id="Iad-gk-iDQ"/>
                                                     <outlet property="chessPieceImageView" destination="OFP-zs-W9M" id="deL-Ul-4Sm"/>
+                                                    <outlet property="stateImageView" destination="cNq-iG-9oK" id="5Fx-cx-qdJ"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
@@ -109,13 +127,13 @@
     </scenes>
     <resources>
         <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
