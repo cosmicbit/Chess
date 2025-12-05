@@ -22,7 +22,6 @@ class ChessViewModel {
     
     func getIndexPath(for location: ChessBoardLocation) -> IndexPath {
         let item = location.row * 8 + location.column
-        print(location.getLocationAsString())
         return IndexPath(item: item, section: 0)
     }
  
@@ -77,9 +76,12 @@ class ChessViewModel {
             board.resetCellColors()
             
             if let piece = currentTappedCell.piece {
-                let legalMoves = board.getLegalMoves(for: piece)
-                highlightCells(for: legalMoves)
-                lastTappedCell = currentTappedCell
+                if board.gameState.currentPlayer == piece.color {
+                    let legalMoves = board.getLegalMoves(for: piece)
+                    highlightCells(for: legalMoves)
+                    lastTappedCell = currentTappedCell
+                    return
+                }
                 return
             }
         }
