@@ -53,10 +53,15 @@ extension ChessBoard {
         cell.currentColor = color
     }
     
+    func changeCellState(at location: ChessBoardLocation, with state: ChessBoardCellState) {
+        let cell = getCell(from: location)
+        cell.currectState = state
+    }
+    
     func resetCellColors() {
         self.cells.forEach { rows in
             rows.forEach { cell in
-                cell.currentColor = cell.defaultColor
+                cell.currectState = .none
             }
         }
     }
