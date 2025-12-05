@@ -79,59 +79,96 @@ extension ChessBoard {
         
         switch piece.type {
             
-        case .king, .knight, .pawn:
+        case .king, .knight:
             candidateMoves = piece.getDirections().compactMap { direction -> ChessMove? in
-                return getValidMove(for: piece, rowDelta: direction.rowChange, colDelta: direction.colChange, distance: 1)
+                return getValidMove(for: piece, direction: direction, distance: 1)
             }
-            
+        case .pawn:
+            candidateMoves = getPawnMoves(for: piece)
         case .queen, .bishop, .rook:
             candidateMoves = piece.getDirections().flatMap {
-                return generateMovesInDirection(for: piece, rowDelta: $0.rowChange, colDelta: $0.colChange)
+                return generateMovesInDirection(for: piece, direction: $0, distance: 7)
             }
         }
         
         return candidateMoves
     }
     
-    private func getValidMove(for piece: ChessPiece,
-                              rowDelta: Int,
-                              colDelta: Int,
-                              distance: Int) -> ChessMove? {
-        let targetRow = piece.location.row + rowDelta * distance
-        let targetColumn = piece.location.column + colDelta * distance
+    private func getPawnMoves(for piece: ChessPiece) -> [ChessMove] {
         
-        guard isInBounds(row: targetRow, column: targetColumn) else {
+        let directions = piece.getDirections()
+        let candidateMoves: [ChessMove] = directions.compactMap { direction -> ChessMove? in
+            guard let move = getValidMove(for: piece, direction: direction, distance: 1) else {
+                return nil
+            }
+            let targetLocation = move.endLocation
+            
+            if direction.key == "UU" {
+                if piece.hasMoved {  // UU not allowed if not first Move
+                    return nil
+                } else {
+                    let uDirection = directions.first { $0.key == "U" } ?? Direction(rowChange: 0, colChange: 0, key: "")
+                    let uLocation = ChessBoardLocation.getLoc(wrt: piece.location, rowChange: uDirection.rowChange, colChange: uDirection.colChange, distance: 1)
+                    if isCellOccupied(loc: uLocation) { // UU not allowed if u is occupied
+                        return nil
+                    }
+                }
+            }
+                     
+            // diagonal attacking allowed only if there is a enemy piece there
+            if direction.key == "UL" || direction.key == "UR" {
+                if isCellEmpty(loc: targetLocation) {
+                    return nil
+                }
+            }
+            
+            // Forward attacking not allowed
+            if direction.key == "U" {
+                if isCellOccupied(loc: targetLocation) {
+                    return nil
+                }
+            }
+            
+            return move
+        }
+        
+        
+        return candidateMoves
+    }
+    
+    private func getValidMove(for piece: ChessPiece,
+                              direction: Direction,
+                              distance: Int) -> ChessMove? {
+
+        let targetLocation = ChessBoardLocation.getLoc(wrt: piece.location, rowChange: direction.rowChange, colChange: direction.colChange, distance: distance)
+        guard isInBounds(loc: targetLocation) else {
             return nil
         }
         
-        let endLocation = ChessBoardLocation(row: targetRow, column: targetColumn)
-
-        if isCellOccupied(row: targetRow, column: targetColumn) {
+        if isCellOccupied(loc: targetLocation) {
             
-            if isThePieceInTheCellOfSameColor(piece: piece, row: targetRow, column: targetColumn) {
+            if isThePieceInTheCellOfSameColor(piece: piece, loc: targetLocation) {
                 // Friendly piece
                 return nil
             } else {
                 // Enemy Piece
-                return ChessMove(start: piece.location, end: endLocation, piece: piece, isAttacking: true)
+                return ChessMove(start: piece.location, end: targetLocation, piece: piece, direction: direction, isAttacking: true)
             }
         } else {
-            return ChessMove(start: piece.location, end: endLocation, piece: piece, isAttacking: false)
+            return ChessMove(start: piece.location, end: targetLocation, piece: piece, direction: direction, isAttacking: false)
         }
     }
     
     private func generateMovesInDirection(for piece: ChessPiece,
-                                  rowDelta: Int,
-                                  colDelta: Int) -> [ChessMove] {
+                                          direction: Direction,
+                                          distance: Int) -> [ChessMove] {
         
         var moves: [ChessMove] = []
-        let maxDistance = 7
 
-        for distance in 1...maxDistance {
+        for distance in 1...distance {
             
             if let validMove = getValidMove(for: piece,
-                                            rowDelta: rowDelta,
-                                            colDelta: colDelta,
+                                            direction: direction,
                                             distance: distance) {
                 
                 moves.append(validMove)
@@ -149,20 +186,20 @@ extension ChessBoard {
         return moves
     }
     
-    private func isCellOccupied(row: Int, column: Int) -> Bool {
-        return cells[row][column].piece != nil
+    private func isCellOccupied(loc: ChessBoardLocation) -> Bool {
+        return cells[loc.row][loc.column].piece != nil
     }
     
-    private func isCellEmpty(row: Int, column: Int) -> Bool {
-        return cells[row][column].piece == nil
+    private func isCellEmpty(loc: ChessBoardLocation) -> Bool {
+        return cells[loc.row][loc.column].piece == nil
     }
     
-    private func isInBounds(row: Int, column: Int) -> Bool {
-        return (0..<8).contains(row) && (0..<8).contains(column)
+    private func isInBounds(loc: ChessBoardLocation) -> Bool {
+        return (0..<8).contains(loc.row) && (0..<8).contains(loc.column)
     }
     
-    private func isThePieceInTheCellOfSameColor(piece: ChessPiece, row: Int, column: Int) -> Bool {
-        guard let pieceOnCell = cells[row][column].piece else { return true }
+    private func isThePieceInTheCellOfSameColor(piece: ChessPiece, loc: ChessBoardLocation) -> Bool {
+        guard let pieceOnCell = cells[loc.row][loc.column].piece else { return true }
         return piece.color == pieceOnCell.color ? true : false
     }
 }
@@ -197,7 +234,9 @@ extension ChessBoard {
         let startCell = getCell(from: move.startLocation)
         let endCell = getCell(from: move.endLocation)
         endCell.piece = startCell.piece
+        endCell.piece?.hasMoved = true
         startCell.piece = nil
+        
         gameState.togglePlayer()
     }
 }
