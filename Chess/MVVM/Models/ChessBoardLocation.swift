@@ -27,3 +27,11 @@ struct ChessBoardLocation: Equatable, Hashable, Comparable {
     }
 
 }
+
+extension ChessBoardLocation {
+    static func getLoc(wrt location: ChessBoardLocation, rowChange: Int, colChange: Int, distance: Int) -> ChessBoardLocation {
+        let row = location.row + rowChange * distance
+        let column = location.column + colChange * distance
+        return ChessBoardLocation(row: row, column: column)
+    }
+}
