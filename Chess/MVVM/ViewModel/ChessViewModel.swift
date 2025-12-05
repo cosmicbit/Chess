@@ -55,8 +55,9 @@ class ChessViewModel {
     
     func highlightCells(for moves: [ChessMove]) {
         moves.forEach {
-            let color = $0.isAttacking ? ChessBoardCellColor.red : ChessBoardCellColor.yellow
-            board.changeCellColor(at: $0.endLocation, with: color)
+            let state: ChessBoardCellState = $0.isAttacking ? .vulnerable : .highlighted
+            //board.changeCellColor(at: $0.endLocation, with: color)
+            board.changeCellState(at: $0.endLocation, with: state)
         }
         reloadView?()
     }
@@ -77,6 +78,7 @@ class ChessViewModel {
             
             if let piece = currentTappedCell.piece {
                 if board.gameState.currentPlayer == piece.color {
+                    board.changeCellState(at: currentTappedCell.location, with: .selected)
                     let legalMoves = board.getLegalMoves(for: piece)
                     highlightCells(for: legalMoves)
                     lastTappedCell = currentTappedCell
