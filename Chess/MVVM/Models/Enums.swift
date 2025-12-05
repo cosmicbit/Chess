@@ -62,6 +62,17 @@ enum ChessBoardCellColor {
             UIColor.yellow
         }
     }
+    
+    var woodImage: UIImage {
+        switch self {
+        case .black:
+            UIImage.boardWoodBlack
+        case .white:
+            UIImage.boardWoodWhite
+        default:
+            UIImage()
+        }
+    }
 }
 
 enum MoveResult {
@@ -71,4 +82,12 @@ enum MoveResult {
     enum FailureReason {
         case noPieceAtStart, wrongTurn, illegalMove
     }
+}
+
+enum ChessBoardCellState {
+    case none, selected, highlighted
+    case vulnerable, check
+    case enPassantTarget
+    case lastMoveOrigin
+    case lastMoveDestination
 }
