@@ -11,6 +11,8 @@ class ChessBoardCollectionViewCell: UICollectionViewCell {
     
     static let id = Constants.collectionViewCellID
     
+    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var stateImageView: UIImageView!
     @IBOutlet weak var chessPieceImageView: UIImageView!
     
     var chessBoardCell: ChessBoardCell?
@@ -21,8 +23,21 @@ class ChessBoardCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI() {
+        guard let cell = chessBoardCell else { return }
+        chessPieceImageView?.image = cell.piece?.asset
+        self.backgroundImageView?.image = cell.currentColor == cell.defaultColor ? cell.currentColor.woodImage : nil
         
-        chessPieceImageView?.image = chessBoardCell?.piece?.asset
-        self.backgroundColor = chessBoardCell?.currentColor.uiColor
+        switch cell.currectState {
+        case .selected:
+            self.stateImageView?.image = UIImage.cellSelected
+        case .highlighted:
+            self.stateImageView?.image = UIImage.cellHighlighted
+        case .vulnerable:
+            self.stateImageView?.image = UIImage.cellVulnerable
+        case .check:
+            self.stateImageView?.image = UIImage.cellCheck
+        default:
+            self.stateImageView?.image = nil
+        }
     }
 }
