@@ -12,7 +12,6 @@ class ChessViewModel {
     private(set) var lastTappedCell: ChessBoardCell?
     
     var reloadView: (() -> Void)?
-    var updateUIForIndexPaths: ((_ indexPaths: [IndexPath], _ isAttacking: Bool) -> Void)?
     
     func getCell(for indexPath: IndexPath) -> ChessBoardCell {
         let rowIndex = indexPath.item / 8
@@ -38,25 +37,9 @@ class ChessViewModel {
         return CGSize(width: cellWidth, height: cellWidth)
     }
     
-    func updateUIForAllCells() {
-        let indexPaths = board.cells.flatMap { rowCells in
-            rowCells.map { cell in
-                getIndexPath(for: cell.location)
-            }
-        }
-        updateUIForIndexPaths?(indexPaths, false)
-    }
-    
-    func colorCell(at location: ChessBoardLocation, with color: ChessBoardCellColor) {
-        let i = location.row
-        let j = location.column
-        board.cells[i][j].currentColor = color
-    }
-    
     func highlightCells(for moves: [ChessMove]) {
         moves.forEach {
             let state: ChessBoardCellState = $0.isAttacking ? .vulnerable : .highlighted
-            //board.changeCellColor(at: $0.endLocation, with: color)
             board.changeCellState(at: $0.endLocation, with: state)
         }
         reloadView?()
@@ -96,7 +79,7 @@ class ChessViewModel {
             
             switch result {
             case .success(let move):
-                let indexPaths = [move.startLocation, move.endLocation].map { getIndexPath(for: $0) }
+                break
             case .failure(let reason):
                 print("Move Failed: \(reason)")
             }

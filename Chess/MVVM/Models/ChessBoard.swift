@@ -35,7 +35,6 @@ class ChessBoard {
         print("Pieces Count: \(chessPieces.count)")
         for i in 0..<8 {
             for j in 0..<8 {
-                // Assuming getLocationAsString() is a method on ChessBoardLocation
                 let locationString = cells[i][j].location.getLocationAsString()
                 let pieceInfo = cells[i][j].piece.map {
                     "Piece = \($0.color.rawValue) \($0.type.rawValue)"
@@ -48,10 +47,6 @@ class ChessBoard {
 
 //MARK: - State Changes
 extension ChessBoard {
-    func changeCellColor(at location: ChessBoardLocation, with color: ChessBoardCellColor) {
-        let cell = getCell(from: location)
-        cell.currentColor = color
-    }
     
     func changeCellState(at location: ChessBoardLocation, with state: ChessBoardCellState) {
         let cell = getCell(from: location)
@@ -204,7 +199,7 @@ extension ChessBoard {
     }
     
     private func isThePieceInTheCellOfSameColor(piece: ChessPiece, loc: ChessBoardLocation) -> Bool {
-        guard let pieceOnCell = cells[loc.row][loc.column].piece else { return true }
+        guard let pieceOnCell = getCell(from: loc).piece else { return true }
         return piece.color == pieceOnCell.color ? true : false
     }
 }
@@ -243,5 +238,6 @@ extension ChessBoard {
         startCell.piece = nil
         
         gameState.togglePlayer()
+        gameState.moveHistory.append(move)
     }
 }

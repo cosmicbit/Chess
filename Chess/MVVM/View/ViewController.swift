@@ -29,15 +29,6 @@ class ViewController: UIViewController {
         viewModel.reloadView = { [weak self] in
             self?.collectionView.reloadData()
         }
-        
-        viewModel.updateUIForIndexPaths = { [weak self] indexPaths, isAttacking in
-            guard let self = self else { return}
-            if isAttacking {
-                animatePiece(from: indexPaths[0], to: indexPaths[1])
-            } else {
-                collectionView.reloadItems(at: indexPaths)
-            }
-        }
     }
     
     func animatePiece(from startPath: IndexPath, to endPath: IndexPath) {
