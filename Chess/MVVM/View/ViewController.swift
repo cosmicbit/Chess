@@ -16,19 +16,12 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        bindViewModel()
         setupUI()
+        viewModel.delegate = self
     }
     
     func setupUI() {
         resetBoardButton.layer.cornerRadius = 12
-    }
-    
-    func bindViewModel() {
-        
-        viewModel.reloadView = { [weak self] in
-            self?.collectionView.reloadData()
-        }
     }
     
     func animatePiece(from startPath: IndexPath, to endPath: IndexPath) {
@@ -114,5 +107,11 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0.5
+    }
+}
+
+extension ViewController: ChessViewModelDelegate {
+    func viewModelDidChangeBoard(_ viewModel: ChessViewModel) {
+        self.collectionView.reloadData()
     }
 }

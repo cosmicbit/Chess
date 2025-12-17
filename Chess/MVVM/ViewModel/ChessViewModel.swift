@@ -6,12 +6,16 @@
 //
 import UIKit
 
+protocol ChessViewModelDelegate: AnyObject {
+    func viewModelDidChangeBoard(_ viewModel: ChessViewModel)
+}
+
 class ChessViewModel {
     
     private(set) var board = ChessBoard()
     private(set) var lastTappedCell: ChessBoardCell?
     
-    var reloadView: (() -> Void)?
+    public weak var delegate: ChessViewModelDelegate?
     
     func getCell(for indexPath: IndexPath) -> ChessBoardCell {
         let rowIndex = indexPath.item / 8
@@ -42,14 +46,14 @@ class ChessViewModel {
             let state: ChessBoardCellState = $0.isAttacking ? .vulnerable : .highlighted
             board.changeCellState(at: $0.endLocation, with: state)
         }
-        reloadView?()
+        delegate?.viewModelDidChangeBoard(self)
     }
     
     func resetAll() {
         print("Reseting Board.....")
         board = ChessBoard()
         lastTappedCell = nil
-        reloadView?()
+        delegate?.viewModelDidChangeBoard(self)
     }
     
     func didTapOnCell(_ currentTappedCell: ChessBoardCell) {
@@ -83,7 +87,7 @@ class ChessViewModel {
             case .failure(let reason):
                 print("Move Failed: \(reason)")
             }
-            reloadView?()
+            delegate?.viewModelDidChangeBoard(self)
             lastTappedCell = nil
         }
     }
