@@ -35,3 +35,16 @@ extension ChessBoardLocation {
         return ChessBoardLocation(row: row, column: column)
     }
 }
+
+extension ChessBoardLocation {
+    func getUCIProtocolString() -> String {
+        let fileIndex = UnicodeScalar(97 + self.column)!
+        let file = String(fileIndex)
+        
+        // 2. Convert row (0-7) to Rank (1-8)
+        // If row 0 is the top (rank 8), the formula is 8 - row
+        let rank = 8 - self.row
+        
+        return "\(file)\(rank)"
+    }
+}
