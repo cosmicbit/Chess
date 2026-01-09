@@ -20,8 +20,22 @@ class ViewController: UIViewController {
         viewModel.delegate = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showModeSelection()
+    }
+    
     func setupUI() {
         resetBoardButton.layer.cornerRadius = 12
+    }
+    
+    private func showModeSelection() {
+        let vc = ModeSelectionViewController()
+        vc.setMode = {
+            self.viewModel.mode = $0
+        }
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true)
     }
     
     func animatePiece(from startPath: IndexPath, to endPath: IndexPath) {
