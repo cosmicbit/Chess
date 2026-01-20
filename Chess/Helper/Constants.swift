@@ -14,4 +14,8 @@ struct Constants {
     static let knightDirections = "KnightDirections.txt"
     static let whitePawnDirections = "WhitePawnDirections.txt"
     static let blackPawnDirections = "BlackPawnDirections.txt"
+    
+    struct Segues {
+        static let modeToChessSegue = "modeToChessSegue"
+    }
 }
