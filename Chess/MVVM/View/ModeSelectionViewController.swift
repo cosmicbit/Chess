@@ -74,9 +74,22 @@ class ModeSelectionViewController: UIViewController {
     }
     
     @objc func didTapModeButton(_ sender: UIButton) {
-        if let text = sender.titleLabel?.text,
-            let mode = PlayerMode(rawValue: text) {
-            setMode?(mode)
+        // Add this to your button action
+        sender.showPopAnimation {
+            if let text = sender.titleLabel?.text,
+                let mode = PlayerMode(rawValue: text) {
+                if mode == .passAndPlay {
+                    self.performSegue(withIdentifier: Constants.Segues.modeToChessSegue, sender: mode)
+                } else {
+                    let alertVC = UIAlertController(title: "Coming Soon", message: "This mode will be available soon", preferredStyle: .alert)
+                    
+                    let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                        
+                    }
+                    alertVC.addAction(okAction)
+                    self.present(alertVC, animated: true, completion: nil)
+                }
+            }
         }
         dismiss(animated: true)
     }
