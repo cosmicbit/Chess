@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ChessViewController.swift
 //  Chess
 //
 //  Created by Philips Jose on 06/11/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ChessViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet weak var resetBoardButton: UIButton!
@@ -31,9 +31,7 @@ class ViewController: UIViewController {
     
     private func showModeSelection() {
         let vc = ModeSelectionViewController()
-        vc.setMode = {
-            self.viewModel.mode = $0
-        }
+        vc.delegate = self
         vc.modalTransitionStyle = .crossDissolve
         self.present(vc, animated: true)
     }
@@ -74,7 +72,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UICollectionViewDataSource {
+extension ChessViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
@@ -95,7 +93,7 @@ extension ViewController: UICollectionViewDataSource {
     
 }
 
-extension ViewController: UICollectionViewDelegate {
+extension ChessViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? ChessBoardCollectionViewCell,
@@ -105,7 +103,7 @@ extension ViewController: UICollectionViewDelegate {
     }
 }
 
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension ChessViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return viewModel.getCellSize(for: collectionView.bounds)
     }
@@ -124,8 +122,18 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ViewController: ChessViewModelDelegate {
+extension ChessViewController: ChessViewModelDelegate {
+    func viewModel(_ viewModel: ChessViewModel) {
+        <#code#>
+    }
+    
     func viewModelDidChangeBoard(_ viewModel: ChessViewModel) {
         self.collectionView.reloadData()
+    }
+}
+
+extension ChessViewController: ModeSelectionViewControllerDelegate {
+    func viewController(_ viewController: UIViewController, didSelectMode mode: PlayerMode) {
+        self.viewModel.setMode(mode: mode)
     }
 }
