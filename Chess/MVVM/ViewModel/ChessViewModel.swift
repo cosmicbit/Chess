@@ -18,6 +18,10 @@ class ChessViewModel {
     
     public weak var delegate: ChessViewModelDelegate?
     
+    func setMode(mode: PlayerMode) {
+        self.mode = mode
+    }
+    
     func getCell(for indexPath: IndexPath) -> ChessBoardCell {
         let rowIndex = indexPath.item / 8
         let columnIndex = indexPath.item % 8
