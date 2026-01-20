@@ -20,20 +20,8 @@ class ChessViewController: UIViewController {
         viewModel.delegate = self
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        showModeSelection()
-    }
-    
     func setupUI() {
         resetBoardButton.layer.cornerRadius = 12
-    }
-    
-    private func showModeSelection() {
-        let vc = ModeSelectionViewController()
-        vc.delegate = self
-        vc.modalTransitionStyle = .crossDissolve
-        self.present(vc, animated: true)
     }
     
     func animatePiece(from startPath: IndexPath, to endPath: IndexPath) {
@@ -127,17 +115,8 @@ extension ChessViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension ChessViewController: ChessViewModelDelegate {
-    func viewModel(_ viewModel: ChessViewModel) {
-        <#code#>
-    }
     
     func viewModelDidChangeBoard(_ viewModel: ChessViewModel) {
         self.collectionView.reloadData()
-    }
-}
-
-extension ChessViewController: ModeSelectionViewControllerDelegate {
-    func viewController(_ viewController: UIViewController, didSelectMode mode: PlayerMode) {
-        self.viewModel.setMode(mode: mode)
     }
 }
