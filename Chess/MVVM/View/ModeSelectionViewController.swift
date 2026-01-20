@@ -29,7 +29,15 @@ class ModeSelectionViewController: UIViewController {
         return view
     }()
     
-    var setMode: ((PlayerMode)->Void)?
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.Segues.modeToChessSegue {
+             if let vc = segue.destination as? ChessViewController {
+                 if let mode = sender as? PlayerMode {
+                     vc.viewModel.setMode(mode: mode)
+                 }
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
