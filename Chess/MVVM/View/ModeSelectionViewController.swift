@@ -99,7 +99,6 @@ class ModeSelectionViewController: UIViewController {
                 }
             }
         }
-        dismiss(animated: true)
     }
 
 }
