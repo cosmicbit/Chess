@@ -66,6 +66,10 @@ class ChessViewController: UIViewController {
             
         })
     }
+    
+    @IBAction func closeButtonTapped(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
 
     @IBAction func resetBoardButtonTapped(_ sender: Any) {
         viewModel.resetAll()
