@@ -38,12 +38,14 @@ class ModeSelectionViewController: UIViewController {
     
     private func setupUI() {
         self.view.addSubview(stackView)
-        self.view.backgroundColor = .clear
+        self.view.backgroundColor = UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1.0)
+        self.stackView.backgroundColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.0)
         PlayerMode.allCases.forEach { mode in
-            let button = UIButton(type: .system)
+            let button = UIButton(type: .custom)
             button.setTitle(mode.rawValue, for: .normal)
-            button.backgroundColor = .white
-            button.setTitleColor(.black, for: .normal)
+            button.backgroundColor = UIColor(red: 0.24, green: 0.35, blue: 0.90, alpha: 1.0)
+            let titleColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.0)
+            button.setTitleColor(titleColor, for: .normal)
             button.addTarget(self, action: #selector(didTapModeButton(_ :)), for: .touchUpInside)
             self.optionButtons.append(button)
             self.stackView.addArrangedSubview(button)
@@ -61,8 +63,14 @@ class ModeSelectionViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.stackView.layer.cornerRadius = 8
-        self.stackView.arrangedSubviews.forEach { $0.layer.cornerRadius = 8 }
+        self.stackView.arrangedSubviews.forEach { $0.layer.cornerRadius = 12 }
+        self.stackView.layer.borderColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.2).cgColor
+        self.stackView.layer.borderWidth = 0.5
+        self.stackView.layer.cornerRadius = 24
+        self.stackView.layer.shadowRadius = 15
+        self.stackView.layer.shadowOpacity = 0.12
+        self.stackView.layer.shadowColor = UIColor.black.cgColor
+        self.stackView.layer.shadowOffset = CGSize(width: 0, height: 8)
     }
     
     @objc func didTapModeButton(_ sender: UIButton) {
