@@ -12,7 +12,7 @@ protocol ChessViewModelDelegate: AnyObject {
 
 class ChessViewModel {
     
-    public var mode = PlayerMode.passAndPlay
+    private(set) var mode = PlayerMode.passAndPlay
     private(set) var board = ChessBoard()
     private(set) var lastTappedCell: ChessBoardCell?
     
