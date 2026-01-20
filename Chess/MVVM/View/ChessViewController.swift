@@ -12,7 +12,7 @@ class ChessViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet weak var resetBoardButton: UIButton!
     
-    private let viewModel = ChessViewModel()
+    public let viewModel = ChessViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
