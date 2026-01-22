@@ -70,7 +70,7 @@ class ShatterAnimator {
         }
     }
     
-    static func reassemble(iconView: UIView) {
+    static func reassemble(iconView: UIView, completion: @escaping ()->Void = {} ) {
         guard let window = iconView.window else { return }
         let originInWindow = iconView.convert(iconView.bounds, to: window)
         let centerPoint = CGPoint(x: originInWindow.midX, y: originInWindow.midY)
@@ -124,6 +124,7 @@ class ShatterAnimator {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
             emitter.removeFromSuperlayer()
+            completion()
         }
     }
     

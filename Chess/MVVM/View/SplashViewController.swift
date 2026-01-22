@@ -19,7 +19,9 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //logoLabel.alpha = 1
-        ShatterAnimator.reassemble(iconView: logoLabel)
+        ShatterAnimator.reassemble(iconView: logoLabel) {
+            self.performSegue(withIdentifier: Constants.Segues.splashToModeSegue, sender: self)
+        }
 //        self.startSplashAnimation {
 //            ShatterAnimator.explode(iconView: self.logoLabel) {
 //                self.performSegue(withIdentifier: Constants.Segues.splashToModeSegue, sender: self)
