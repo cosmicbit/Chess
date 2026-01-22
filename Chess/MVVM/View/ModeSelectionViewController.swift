@@ -41,7 +41,12 @@ class ModeSelectionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupNavigationStack()
         self.setupUI()
+    }
+    
+    private func setupNavigationStack() {
+        self.navigationController?.setViewControllers([self], animated: false)
     }
     
     private func setupUI() {
