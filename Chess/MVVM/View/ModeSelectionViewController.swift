@@ -37,17 +37,6 @@ class ModeSelectionViewController: UIViewController {
         view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
         return view
     }()
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constants.Segues.modeToChessSegue {
-            guard let vc = segue.destination as? ChessViewController,
-                  let mode = sender as? PlayerMode
-            else {
-                 return
-            }
-            vc.viewModel.setMode(mode: mode)
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,6 +90,7 @@ class ModeSelectionViewController: UIViewController {
         sender.showPopAnimation {
             if let text = sender.titleLabel?.text,
                let mode = PlayerMode.allCases.first(where: {$0.string == text}) {
+                AppPreferences.currentPlayerMode = mode
                 if mode == .passAndPlay {
                     self.performSegue(withIdentifier: Constants.Segues.modeToChessSegue, sender: mode)
                 } else {
