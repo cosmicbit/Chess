@@ -30,7 +30,10 @@ class SplashViewController: UIViewController {
     }
     
     private func navigateToNextPage() {
-        let splashStoryboard = UIStoryboard(name: "Main", bundle: .main)
+        let splashStoryboard = UIStoryboard(
+            name: Constants.Storyboards.main,
+            bundle: .main
+        )
         let controller = splashStoryboard.instantiateInitialViewController()
         view.window?.rootViewController = controller
     }
