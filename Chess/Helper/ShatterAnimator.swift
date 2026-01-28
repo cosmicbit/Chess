@@ -10,133 +10,157 @@ import UIKit
 
 class ShatterAnimator {
     
-    static func explode(iconView: UIView, completion: @escaping ()->Void = {} ) {
-        // 1. Get the top-most container (the window) so the explosion is never hidden
-        guard let window = iconView.window else { return }
+    static func massiveShatter(view: UIView, rows: Int, cols: Int) {
+        guard let container = view.superview, let image = view.snapshotToImage() else { return }
         
-        // Convert the icon's position to window coordinates
-        let originInWindow = iconView.convert(iconView.bounds, to: window)
-        let centerPoint = CGPoint(x: originInWindow.midX, y: originInWindow.midY)
+        let frame = view.frame
+        let pieceWidth = frame.width / CGFloat(cols)
+        let pieceHeight = frame.height / CGFloat(rows)
         
-        // 2. Setup the Emitter
-        let emitter = CAEmitterLayer()
-        emitter.emitterPosition = centerPoint
-        emitter.emitterShape = .circle
-        emitter.emitterSize = iconView.bounds.size
-        emitter.beginTime = CACurrentMediaTime()
-        emitter.timeOffset = CFTimeInterval(arc4random_uniform(6))
-        emitter.zPosition = 1000 // Force it to the front
+        view.isHidden = true
         
-        // 3. Configure the Particle
-        let cell = CAEmitterCell()
-        cell.contents = createParticleImage()?.cgImage
-        cell.birthRate = 1000  // Intense burst
-        cell.lifetime = 1.5
-        if let view = iconView as? UILabel {
-            cell.color = view.textColor.cgColor
-        } else {
-            cell.color = iconView.backgroundColor?.cgColor ?? UIColor.systemBlue.cgColor
+        // We wrap everything in a transaction to use the completion block
+        CATransaction.begin()
+        
+        var createdLayers = [CALayer]()
+        
+        // This block runs ONLY when all thousands of animations are finished
+        CATransaction.setCompletionBlock {
+            for layer in createdLayers {
+                layer.removeFromSuperlayer()
+            }
+            createdLayers.removeAll()
+            print("Cleanup complete: Thousands of layers removed.")
+        }
+
+        for row in 0..<rows {
+            for col in 0..<cols {
+                let layer = CALayer()
+                layer.contents = image
+                layer.contentsRect = CGRect(x: CGFloat(col)/CGFloat(cols),
+                                            y: CGFloat(row)/CGFloat(rows),
+                                            width: 1.0/CGFloat(cols),
+                                            height: 1.0/CGFloat(rows))
+                
+                layer.frame = CGRect(x: frame.origin.x + CGFloat(col) * pieceWidth,
+                                     y: frame.origin.y + CGFloat(row) * pieceHeight,
+                                     width: pieceWidth, height: pieceHeight)
+                
+                container.layer.addSublayer(layer)
+                createdLayers.append(layer)
+                
+                addShatterAnimation(to: layer)
+            }
         }
         
-        // Physics - The "Shatter" feel
-        cell.velocity = 150
-        cell.velocityRange = 100
-        cell.emissionRange = .pi * 2
-        cell.spin = 3
-        cell.alphaSpeed = -0.8 // Fades out slowly
-        cell.scale = 0.1
-        cell.scaleRange = 0.05
-        cell.yAcceleration = 100
-        
-        emitter.emitterCells = [cell]
-        window.layer.addSublayer(emitter)
-        
-        // 4. THE VITAL PART: Animate the icon hiding + the burst stopping
-        UIView.animate(withDuration: 0.1) {
-            iconView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-            iconView.alpha = 0
-        }
-        
-        // Stop producing new particles almost immediately to create a "pop"
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            emitter.birthRate = 0
-        }
-        
-        // Clean up the layer after particles fade
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            emitter.removeFromSuperlayer()
-            iconView.removeFromSuperview() // If you actually want it gone
-            completion()
-        }
+        CATransaction.commit()
     }
     
-    static func reassemble(iconView: UIView, completion: @escaping ()->Void = {} ) {
-        guard let window = iconView.window else { return }
-        let originInWindow = iconView.convert(iconView.bounds, to: window)
-        let centerPoint = CGPoint(x: originInWindow.midX, y: originInWindow.midY)
-
-        let emitter = CAEmitterLayer()
-        emitter.emitterPosition = centerPoint
+    static func addShatterAnimation(to layer: CALayer) {
+        let duration = Double.random(in: 0.7...1.5)
         
-        // 1. IMPORTANT: The particles spawn ALONG the outline of this size
-        emitter.emitterSize = CGSize(width: 200, height: 200)
-        emitter.emitterShape = .circle // Changed to outline so they spawn far away
-        emitter.zPosition = 1000
-
-        let cell = CAEmitterCell()
-        cell.contents = createParticleImage()?.cgImage
-        cell.birthRate = 2000
+        // Movement: Random X blast, and a Y drop (simulating gravity)
+        let xBlast = CGFloat.random(in: -150...150)
+        let yDrop = CGFloat.random(in: 200...400) // Positive Y goes down in iOS
         
-        // 2. LIFETIME: Give them enough time to reach the center
-        cell.lifetime = 0.8
+        let animGroup = CAAnimationGroup()
+        animGroup.duration = duration
+        animGroup.fillMode = .forwards
+        animGroup.isRemovedOnCompletion = false
         
-        // 3. VELOCITY: Negative value pulls them to emitterPosition
-        cell.velocity = -150
-        cell.velocityRange = -20
+        // 1. Translation (The Fly-away)
+        let posAnim = CABasicAnimation(keyPath: "position")
+        let endPoint = CGPoint(x: layer.position.x + xBlast, y: layer.position.y + yDrop)
+        posAnim.toValue = NSValue(cgPoint: endPoint)
         
-        cell.emissionRange = .pi * 2
+        // 2. Rotation (The Spin)
+        let rotAnim = CABasicAnimation(keyPath: "transform.rotation")
+        rotAnim.toValue = Double.random(in: -Double.pi...Double.pi) * 2
         
-        // Fade in and Scale up as they "materialize"
-        //cell.alphaValue = 0
-        cell.alphaSpeed = 4.0
-        cell.scale = 0.01
-        cell.scaleSpeed = 0.2
+        // 3. Opacity (The Fade Out)
+        let fadeAnim = CABasicAnimation(keyPath: "opacity")
+        fadeAnim.toValue = 0.0
         
-        cell.color = iconView.backgroundColor?.cgColor ?? UIColor.systemBlue.cgColor
-
-        emitter.emitterCells = [cell]
-        window.layer.addSublayer(emitter)
-
-        // Start icon invisible and tiny
-        iconView.alpha = 0
-        iconView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-
-        // Trigger the burst
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            emitter.birthRate = 0
-        }
-
-        // 4. THE SYNC: Animate the icon appearing right as particles reach the center
-        UIView.animate(withDuration: 0.5, delay: 0.4, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: .curveEaseIn) {
-            iconView.alpha = 1
-            iconView.transform = .identity
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-            emitter.removeFromSuperlayer()
-            completion()
-        }
+        animGroup.animations = [posAnim, rotAnim, fadeAnim]
+        layer.add(animGroup, forKey: nil)
     }
     
-    private static func createParticleImage() -> UIImage? {
-        // Creates a white square for the particle
-        let size = CGSize(width: 12, height: 12)
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        let context = UIGraphicsGetCurrentContext()
-        context?.setFillColor(UIColor.white.cgColor)
-        context?.fill(CGRect(origin: .zero, size: size))
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
+    static func reverseShatter(view: UIView, rows: Int, cols: Int) {
+        view.isHidden = false
+        guard let container = view.superview, let image = view.snapshotToImage() else { return }
+        
+        let frame = view.frame
+        let pieceWidth = frame.width / CGFloat(cols)
+        let pieceHeight = frame.height / CGFloat(rows)
+        
+        // Ensure the original view stays hidden until the end
+        view.isHidden = true
+        
+        CATransaction.begin()
+        var createdLayers = [CALayer]()
+        
+        CATransaction.setCompletionBlock {
+            // Animation finished: Show the real view and remove the "fakes"
+            view.isHidden = false
+            for layer in createdLayers {
+                layer.removeFromSuperlayer()
+            }
+        }
+
+        for row in 0..<rows {
+            for col in 0..<cols {
+                let layer = CALayer()
+                layer.contents = image
+                layer.contentsRect = CGRect(x: CGFloat(col)/CGFloat(cols),
+                                            y: CGFloat(row)/CGFloat(rows),
+                                            width: 1.0/CGFloat(cols),
+                                            height: 1.0/CGFloat(rows))
+                
+                // The "Target" position (where the piece belongs)
+                let targetFrame = CGRect(x: frame.origin.x + CGFloat(col) * pieceWidth,
+                                         y: frame.origin.y + CGFloat(row) * pieceHeight,
+                                         width: pieceWidth, height: pieceHeight)
+                
+                // Set initial state to "Exploded" (Far away, rotated, and invisible)
+                let xOffset = CGFloat.random(in: -200...200)
+                let yOffset = CGFloat.random(in: -300...300)
+                layer.frame = targetFrame.offsetBy(dx: xOffset, dy: yOffset)
+                layer.opacity = 0
+                layer.transform = CATransform3DMakeRotation(CGFloat.random(in: -CGFloat.pi...CGFloat.pi), 0, 0, 1)
+                
+                container.layer.addSublayer(layer)
+                createdLayers.append(layer)
+                
+                // Animate BACK to the target
+                animateBackToHome(layer: layer, targetPosition: CGPoint(x: targetFrame.midX, y: targetFrame.midY))
+            }
+        }
+        
+        CATransaction.commit()
+    }
+
+    static func animateBackToHome(layer: CALayer, targetPosition: CGPoint) {
+        let duration = Double.random(in: 0.8...1.5)
+        
+        let animGroup = CAAnimationGroup()
+        animGroup.duration = duration
+        animGroup.fillMode = .forwards
+        animGroup.isRemovedOnCompletion = false
+        animGroup.timingFunction = CAMediaTimingFunction(name: .easeOut) // Starts fast, slows down at the end
+        
+        // 1. Position: Fly back to original spot
+        let posAnim = CABasicAnimation(keyPath: "position")
+        posAnim.toValue = NSValue(cgPoint: targetPosition)
+        
+        // 2. Rotation: Straighten out to 0 degrees
+        let rotAnim = CABasicAnimation(keyPath: "transform.rotation")
+        rotAnim.toValue = 0
+        
+        // 3. Opacity: Fade in
+        let fadeAnim = CABasicAnimation(keyPath: "opacity")
+        fadeAnim.toValue = 1.0
+        
+        animGroup.animations = [posAnim, rotAnim, fadeAnim]
+        layer.add(animGroup, forKey: nil)
     }
 }

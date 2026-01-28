@@ -14,23 +14,25 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //logoLabel.alpha = 1
-        ShatterAnimator.reassemble(iconView: logoLabel) {
-            self.performSegue(withIdentifier: Constants.Segues.splashToModeSegue, sender: self)
-        }
+//        ShatterAnimator.reassemble(iconView: logoLabel) {
+//            self.performSegue(withIdentifier: Constants.Segues.splashToModeSegue, sender: self)
+//        }
 //        self.startSplashAnimation {
 //            ShatterAnimator.explode(iconView: self.logoLabel) {
 //                self.performSegue(withIdentifier: Constants.Segues.splashToModeSegue, sender: self)
 //            }
 //        }
+        ShatterAnimator.reverseShatter(view: logoLabel, rows: 20, cols: 20)
     }
     
     private func setupUI() {
-        //logoLabel.alpha = 0
+        logoLabel.isHidden = true
     }
     
     private func startSplashAnimation(completion: @escaping (()->Void) = {} ) {
