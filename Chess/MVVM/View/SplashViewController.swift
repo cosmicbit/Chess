@@ -30,6 +30,8 @@ class SplashViewController: UIViewController {
     }
     
     private func navigateToNextPage() {
-        self.performSegue(withIdentifier: Constants.Segues.splashToModeSegue, sender: self)
+        let splashStoryboard = UIStoryboard(name: "Main", bundle: .main)
+        let controller = splashStoryboard.instantiateInitialViewController()
+        view.window?.rootViewController = controller
     }
 }

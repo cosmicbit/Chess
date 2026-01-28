@@ -28,7 +28,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oBa-ZX-yjf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="243.51145038167937" y="89.436619718309871"/>
+            <point key="canvasLocation" x="-250" y="89"/>
         </scene>
         <!--Chess View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -160,39 +160,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1055.7251908396945" y="90.140845070422543"/>
-        </scene>
-        <!--Splash View Controller-->
-        <scene sceneID="pM2-RQ-W2G">
-            <objects>
-                <viewController id="hoH-Nz-lpJ" customClass="SplashViewController" customModule="Chess" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ulR-zI-g02">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chess" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i6P-59-gZO">
-                                <rect key="frame" x="138.66666666666666" y="398.66666666666669" width="116" height="55"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="HoeflerText-Italic" family="Hoefler Text" pointSize="55"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="TSZ-g1-33m"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="i6P-59-gZO" firstAttribute="centerX" secondItem="ulR-zI-g02" secondAttribute="centerX" id="IyV-1v-7a9"/>
-                            <constraint firstItem="i6P-59-gZO" firstAttribute="centerY" secondItem="ulR-zI-g02" secondAttribute="centerY" id="Zt5-km-OzB"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="lvZ-D8-wqB"/>
-                    <connections>
-                        <outlet property="logoLabel" destination="i6P-59-gZO" id="MqZ-uh-lkt"/>
-                        <segue destination="FUG-4o-zgp" kind="show" identifier="splashToModeSegue" id="7XI-M1-M1E"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jiZ-8c-bkg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-508" y="90"/>
+            <point key="canvasLocation" x="1045" y="89"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9lt-ez-bC8">
@@ -204,7 +172,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="hoH-Nz-lpJ" kind="relationship" relationship="rootViewController" id="P2I-82-1Zh"/>
+                        <segue destination="FUG-4o-zgp" kind="relationship" relationship="rootViewController" id="Qoy-9w-hbV"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lo3-S1-hes" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
