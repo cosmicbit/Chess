@@ -28,13 +28,4 @@ class SplashViewController: UIViewController {
     private func setupUI() {
         logoLabel.isHidden = true
     }
-    
-    private func startSplashAnimation(completion: @escaping (()->Void) = {} ) {
-        UIView.animate(withDuration: 3) {
-            self.logoLabel.alpha = 1
-        } completion: { _ in
-            completion()
-        }
-    }
-
 }
