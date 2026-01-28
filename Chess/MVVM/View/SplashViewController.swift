@@ -20,12 +20,16 @@ class SplashViewController: UIViewController {
         super.viewDidAppear(animated)
         ShatterAnimator.reverseShatter(view: logoLabel, duration: 1.5) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75, execute: {
-                self.performSegue(withIdentifier: Constants.Segues.splashToModeSegue, sender: self)
+                self.navigateToNextPage()
             })
         }
     }
     
     private func setupUI() {
         logoLabel.isHidden = true
+    }
+    
+    private func navigateToNextPage() {
+        self.performSegue(withIdentifier: Constants.Segues.splashToModeSegue, sender: self)
     }
 }
