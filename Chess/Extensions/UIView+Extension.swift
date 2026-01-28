@@ -20,3 +20,13 @@ extension UIView {
         }
     }
 }
+
+extension UIView {
+    func snapshotToImage() -> CGImage? {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0)
+        drawHierarchy(in: bounds, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image?.cgImage
+    }
+}
