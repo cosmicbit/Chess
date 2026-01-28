@@ -14,7 +14,6 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -36,7 +35,6 @@ class SplashViewController: UIViewController {
         } completion: { _ in
             completion()
         }
-
     }
 
 }
