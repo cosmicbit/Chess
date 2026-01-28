@@ -94,9 +94,13 @@ class ModeSelectionViewController: UIViewController {
                 if mode == .passAndPlay {
                     self.performSegue(withIdentifier: Constants.Segues.modeToChessSegue, sender: mode)
                 } else {
-                    let alertVC = UIAlertController(title: "Coming Soon", message: "This mode will be available soon", preferredStyle: .alert)
+                    let alertVC = UIAlertController(
+                        title: Strings.vsComputerAlert.title,
+                        message: Strings.vsComputerAlert.description,
+                        preferredStyle: .alert
+                    )
                     
-                    let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                    let okAction = UIAlertAction(title: Strings.Common.ok, style: .default) { _ in
                         
                     }
                     alertVC.addAction(okAction)

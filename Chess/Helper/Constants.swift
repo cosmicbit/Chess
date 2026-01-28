@@ -19,4 +19,19 @@ struct Constants {
         static let splashToModeSegue = "splashToModeSegue"
         static let modeToChessSegue = "modeToChessSegue"
     }
+    
+    struct Storyboards {
+        
+    }
+}
+
+struct Strings {
+    struct Common {
+        static let ok = "OK"
+    }
+    
+    struct vsComputerAlert {
+        static let title = "Coming Soon..."
+        static let description = "This mode will be available soon"
+    }
 }
