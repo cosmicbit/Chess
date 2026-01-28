@@ -19,8 +19,10 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        ShatterAnimator.reverseShatter(view: logoLabel) {
-            self.performSegue(withIdentifier: Constants.Segues.splashToModeSegue, sender: self)
+        ShatterAnimator.reverseShatter(view: logoLabel, duration: 1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75, execute: {
+                self.performSegue(withIdentifier: Constants.Segues.splashToModeSegue, sender: self)
+            })
         }
     }
     

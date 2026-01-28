@@ -85,7 +85,7 @@ class ShatterAnimator {
         layer.add(animGroup, forKey: nil)
     }
     
-    static func reverseShatter(view: UIView, rows: Int = 20, cols: Int = 20, completion: @escaping ()->Void = {}) {
+    static func reverseShatter(view: UIView, duration: Double = 1.0, rows: Int = 20, cols: Int = 20, completion: @escaping ()->Void = {}) {
         view.isHidden = false
         guard let container = view.superview, let image = view.snapshotToImage() else { return }
         
@@ -132,15 +132,19 @@ class ShatterAnimator {
                 createdLayers.append(layer)
                 
                 // Animate BACK to the target
-                animateBackToHome(layer: layer, targetPosition: CGPoint(x: targetFrame.midX, y: targetFrame.midY))
+                animateBackToHome(
+                    layer: layer,
+                    duration: duration,
+                    targetPosition: CGPoint(x: targetFrame.midX, y: targetFrame.midY)
+                )
             }
         }
         
         CATransaction.commit()
     }
 
-    static func animateBackToHome(layer: CALayer, targetPosition: CGPoint) {
-        let duration = Double.random(in: 0.8...1.5)
+    static func animateBackToHome(layer: CALayer, duration: Double = 1.0, targetPosition: CGPoint) {
+        let duration = Double.random(in: 0.5...duration)
         
         let animGroup = CAAnimationGroup()
         animGroup.duration = duration
