@@ -7,9 +7,18 @@
 
 import UIKit
 
-enum PlayerMode: String, CaseIterable {
-    case passAndPlay="Pass and Play"
-    case vsComputer="vs Computer"
+enum PlayerMode: Int, CaseIterable {
+    case passAndPlay
+    case vsComputer
+    
+    var string: String {
+        switch self {
+        case .passAndPlay:
+            "Pass and Play"
+        case .vsComputer:
+            "vs Computer"
+        }
+    }
 }
 
 class ModeSelectionViewController: UIViewController {
@@ -31,11 +40,12 @@ class ModeSelectionViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.Segues.modeToChessSegue {
-             if let vc = segue.destination as? ChessViewController {
-                 if let mode = sender as? PlayerMode {
-                     vc.viewModel.setMode(mode: mode)
-                 }
+            guard let vc = segue.destination as? ChessViewController,
+                  let mode = sender as? PlayerMode
+            else {
+                 return
             }
+            vc.viewModel.setMode(mode: mode)
         }
     }
 
@@ -55,7 +65,7 @@ class ModeSelectionViewController: UIViewController {
         self.stackView.backgroundColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.0)
         PlayerMode.allCases.forEach { mode in
             let button = UIButton(type: .custom)
-            button.setTitle(mode.rawValue, for: .normal)
+            button.setTitle(mode.string, for: .normal)
             button.backgroundColor = UIColor(red: 0.24, green: 0.35, blue: 0.90, alpha: 1.0)
             let titleColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.0)
             button.setTitleColor(titleColor, for: .normal)
@@ -90,7 +100,7 @@ class ModeSelectionViewController: UIViewController {
         // Add this to your button action
         sender.showPopAnimation {
             if let text = sender.titleLabel?.text,
-                let mode = PlayerMode(rawValue: text) {
+               let mode = PlayerMode.allCases.first(where: {$0.string == text}) {
                 if mode == .passAndPlay {
                     self.performSegue(withIdentifier: Constants.Segues.modeToChessSegue, sender: mode)
                 } else {
