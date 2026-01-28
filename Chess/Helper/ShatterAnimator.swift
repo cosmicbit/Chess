@@ -85,7 +85,7 @@ class ShatterAnimator {
         layer.add(animGroup, forKey: nil)
     }
     
-    static func reverseShatter(view: UIView, rows: Int = 20, cols: Int = 20) {
+    static func reverseShatter(view: UIView, rows: Int = 20, cols: Int = 20, completion: @escaping ()->Void = {}) {
         view.isHidden = false
         guard let container = view.superview, let image = view.snapshotToImage() else { return }
         
@@ -100,11 +100,11 @@ class ShatterAnimator {
         var createdLayers = [CALayer]()
         
         CATransaction.setCompletionBlock {
-            // Animation finished: Show the real view and remove the "fakes"
             view.isHidden = false
             for layer in createdLayers {
                 layer.removeFromSuperlayer()
             }
+            completion()
         }
 
         for row in 0..<rows {
