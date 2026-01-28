@@ -30,11 +30,12 @@ class SplashViewController: UIViewController {
     }
     
     private func navigateToNextPage() {
-        let splashStoryboard = UIStoryboard(
-            name: Constants.Storyboards.main,
-            bundle: .main
-        )
-        let controller = splashStoryboard.instantiateInitialViewController()
-        view.window?.rootViewController = controller
+        let storyboard = UIStoryboard(name: Constants.Storyboards.main, bundle: nil)
+        guard let controller = storyboard.instantiateInitialViewController(),
+              let window = view.window else { return }
+
+        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            window.rootViewController = controller
+        }, completion: nil)
     }
 }
