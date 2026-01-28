@@ -28,7 +28,7 @@ class SplashViewController: UIViewController {
 //                self.performSegue(withIdentifier: Constants.Segues.splashToModeSegue, sender: self)
 //            }
 //        }
-        ShatterAnimator.reverseShatter(view: logoLabel, rows: 20, cols: 20)
+        ShatterAnimator.reverseShatter(view: logoLabel)
     }
     
     private func setupUI() {

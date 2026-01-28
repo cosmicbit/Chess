@@ -85,7 +85,7 @@ class ShatterAnimator {
         layer.add(animGroup, forKey: nil)
     }
     
-    static func reverseShatter(view: UIView, rows: Int, cols: Int) {
+    static func reverseShatter(view: UIView, rows: Int = 20, cols: Int = 20) {
         view.isHidden = false
         guard let container = view.superview, let image = view.snapshotToImage() else { return }
         
