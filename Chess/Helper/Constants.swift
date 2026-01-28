@@ -21,7 +21,9 @@ struct Constants {
     }
     
     struct Storyboards {
-        
+        static let main = "Main"
+        static let splash = "Splash"
+        static let launch = "LaunchScreen"
     }
 }
 
