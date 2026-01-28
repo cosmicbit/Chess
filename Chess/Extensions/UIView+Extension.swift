@@ -7,15 +7,16 @@
 import UIKit
 
 extension UIView {
-    func showPopAnimation(completion: (()->Void)? = nil) {
-        UIView.animate(withDuration: 0.1) {
-            self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-        } completion: { _ in
-            UIView.animate(withDuration: 0.1) {
-                self.transform = CGAffineTransform.identity
-            } completion: { _ in
-                completion?()
+    func showPopAnimation(completion: @escaping ()->Void = {}) {
+        UIView.animateKeyframes(withDuration: 0.5, delay: 0, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.5) {
+                self.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
             }
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5) {
+                self.transform = CGAffineTransform.identity
+            }
+        }) { _ in
+            completion()
         }
     }
 }
