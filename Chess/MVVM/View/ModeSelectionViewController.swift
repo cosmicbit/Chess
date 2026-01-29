@@ -105,7 +105,7 @@ class ModeSelectionViewController: UIViewController {
                let mode = PlayerMode.allCases.first(where: {$0.string == text}) {
                 AppPreferences.currentPlayerMode = mode
                 if mode == .passAndPlay {
-                    self.performSegue(withIdentifier: Constants.Segues.modeToChessSegue, sender: mode)
+                    self.performSegue(withIdentifier: Storyboards.Segues.modeToChessSegue, sender: mode)
                 } else {
                     
                     let alertVC = UIAlertController(

@@ -14,10 +14,6 @@ struct Constants {
     static let knightDirections = "KnightDirections.txt"
     static let whitePawnDirections = "WhitePawnDirections.txt"
     static let blackPawnDirections = "BlackPawnDirections.txt"
-    
-    struct Segues {
-        static let modeToChessSegue = "modeToChessSegue"
-    }
 }
 
 struct Storyboards {
@@ -31,6 +27,10 @@ struct Storyboards {
         static let modeVC = "ModeSelectionViewController"
         static let splashVC = "SplashViewController"
         static let chessVC = "ChessViewController"
+    }
+    
+    struct Segues {
+        static let modeToChessSegue = "modeToChessSegue"
     }
 }
 
