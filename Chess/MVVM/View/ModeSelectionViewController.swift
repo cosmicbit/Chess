@@ -8,16 +8,10 @@
 import UIKit
 
 enum PlayerMode: Int, CaseIterable {
-    case passAndPlay
-    case vsComputer
+    case online, passAndPlay, vsComputer
     
     var string: String {
-        switch self {
-        case .passAndPlay:
-            "Pass and Play"
-        case .vsComputer:
-            "vs Computer"
-        }
+        return Strings.modeTitles[self.rawValue]
     }
 }
 

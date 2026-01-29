@@ -10,25 +10,11 @@ import UIKit
 enum TabBar: Int, CaseIterable {
     case play, profile, settings
     var title: String {
-        switch self {
-        case .play:
-            "Play"
-        case .profile:
-            "Profile"
-        case .settings:
-            "Settings"
-        }
+        return Strings.TabBarTitles[self.rawValue]
     }
     
     var imageName: String {
-        switch self {
-        case .play:
-            "checkerboard.shield"
-        case .profile:
-            "person.fill"
-        case .settings:
-            "gear"
-        }
+        return SystemImageNames.TabBarImages[self.rawValue]
     }
     
     var systemImage: UIImage? {
