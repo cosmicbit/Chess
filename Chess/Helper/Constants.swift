@@ -18,19 +18,19 @@ struct Constants {
     struct Segues {
         static let modeToChessSegue = "modeToChessSegue"
     }
+}
+
+struct Storyboards {
+    static let main = "Main"
+    static let splash = "Splash"
+    static let launch = "LaunchScreen"
+    static let profile = "Profile"
+    static let settings = "Settings"
     
-    struct Storyboards {
-        static let main = "Main"
-        static let splash = "Splash"
-        static let launch = "LaunchScreen"
-        static let profile = "Profile"
-        static let settings = "Settings"
-        
-        struct Identifiers {
-            static let modeVC = "ModeSelectionViewController"
-            static let splashVC = "SplashViewController"
-            static let chessVC = "ChessViewController"
-        }
+    struct Identifiers {
+        static let modeVC = "ModeSelectionViewController"
+        static let splashVC = "SplashViewController"
+        static let chessVC = "ChessViewController"
     }
 }
 

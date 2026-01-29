@@ -45,13 +45,13 @@ class MainTabBarController: UITabBarController {
     }
     
     private func setupTabs() {
-        let main = UIStoryboard(name: Constants.Storyboards.main, bundle: .main)
-        let playVC = main.instantiateViewController(withIdentifier: Constants.Storyboards.Identifiers.modeVC)
+        let main = UIStoryboard(name: Storyboards.main, bundle: .main)
+        let playVC = main.instantiateViewController(withIdentifier: Storyboards.Identifiers.modeVC)
 
-        let profile = UIStoryboard(name: Constants.Storyboards.profile, bundle: .main)
+        let profile = UIStoryboard(name: Storyboards.profile, bundle: .main)
         let profileVC = profile.instantiateInitialViewController() ?? UIViewController()
         
-        let settings = UIStoryboard(name: Constants.Storyboards.settings, bundle: .main)
+        let settings = UIStoryboard(name: Storyboards.settings, bundle: .main)
         let settingsVC = settings.instantiateInitialViewController() ?? UIViewController()
 	
 
