@@ -43,4 +43,18 @@ struct Strings {
         static let title = "Coming Soon..."
         static let description = "This mode will be available soon"
     }
+    
+    static let TabBarTitles = [
+        "Play", "Profile", "Settings"
+    ]
+    
+    static let modeTitles = [
+        "Online", "Pass And Play", "Play vs Computer"
+    ]
+}
+
+struct SystemImageNames {
+    static let TabBarImages = [
+        "checkerboard.shield", "person.fill", "gear"
+    ]
 }
