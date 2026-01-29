@@ -125,7 +125,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CKF-vm-QPX">
-                                <rect key="frame" x="20" y="697.66666666666663" width="353" height="61.333333333333371"/>
+                                <rect key="frame" x="20" y="718" width="353" height="41"/>
                                 <color key="backgroundColor" systemColor="linkColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -143,7 +143,6 @@
                             <constraint firstItem="k3q-QU-CdG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="HWD-bK-5hH"/>
                             <constraint firstItem="xCg-mt-mb7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="SGy-5F-Le0"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="CKF-vm-QPX" secondAttribute="bottom" constant="25" id="ZPA-dY-kg1"/>
-                            <constraint firstItem="CKF-vm-QPX" firstAttribute="top" secondItem="xCg-mt-mb7" secondAttribute="bottom" constant="75" id="ZhD-z9-t9Z"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CKF-vm-QPX" secondAttribute="trailing" constant="20" id="g2f-5S-3gT"/>
                             <constraint firstItem="CKF-vm-QPX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="izg-sz-CjC"/>
                             <constraint firstItem="xCg-mt-mb7" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ouy-wR-Ykb"/>
