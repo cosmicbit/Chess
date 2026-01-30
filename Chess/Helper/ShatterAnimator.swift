@@ -122,8 +122,8 @@ class ShatterAnimator {
                                          width: pieceWidth, height: pieceHeight)
                 
                 // Set initial state to "Exploded" (Far away, rotated, and invisible)
-                let xOffset = CGFloat.random(in: -200...200)
-                let yOffset = CGFloat.random(in: -300...300)
+                let xOffset = CGFloat.random(in: -400...600)
+                let yOffset = CGFloat.random(in: -450...450)
                 layer.frame = targetFrame.offsetBy(dx: xOffset, dy: yOffset)
                 layer.opacity = 0
                 layer.transform = CATransform3DMakeRotation(CGFloat.random(in: -CGFloat.pi...CGFloat.pi), 0, 0, 1)
