@@ -99,7 +99,10 @@ class ModeSelectionViewController: UIViewController {
                let mode = PlayerMode.allCases.first(where: {$0.string == text}) {
                 AppPreferences.currentPlayerMode = mode
                 if mode == .passAndPlay {
-                    self.performSegue(withIdentifier: Storyboards.Segues.modeToChessSegue, sender: mode)
+                    let mainSB = UIStoryboard(name: Storyboards.main, bundle: .main)
+                    let chessVC = mainSB.instantiateViewController(withIdentifier: Storyboards.Identifiers.chessVC)
+                    chessVC.hidesBottomBarWhenPushed = true
+                    self.navigationController?.pushViewController(chessVC, animated: true)
                 } else {
                     
                     let alertVC = UIAlertController(
