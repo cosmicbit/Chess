@@ -36,10 +36,9 @@ class MainTabBarController: UITabBarController {
 
         let profile = UIStoryboard(name: Storyboards.profile, bundle: .main)
         let profileVC = profile.instantiateInitialViewController() ?? UIViewController()
-        
+
         let settings = UIStoryboard(name: Storyboards.settings, bundle: .main)
         let settingsVC = settings.instantiateInitialViewController() ?? UIViewController()
-	
 
         let nav1 = createNav(with: TabBar.play, vc: playVC)
         let nav2 = createNav(with: TabBar.profile, vc: profileVC)
