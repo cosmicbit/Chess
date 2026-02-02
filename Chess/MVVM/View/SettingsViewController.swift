@@ -7,22 +7,6 @@
 
 import UIKit
 
-enum SettingType {
-    case toggle(isOn: Bool)
-    case navigation(value: String?) // For picking pieces or boards
-}
-
-struct SettingItem {
-    let title: String
-    let icon: String
-    let type: SettingType
-}
-
-struct SettingSection {
-    let title: String
-    let items: [SettingItem]
-}
-
 class SettingsViewController: UIViewController {
 
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
