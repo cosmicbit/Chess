@@ -7,18 +7,27 @@
 
 import UIKit
 
-class ProfileTextFieldTableViewCell: UITableViewCell {
+class ProfileTableViewCell: UITableViewCell {
     
+    static let id: String = "ProfileTableViewCell"
+    
+    @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var label: UILabel!
     @IBOutlet private weak var textField: UITextField!
     
-    public func configure(title: String) {
-        label?.text = title
+    private var item: ProfileItem?
+    private var avatar: UIImage?
+    
+    public func configure(item: ProfileItem? = nil, avatar: UIImage? = nil) {
+        self.item = item
+        self.avatar = avatar
+        self.setupUI()
     }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    private func setupUI() {
+        label?.text = item?.label
+        textField?.text = item?.textField
+        avatarImageView?.image = avatar
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
