@@ -34,6 +34,11 @@ struct Storyboards {
     }
 }
 
+struct TableViewCellIDs {
+    static let profileCellWithAvatar = "ProfileCellWithAvatar"
+    static let profileCellWithText = "ProfileCellWithText"
+}
+
 struct Strings {
     struct Common {
         static let ok = "OK"
