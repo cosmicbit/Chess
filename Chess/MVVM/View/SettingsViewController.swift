@@ -27,7 +27,6 @@ class SettingsViewController: UIViewController {
 
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    
     private let viewModel = SettingsViewModel()
 
     override func viewDidLoad() {
@@ -35,8 +34,6 @@ class SettingsViewController: UIViewController {
         viewModel.setupData()
         setupTableView()
     }
-
-    
 
     private func setupTableView() {
         view.addSubview(tableView)
