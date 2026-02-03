@@ -128,8 +128,8 @@
                                 <rect key="frame" x="0.0" y="168" width="393" height="616"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="Y6W-OH-hqX" id="Lhn-UR-Tq3"/>
-                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="7hV-ES-BJD"/>
+                                    <outlet property="dataSource" destination="eu9-rf-91u" id="XG5-fF-Nbb"/>
+                                    <outlet property="delegate" destination="eu9-rf-91u" id="6sK-wU-M58"/>
                                 </connections>
                             </tableView>
                         </subviews>
