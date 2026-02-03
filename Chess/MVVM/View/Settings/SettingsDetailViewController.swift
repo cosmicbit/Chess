@@ -16,7 +16,11 @@ class SettingsDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.setupUI()
+    }
+    
+    private func setupUI() {
+        self.titleLabel.text = self.viewModel.currentSetting.details.title
     }
    
     @IBAction func backButtonTapped(_ sender: Any) {
