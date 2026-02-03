@@ -4,9 +4,10 @@
 //
 //  Created by Philips Jose on 02/02/26.
 //
+import UIKit
 
 struct User {
-    var avatar: String
+    var avatar: UIImage?
     var name: String
     var username: String
 }
