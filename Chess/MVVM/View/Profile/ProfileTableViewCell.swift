@@ -31,7 +31,7 @@ class ProfileTableViewCell: UITableViewCell {
     private func setupUI() {
         self.label?.text = item?.label
         self.textField?.text = item?.textField
-        self.avatarImageView?.image = avatar
+        self.avatarImageView?.image = avatar ?? UIImage(systemName: "person.fill")
     }
     
     private func setupUX() {
