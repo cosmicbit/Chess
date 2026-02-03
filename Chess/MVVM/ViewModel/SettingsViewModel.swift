@@ -36,9 +36,8 @@ class SettingsViewModel {
                 SettingItem(title: "Always Promote to Queen", icon: "crown.fill", type: .toggle(isOn: false)),
                 SettingItem(title: "Confirm Resignation", icon: "flag.fill", type: .toggle(isOn: true))
             ]),
-            SettingSection(title: "Audio & Haptics", items: [
-                SettingItem(title: "Move Sounds", icon: "speaker.wave.2.fill", type: .toggle(isOn: true)),
-                SettingItem(title: "Haptic Feedback", icon: "waveform", type: .toggle(isOn: true))
+            SettingSection(title: "Audio", items: [
+                SettingItem(title: "Move Sounds", icon: "speaker.wave.2.fill", type: .toggle(isOn: true))
             ])
         ]
     }
