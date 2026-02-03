@@ -18,7 +18,7 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        ShatterAnimator.reverseShatter(view: logoLabel, duration: 3.0) {
+        ShatterAnimator.reverseShatter(view: logoLabel, duration: 1.5) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75, execute: {
                 self.navigateToNextPage()
             })
