@@ -7,7 +7,7 @@
 
 struct Constants {
     static let chessPieceDataFile = "ChessPieceData.txt"
-    static let collectionViewCellID = "ChessBoardCollectionViewCell"
+    static let chessBoardCellID = "ChessBoardCollectionViewCell"
     static let kingDirections = "KingDirections.txt"
     static let bishopDirections = "BishopDirections.txt"
     static let rookDirections = "RookDirections.txt"
