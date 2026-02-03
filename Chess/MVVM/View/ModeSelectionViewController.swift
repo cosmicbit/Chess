@@ -17,14 +17,8 @@ enum PlayerMode: Int, CaseIterable {
 
 class ModeSelectionViewController: UIViewController {
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "What do u want to play"
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 24, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    @IBOutlet private weak var navBar: UIView!
+    @IBOutlet private weak var titleLabel: UILabel!
     
     private var optionButtons: [UIButton] = []
     
@@ -52,7 +46,6 @@ class ModeSelectionViewController: UIViewController {
     }
     
     private func setupUI() {
-        self.view.addSubview(titleLabel)
         self.view.addSubview(stackView)
         self.view.backgroundColor = UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1.0)
         self.stackView.backgroundColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.0)
@@ -68,9 +61,6 @@ class ModeSelectionViewController: UIViewController {
         }
         
         NSLayoutConstraint.activate([
-            
-            self.titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            self.titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             
             self.stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             self.stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
