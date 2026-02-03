@@ -58,7 +58,8 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIDs.profileCellWithAvatar, for: indexPath) as? ProfileTableViewCell else {
             return UITableViewCell()
         }
-        cell.configure(avatar: UIImage(systemName: self.viewModel.currentUser.avatar))
+        cell.configure(avatar: self.viewModel.currentUser.avatar)
+        cell.didTapOnAvatar = handleAvatarTap
         return cell
     }
     
@@ -68,6 +69,12 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
         cell.configure(item: self.viewModel.items[indexPath.row - 1])
         return cell
+    }
+    
+    func handleAvatarTap() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        self.present(picker, animated: true)
     }
     
 }
@@ -89,5 +96,19 @@ extension ProfileViewController {
 
     @objc func keyboardWillHide(notification: NSNotification) {
         self.tableView.contentInset = .zero
+    }
+}
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.editedImage] as? UIImage {
+            self.viewModel.currentUser.avatar = selectedImage
+            self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+        }
+        self.dismiss(animated: true)
     }
 }
