@@ -87,7 +87,7 @@ class ChessViewModel {
             let result = board.attemptMove(from: startLocation, to: currentCellLocation)
             
             switch result {
-            case .success(let move):
+            case .success(_):
                 break
             case .failure(let reason):
                 print("Move Failed: \(reason)")
