@@ -74,6 +74,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func handleAvatarTap() {
         let picker = UIImagePickerController()
         picker.delegate = self
+        picker.allowsEditing = true
         self.present(picker, animated: true)
     }
     
