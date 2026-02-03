@@ -87,7 +87,7 @@ class ModeSelectionViewController: UIViewController {
         sender.showPopAnimation {
             if let text = sender.titleLabel?.text,
                let mode = PlayerMode.allCases.first(where: {$0.string == text}) {
-                AppPreferences.currentPlayerMode = mode
+                AppPreferences.shared.currentPlayerMode = mode
                 if mode == .passAndPlay {
                     let mainSB = UIStoryboard(name: Storyboards.main, bundle: .main)
                     let chessVC = mainSB.instantiateViewController(withIdentifier: Storyboards.Identifiers.chessVC)

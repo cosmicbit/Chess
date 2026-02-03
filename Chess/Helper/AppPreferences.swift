@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import UIKit
 
 struct AppPreferenceKeys {
     static let currentPlayerMode = "currentPlayerMode"
+    static let currentAppTheme = "currentAppTheme"
 }
 
 class AppPreferences {
@@ -42,7 +44,7 @@ class AppPreferences {
 }
 
 extension AppPreferences {
-    static var currentPlayerMode: PlayerMode {
+    var currentPlayerMode: PlayerMode {
         get {
             let id = AppPreferences.integer(forKey: AppPreferenceKeys.currentPlayerMode)
             let mode = PlayerMode(rawValue: id) ?? .passAndPlay
@@ -50,6 +52,17 @@ extension AppPreferences {
         }
         set {
             AppPreferences.set(newValue.rawValue, forKey: AppPreferenceKeys.currentPlayerMode)
+        }
+    }
+    
+    var currentAppTheme: UIUserInterfaceStyle {
+        get {
+            let id = AppPreferences.integer(forKey: AppPreferenceKeys.currentAppTheme)
+            let theme = UIUserInterfaceStyle(rawValue: id) ?? .unspecified
+            return theme
+        }
+        set {
+            AppPreferences.set(newValue.rawValue, forKey: AppPreferenceKeys.currentAppTheme)
         }
     }
 }
