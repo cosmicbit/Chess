@@ -30,3 +30,19 @@ extension UIView {
         return image?.cgImage
     }
 }
+
+extension UIView {
+    @IBInspectable var isCapsuleType: Bool {
+        set {
+            if newValue {
+                self.layer.cornerRadius = self.frame.height / 2
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                    self.layer.cornerRadius = self.frame.height / 2
+                }
+            }
+        }
+        get {
+            return self.layer.cornerRadius == self.frame.height / 2
+        }
+    }
+}
