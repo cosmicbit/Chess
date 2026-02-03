@@ -51,7 +51,7 @@ class MainTabBarController: UITabBarController {
     }
     
     private func configureAppearance() {
-        tabBar.tintColor = .systemBlue
+        tabBar.tintColor = .link
         tabBar.unselectedItemTintColor = .lightGray
         
         let appearance = UITabBarAppearance()
