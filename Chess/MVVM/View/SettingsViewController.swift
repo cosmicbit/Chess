@@ -53,7 +53,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.textLabel?.text = item.title
         cell.imageView?.image = UIImage(systemName: item.icon)
-        cell.imageView?.tintColor = .systemYellow
+        cell.imageView?.tintColor = .link
 
         switch item.type {
         case .toggle(let isOn):
