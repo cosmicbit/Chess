@@ -9,7 +9,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
-    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    @IBOutlet private weak var tableView: UITableView!
     
     private let viewModel = SettingsViewModel()
 
@@ -20,16 +20,16 @@ class SettingsViewController: UIViewController {
     }
 
     private func setupTableView() {
-        view.addSubview(tableView)
-        tableView.frame = view.bounds
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
 
     @objc private func handleToggle(_ sender: UISwitch) {
         // Logic to save setting (e.g., UserDefaults)
         print("Setting changed: \(sender.isOn)")
+    }
+    
+    @IBAction func backButtonTapped(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

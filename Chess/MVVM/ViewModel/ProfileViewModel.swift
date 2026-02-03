@@ -18,7 +18,7 @@ struct ProfileItem {
 }
 
 class ProfileViewModel {
-    public var currentUser: User = User(avatar: "person.fill", name: "Philips Jose", username: "madvork")
+    public var currentUser: User = User(name: "Philips Jose", username: "madvork")
     public var items = [ProfileItem]()
     
     public func setupData() {
