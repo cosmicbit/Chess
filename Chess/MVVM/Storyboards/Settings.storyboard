@@ -81,10 +81,10 @@
             </objects>
             <point key="canvasLocation" x="1178" y="-326"/>
         </scene>
-        <!--View Controller-->
+        <!--Settings Detail View Controller-->
         <scene sceneID="TOb-BE-6fO">
             <objects>
-                <viewController id="eu9-rf-91u" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsDetailViewController" id="eu9-rf-91u" customClass="SettingsDetailViewController" customModule="Chess" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LM8-fE-YId">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,6 +110,7 @@
                                             <imageReference key="image" image="chevron.left" catalog="system" symbolScale="large"/>
                                         </state>
                                         <connections>
+                                            <action selector="backButtonTapped:" destination="eu9-rf-91u" eventType="touchUpInside" id="6fh-Tr-8dR"/>
                                             <action selector="backButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="akh-kP-BgS"/>
                                         </connections>
                                     </button>
@@ -144,6 +145,10 @@
                             <constraint firstItem="tzu-f4-Pws" firstAttribute="leading" secondItem="ixi-d1-lbS" secondAttribute="leading" id="xB0-Uc-OpN"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="2j9-kB-c31" id="V0k-ph-yhF"/>
+                        <outlet property="titleLabel" destination="bRH-Xe-kNh" id="X6N-r2-PDe"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nei-el-D9s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -6,8 +6,8 @@
 //
 
 enum SettingType {
-    case toggle(isOn: Bool)
-    case navigation(value: String?) // For picking pieces or boards
+    case toggle
+    case navigation // For picking pieces or boards
 }
 
 struct SettingItem {
@@ -18,27 +18,54 @@ struct SettingItem {
 
 struct SettingSection {
     let title: String
-    let items: [SettingItem]
+    let items: [SettingsDestination]
+}
+
+enum SettingsSection: Int, CaseIterable {
+    case appearance, audio
+    var title: String {
+        switch self {
+        case .appearance:
+            "Appearance"
+        case .audio:
+            "Audio"
+        }
+    }
+    
+    var items: [SettingsDestination] {
+        switch self {
+        case .appearance:
+            [ .boardTheme, .pieceStyle, .showCoordinates, .appTheme ]
+        case .audio:
+            [ .moveSounds ]
+        }
+    }
+}
+
+enum SettingsDestination {
+    case boardTheme, pieceStyle, showCoordinates, appTheme, moveSounds
+    
+    var details: SettingItem {
+        switch self {
+        case .boardTheme:
+            SettingItem(title: "Board Theme", icon: "grid", type: .navigation)
+        case .pieceStyle:
+            SettingItem(title: "Piece Style", icon: "checkerboard.rectangle", type: .navigation)
+        case .showCoordinates:
+            SettingItem(title: "Show Coordinates", icon: "textformat.123", type: .toggle)
+        case .appTheme:
+            SettingItem(title: "App Theme", icon: "eye", type: .navigation)
+        case .moveSounds:
+            SettingItem(title: "Move Sounds", icon: "speaker.wave.2.fill", type: .toggle)
+        }
+    }
 }
 
 class SettingsViewModel {
     
-    public var sections = [SettingSection]()
+    public var sections = [SettingsSection]()
+    
     public func setupData() {
-        sections = [
-            SettingSection(title: "Appearance", items: [
-                SettingItem(title: "Board Theme", icon: "grid", type: .navigation(value: "Wood")),
-                SettingItem(title: "Piece Style", icon: "checkerboard.rectangle", type: .navigation(value: "Neo")),
-                SettingItem(title: "Show Coordinates", icon: "textformat.123", type: .toggle(isOn: true))
-            ]),
-            SettingSection(title: "Gameplay", items: [
-                SettingItem(title: "Enable Premoves", icon: "bolt.fill", type: .toggle(isOn: true)),
-                SettingItem(title: "Always Promote to Queen", icon: "crown.fill", type: .toggle(isOn: false)),
-                SettingItem(title: "Confirm Resignation", icon: "flag.fill", type: .toggle(isOn: true))
-            ]),
-            SettingSection(title: "Audio", items: [
-                SettingItem(title: "Move Sounds", icon: "speaker.wave.2.fill", type: .toggle(isOn: true))
-            ])
-        ]
+        sections = SettingsSection.allCases
     }
 }

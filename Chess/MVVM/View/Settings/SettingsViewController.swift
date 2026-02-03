@@ -51,22 +51,34 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         let item = viewModel.sections[indexPath.section].items[indexPath.row]
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
         
-        cell.textLabel?.text = item.title
-        cell.imageView?.image = UIImage(systemName: item.icon)
+        cell.textLabel?.text = item.details.title
+        cell.imageView?.image = UIImage(systemName: item.details.icon)
         cell.imageView?.tintColor = .link
 
-        switch item.type {
-        case .toggle(let isOn):
+        switch item.details.type {
+        case .toggle:
             let switchView = UISwitch()
-            switchView.isOn = isOn
+            switchView.isOn = true
             switchView.addTarget(self, action: #selector(handleToggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
             cell.selectionStyle = .none
-        case .navigation(let value):
-            cell.detailTextLabel?.text = value
+        case .navigation:
+            cell.detailTextLabel?.text = ""
             cell.accessoryType = .disclosureIndicator
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let setting = self.viewModel.sections[indexPath.section].items[indexPath.row]
+        if setting.details.type == .navigation {
+            let sb = UIStoryboard(name: Storyboards.settings, bundle: .main)
+            if let vc = sb.instantiateViewController(withIdentifier: Storyboards.Identifiers.settingsDetailVC) as? SettingsDetailViewController {
+                vc.viewModel.currentSetting = setting
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
 }
