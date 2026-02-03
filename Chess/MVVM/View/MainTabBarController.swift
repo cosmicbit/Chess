@@ -37,19 +37,14 @@ class MainTabBarController: UITabBarController {
         let profile = UIStoryboard(name: Storyboards.profile, bundle: .main)
         let profileVC = profile.instantiateInitialViewController() ?? UIViewController()
 
-        let settings = UIStoryboard(name: Storyboards.settings, bundle: .main)
-        let settingsVC = settings.instantiateInitialViewController() ?? UIViewController()
-
         let nav1 = createNav(with: TabBar.play, vc: playVC)
         let nav2 = createNav(with: TabBar.profile, vc: profileVC)
-        let nav3 = createNav(with: TabBar.settings, vc: settingsVC)
 
-        setViewControllers([nav1, nav2, nav3], animated: true)
+        setViewControllers([nav1, nav2], animated: true)
     }
 
     private func createNav(with item: TabBar, vc: UIViewController) -> UINavigationController {
         let nav = UINavigationController(rootViewController: vc)
-        nav.tabBarItem.title = item.title
         nav.tabBarItem.image = item.systemImage
         nav.isNavigationBarHidden = true
         return nav

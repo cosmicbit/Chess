@@ -28,6 +28,13 @@ class ProfileViewController: UIViewController {
     @objc func backgroundTapped() {
         self.view.endEditing(true)
     }
+    
+    @IBAction func settingsButtonTapped(_ sender: Any) {
+        let settings = UIStoryboard(name: Storyboards.settings, bundle: .main)
+        let settingsVC = settings.instantiateInitialViewController() ?? UIViewController()
+        settingsVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(settingsVC, animated: true)
+    }
 }
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
