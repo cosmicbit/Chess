@@ -11,6 +11,8 @@ import UIKit
 struct AppPreferenceKeys {
     static let currentPlayerMode = "currentPlayerMode"
     static let currentAppTheme = "currentAppTheme"
+    static let currentBoardTheme = "currentBoardTheme"
+    static let currentPieceStyle = "currentPieceStyle"
 }
 
 class AppPreferences {
@@ -63,6 +65,28 @@ extension AppPreferences {
         }
         set {
             AppPreferences.set(newValue.rawValue, forKey: AppPreferenceKeys.currentAppTheme)
+        }
+    }
+    
+    var currentBoardTheme: BoardTheme {
+        get {
+            let id = AppPreferences.integer(forKey: AppPreferenceKeys.currentBoardTheme)
+            let theme = BoardTheme(rawValue: id) ?? .classic
+            return theme
+        }
+        set {
+            AppPreferences.set(newValue.rawValue, forKey: AppPreferenceKeys.currentBoardTheme)
+        }
+    }
+    
+    var currentPieceStyle: PieceStyle {
+        get {
+            let id = AppPreferences.integer(forKey: AppPreferenceKeys.currentPieceStyle)
+            let style = PieceStyle(rawValue: id) ?? .classic
+            return style
+        }
+        set {
+            AppPreferences.set(newValue.rawValue, forKey: AppPreferenceKeys.currentPieceStyle)
         }
     }
 }
