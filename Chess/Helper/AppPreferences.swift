@@ -57,10 +57,10 @@ extension AppPreferences {
         }
     }
     
-    var currentAppTheme: UIUserInterfaceStyle {
+    var currentAppTheme: AppTheme {
         get {
             let id = AppPreferences.integer(forKey: AppPreferenceKeys.currentAppTheme)
-            let theme = UIUserInterfaceStyle(rawValue: id) ?? .unspecified
+            let theme = AppTheme(rawValue: id) ?? .system
             return theme
         }
         set {
