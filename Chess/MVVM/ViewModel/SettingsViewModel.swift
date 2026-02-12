@@ -16,11 +16,6 @@ struct SettingItem {
     let type: SettingType
 }
 
-struct SettingSection {
-    let title: String
-    let items: [SettingsDestination]
-}
-
 enum SettingsSection: Int, CaseIterable {
     case appearance, audio
     var title: String {
