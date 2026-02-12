@@ -30,11 +30,15 @@ class SettingsDetailViewController: UIViewController {
 
 extension SettingsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        viewModel.currentSettingOptions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        if let cell = tableView.dequeueReusableCell(withIdentifier: RadioButtonCell.id, for: indexPath) as? RadioButtonCell {
+            
+            return cell
+        }
+        return UITableViewCell()
     }
     
     
