@@ -92,11 +92,48 @@ enum ChessBoardCellState {
     case lastMoveDestination
 }
 
+enum AppTheme: Int, CaseIterable {
+    case system, light, dark
+    
+    var title: String {
+        switch self {
+        case .system:
+            "System"
+        case .light:
+            "Light"
+        case .dark:
+            "Dark"
+        }
+    }
+}
+
 enum BoardTheme: Int, CaseIterable {
     case classic, wood, metal
+    
+    var title: String {
+        switch self {
+        case .classic:
+            "Classic"
+        case .wood:
+            "Wood"
+        case .metal:
+            "Metal"
+        }
+    }
 }
 
 enum PieceStyle: Int, CaseIterable {
     case classic, wood, metal
+    
+    var title: String {
+        switch self {
+        case .classic:
+            "Classic"
+        case .wood:
+            "Wood"
+        case .metal:
+            "Metal"
+        }
+    }
 }
 
