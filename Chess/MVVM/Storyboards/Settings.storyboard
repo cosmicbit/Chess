@@ -128,7 +128,7 @@
                                 <rect key="frame" x="0.0" y="168" width="393" height="616"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="nSx-cs-hW4" customClass="RadioButtonCell" customModule="Chess" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RadioButtonCell" rowHeight="100" id="nSx-cs-hW4" customClass="RadioButtonCell" customModule="Chess" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="393" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nSx-cs-hW4" id="rdN-tc-5qq">
@@ -139,7 +139,7 @@
                                                     <rect key="frame" x="20" y="20" width="30" height="60"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="DzS-kt-IpB">
-                                                            <rect key="frame" x="0.0" y="15.666666666666666" width="30" height="28.666666666666671"/>
+                                                            <rect key="frame" x="0.0" y="15.666666666666664" width="30" height="28.666666666666671"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="30" id="S7c-kF-WDx"/>
@@ -180,6 +180,10 @@
                                                 <constraint firstItem="URl-rc-gVI" firstAttribute="leading" secondItem="rdN-tc-5qq" secondAttribute="leading" constant="20" id="wFV-RP-MbG"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="optionNameLabel" destination="8US-uR-9VP" id="Pnz-Nn-lYp"/>
+                                            <outlet property="selectionStatusImageView" destination="5og-Dn-WNi" id="V6r-VU-xbE"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
