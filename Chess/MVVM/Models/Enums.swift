@@ -91,3 +91,12 @@ enum ChessBoardCellState {
     case lastMoveOrigin
     case lastMoveDestination
 }
+
+enum BoardTheme: Int, CaseIterable {
+    case classic, wood, metal
+}
+
+enum PieceStyle: Int, CaseIterable {
+    case classic, wood, metal
+}
+
