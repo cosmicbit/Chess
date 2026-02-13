@@ -57,7 +57,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func setAppTheme() {
-        window?.overrideUserInterfaceStyle = AppPreferences.shared.currentAppTheme
+        let theme: UIUserInterfaceStyle
+        switch AppPreferences.shared.currentAppTheme {
+        case .system:
+            theme = .unspecified
+        case .light:
+            theme = .light
+        case .dark:
+            theme = .unspecified
+            
+        }
+        window?.overrideUserInterfaceStyle = theme
     }
 
 }
