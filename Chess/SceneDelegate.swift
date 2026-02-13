@@ -56,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
     
-    private func setAppTheme() {
+    func setAppTheme() {
         let theme: UIUserInterfaceStyle
         switch AppPreferences.shared.currentAppTheme {
         case .system:
@@ -64,10 +64,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         case .light:
             theme = .light
         case .dark:
-            theme = .unspecified
+            theme = .dark
             
         }
-        window?.overrideUserInterfaceStyle = theme
+        self.window?.overrideUserInterfaceStyle = theme
     }
 
 }
