@@ -56,7 +56,11 @@ class ChessViewController: UIViewController {
     }
     
     @IBAction func closeButtonTapped(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        self.showAlert(title: "Are you sure want to exit?",message: "The game progress will be lost") { [weak self] ok in
+            if ok {
+                self?.navigationController?.popViewController(animated: true)
+            }
+        }
     }
 
     @IBAction func resetBoardButtonTapped(_ sender: Any) {
