@@ -8,13 +8,12 @@
 import UIKit
 import Foundation
 
-class ChessPiece {
+struct ChessPiece {
     let id = UUID()
     let color: ChessPieceColor
     let type: ChessPieceType
     var location: ChessBoardLocation
     var hasMoved: Bool = false
-    var board: ChessBoard?
     
     init(color: ChessPieceColor, type: ChessPieceType, location: ChessBoardLocation) {
         self.color = color

@@ -15,7 +15,6 @@ class ChessBoard {
     
     init() {
         self.chessPieces = ChessPiece.loadPiecesFromFile(file: Constants.chessPieceDataFile) ?? []
-        self.chessPieces.forEach { $0.board = self }
         self.pieceMap = self.chessPieces.reduce(into: [:]) { (result, piece) in
             result[piece.location] = piece
         }
