@@ -93,20 +93,7 @@ class ModeSelectionViewController: UIViewController {
                     chessVC.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(chessVC, animated: true)
                 } else {
-                    
-                    let alertVC = UIAlertController(
-                        title: Strings.vsComputerAlert.title,
-                        message: Strings.vsComputerAlert.description,
-                        preferredStyle: .alert
-                    )
-                    
-                    let okAction = UIAlertAction(
-                        title: Strings.Common.ok,
-                        style: .default
-                    )
-                    
-                    alertVC.addAction(okAction)
-                    self.present(alertVC, animated: true, completion: nil)
+                    self.showAlert(title: Strings.vsComputerAlert.title, message: Strings.vsComputerAlert.description)
                 }
             }
         }
