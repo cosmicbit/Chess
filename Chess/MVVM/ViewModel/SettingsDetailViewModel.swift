@@ -10,8 +10,9 @@ class SettingsDetailViewModel {
     var currentSetting: SettingsDestination = .appTheme
     var currentSettingOptions: [String] = []
     var currentSelectedOption: Int = 0
+    var didChangeAppTheme: () -> Void = {}
     
-    func initialSetup() {
+    public func initialSetup() {
         
         switch currentSetting {
         case .boardTheme:
@@ -26,5 +27,24 @@ class SettingsDetailViewModel {
         default:
             break
         }
+    }
+    
+    public func getCurrentSelectedIndexPath() -> IndexPath {
+        IndexPath(row: currentSelectedOption, section: 0)
+    }
+    
+    public func setCurrentSelectedOption(_ option: Int) {
+        switch currentSetting {
+        case .boardTheme:
+            AppPreferences.shared.currentBoardTheme = BoardTheme(rawValue: option) ?? .classic
+        case .pieceStyle:
+            AppPreferences.shared.currentPieceStyle = PieceStyle(rawValue: option) ?? .classic
+        case .appTheme:
+            AppPreferences.shared.currentAppTheme = AppTheme(rawValue: option) ?? .system
+            self.didChangeAppTheme()
+        case .moveSounds, .showCoordinates:
+            break
+        }
+        self.currentSelectedOption = option
     }
 }
