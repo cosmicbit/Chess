@@ -44,6 +44,7 @@ struct TableViewCellIDs {
 struct Strings {
     struct Common {
         static let ok = "OK"
+        static let cancel = "Cancel"
     }
     
     struct vsComputerAlert {
