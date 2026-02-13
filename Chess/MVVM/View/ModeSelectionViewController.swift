@@ -47,7 +47,6 @@ class ModeSelectionViewController: UIViewController {
     
     private func setupUI() {
         self.view.addSubview(stackView)
-        self.view.backgroundColor = UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1.0)
         self.stackView.backgroundColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.0)
         PlayerMode.allCases.forEach { mode in
             let button = UIButton(type: .custom)
