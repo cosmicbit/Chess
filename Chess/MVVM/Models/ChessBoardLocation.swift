@@ -48,3 +48,12 @@ extension ChessBoardLocation {
         return "\(file)\(rank)"
     }
 }
+
+extension ChessBoardLocation {
+    func offset(by dir: Direction, distance: Int = 1) -> ChessBoardLocation {
+        return ChessBoardLocation(
+            row: self.row + (dir.rowChange * distance),
+            column: self.column + (dir.colChange * distance)
+        )
+    }
+}

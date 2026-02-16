@@ -66,7 +66,7 @@ extension ChessPiece {
         else {
             return nil
         }
-        var pieceMap: [ChessBoardLocation: ChessPiece] = [:]
+        var pieceMap = [ChessBoardLocation: ChessPiece]()
         lines.forEach {
             guard let components = Helper.parseFromLine($0, componentCount: 4),
                   let color = ChessPieceColor(rawValue: components[0]),

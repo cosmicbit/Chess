@@ -29,8 +29,9 @@ class ChessViewModel {
     }
     
     func getPiece(for indexPath: IndexPath) -> ChessPiece? {
-        let cell = self.getCell(for: indexPath)
-        return self.board.piece(at: cell.location)
+        let rowIndex = indexPath.item / 8
+        let columnIndex = indexPath.item % 8
+        return self.board.piece(at: .init(row: rowIndex, column: columnIndex))
     }
     
     func getPiece(in cell: ChessBoardCell) -> ChessPiece? {
@@ -58,7 +59,7 @@ class ChessViewModel {
     func highlightCells(for moves: [ChessMove]) {
         moves.forEach {
             let state: ChessBoardCellState = $0.isAttacking ? .vulnerable : .highlighted
-            self.board.changeCellState(at: $0.endLocation, with: state)
+            self.board.cells[$0.endLocation.row][$0.endLocation.column].currectState = state
         }
         self.delegate?.viewModelDidChangeBoard(self)
     }
@@ -75,9 +76,9 @@ class ChessViewModel {
         // 1. If we tap a piece of the CURRENT player, always treat it as a "Selection"
         if let piece = self.board.piece(at: currentTappedLocation), piece.color == board.gameState.currentPlayer {
             self.board.resetCellColors()
-            self.board.changeCellState(at: currentTappedLocation, with: .selected)
+            self.board.cells[currentTappedLocation.row][currentTappedLocation.column].currectState = .selected
             
-            let legalMoves = self.board.getLegalMoves(for: piece)
+            let legalMoves = self.board.getLegalMoves(for: piece, at: currentTappedLocation)
             self.highlightCells(for: legalMoves)
             self.lastTappedLocation = currentTappedLocation
             return

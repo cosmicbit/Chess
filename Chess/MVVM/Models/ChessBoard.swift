@@ -7,198 +7,100 @@
 import Foundation
 
 struct ChessBoard {
-    let numberOfCells = 64
-    var cells: [[ChessBoardCell]] = []
-    var pieceMap: [ChessBoardLocation: ChessPiece] = [:]
+    var pieceMap = ChessPiece.loadPiecesFromFile(file: Constants.chessPieceDataFile) ?? [:]
     var gameState = GameState()
-    
-    init() {
-        
-        self.pieceMap = ChessPiece.loadPiecesFromFile(file: Constants.chessPieceDataFile) ?? [:]
-        
-        self.cells = (0..<8).map { row in
-            (0..<8).map { column in
-                let location = ChessBoardLocation(row: row, column: column)
-                return ChessBoardCell(location: location)
-            }
-        }
-    }
+    var cells: [[ChessBoardCell]] = (0..<8).map { r in (0..<8).map { c in .init(location: .init(row: r, column: c)) } }
 }
 
-//MARK: - State Changes
+
 extension ChessBoard {
-    
-    mutating func changeCellState(at location: ChessBoardLocation, with state: ChessBoardCellState) {
-        cells[location.row][location.column].currectState = state
-    }
     
     mutating func resetCellColors() {
         for i in 0..<8 {
             for j in 0..<8 {
                 self.cells[i][j].currectState = .none
             }
-         }
+        }
     }
-    
-    func location(of piece: ChessPiece) -> ChessBoardLocation? {
-        return pieceMap.first(where: { $0.value == piece })?.key
-    }
-    
-    func piece(at location: ChessBoardLocation) -> ChessPiece? {
-        return pieceMap[location]
-    }
-    
 }
 
-// MARK: State Info
-
+//MARK: - Helpers
 extension ChessBoard {
-    func getCell(from location: ChessBoardLocation) -> ChessBoardCell {
-        return cells[location.row][location.column]
-    }
+    func piece(at loc: ChessBoardLocation) -> ChessPiece? { pieceMap[loc] }
+    private func isOccupied(at loc: ChessBoardLocation) -> Bool { pieceMap.keys.contains(loc) }
+    private func isInBounds(loc: ChessBoardLocation) -> Bool { (0..<8).contains(loc.row) && (0..<8).contains(loc.column) }
+    
 }
-
 
 //MARK: - Move Generation
 extension ChessBoard {
     
-    func getLegalMoves(for piece: ChessPiece) -> [ChessMove] {
-        var candidateMoves = [ChessMove]()
+    func getLegalMoves(for piece: ChessPiece, at start: ChessBoardLocation) -> [ChessMove] {
+        let directions = piece.getDirections()
         
         switch piece.type {
-            
         case .king, .knight:
-            candidateMoves = piece.getDirections().compactMap { direction -> ChessMove? in
-                return getValidMove(for: piece, direction: direction, distance: 1)
-            }
+            return directions.compactMap { validate(piece, from: start, dir: $0, dist: 1) }
+            
         case .pawn:
-            candidateMoves = getPawnMoves(for: piece)
+            return getPawnMoves(for: piece, from: start)
+            
         case .queen, .bishop, .rook:
-            candidateMoves = piece.getDirections().flatMap {
-                return generateMovesInDirection(for: piece, direction: $0, distance: 7)
-            }
+            return directions.flatMap { slide(piece, from: start, dir: $0) }
         }
-        
-        return candidateMoves
     }
     
-    private func getPawnMoves(for piece: ChessPiece) -> [ChessMove] {
-        
+    private func getPawnMoves(for piece: ChessPiece, from start: ChessBoardLocation) -> [ChessMove] {
         let directions = piece.getDirections()
-        let pieceLocation = self.location(of: piece) ?? ChessBoardLocation(row: 0, column: 0)
-        let candidateMoves: [ChessMove] = directions.compactMap { direction -> ChessMove? in
-            guard let move = getValidMove(for: piece, direction: direction, distance: 1) else {
+        
+        return directions.compactMap { dir -> ChessMove? in
+            guard let move = validate(piece, from: start, dir: dir, dist: 1) else {
                 return nil
             }
-            let targetLocation = move.endLocation
-            
-            if direction.key == "UU" {
-                if piece.hasMoved {  // UU not allowed if not first Move
-                    return nil
-                } else {
-                    let uDirection = directions.first { $0.key == "U" } ?? Direction(rowChange: 0, colChange: 0, key: "")
-                    let uLocation = ChessBoardLocation.getLoc(wrt: pieceLocation, rowChange: uDirection.rowChange, colChange: uDirection.colChange, distance: 1)
-                    if isCellOccupied(loc: uLocation) { // UU not allowed if u is occupied
-                        return nil
-                    }
-                }
-            }
-                     
-            // diagonal attacking allowed only if there is a enemy piece there
-            if direction.key == "UL" || direction.key == "UR" {
-                if isCellEmpty(loc: targetLocation) {
-                    return nil
-                }
-            }
-            
-            // Forward attacking not allowed
-            if direction.key == "U" {
-                if isCellOccupied(loc: targetLocation) {
-                    return nil
-                }
-            }
-            
-            return move
-        }
-        
-        
-        return candidateMoves
-    }
-    
-    private func getValidMove(for piece: ChessPiece,
-                              direction: Direction,
-                              distance: Int) -> ChessMove? {
-        let pieceLocation = self.location(of: piece) ?? ChessBoardLocation(row: 0, column: 0)
-        let targetLocation = ChessBoardLocation.getLoc(wrt: pieceLocation, rowChange: direction.rowChange, colChange: direction.colChange, distance: distance)
-        guard isInBounds(loc: targetLocation) else {
-            return nil
-        }
-        
-        if isCellOccupied(loc: targetLocation) {
-            
-            if isThePieceInTheCellOfSameColor(piece: piece, loc: targetLocation) {
-                // Friendly piece
+            let isTargetOccupied = isOccupied(at: move.endLocation)
+            switch dir.key {
+            case "U":
+                return !isTargetOccupied ? move : nil
+            case "UU":
+                let singleStepDir = directions.first { $0.key == "U" }
+                let pathBlocked = singleStepDir.map { isOccupied(at: start.offset(by: $0)) } ?? true
+                return (!piece.hasMoved && !isTargetOccupied && !pathBlocked) ? move : nil
+            case "UL", "UR":
+                return (isTargetOccupied && move.isAttacking) ? move : nil
+            default:
                 return nil
-            } else {
-                // Enemy Piece
-                return ChessMove(start: pieceLocation, end: targetLocation, piece: piece, direction: direction, isAttacking: true)
             }
-        } else {
-            return ChessMove(start: pieceLocation, end: targetLocation, piece: piece, direction: direction, isAttacking: false)
         }
     }
     
-    private func generateMovesInDirection(for piece: ChessPiece,
-                                          direction: Direction,
-                                          distance: Int) -> [ChessMove] {
+    private func validate(_ piece: ChessPiece, from start: ChessBoardLocation,
+                          dir: Direction, dist: Int) -> ChessMove? {
+        let target = start.offset(by: dir, distance: dist)
+        guard isInBounds(loc: target) else { return nil }
         
-        var moves: [ChessMove] = []
-
-        for distance in 1...distance {
-            
-            if let validMove = getValidMove(for: piece,
-                                            direction: direction,
-                                            distance: distance) {
-                
-                moves.append(validMove)
-                
-                if validMove.isAttacking {
-                    break
-                }
-                
-            } else {
-                break
-            }
-            
+        if let targetPiece = self.piece(at: target) {
+            return targetPiece.color != piece.color ? ChessMove(start: start, end: target, piece: piece, direction: dir, isAttacking: true) : nil
         }
-        
+        return ChessMove(start: start, end: target, piece: piece, direction: dir, isAttacking: false)
+    }
+    
+    private func slide(_ piece: ChessPiece, from start: ChessBoardLocation, dir: Direction) -> [ChessMove] {
+        var moves = [ChessMove]()
+        for dist in 1...7 {
+            guard let move = validate(piece, from: start, dir: dir, dist: dist) else { break }
+            moves.append(move)
+            if move.isAttacking { break }
+        }
         return moves
-    }
-    
-    private func isCellOccupied(loc: ChessBoardLocation) -> Bool {
-        return pieceMap.keys.contains(loc)
-    }
-    
-    private func isCellEmpty(loc: ChessBoardLocation) -> Bool {
-        return !pieceMap.keys.contains(loc)
-    }
-    
-    private func isInBounds(loc: ChessBoardLocation) -> Bool {
-        return (0..<8).contains(loc.row) && (0..<8).contains(loc.column)
-    }
-    
-    private func isThePieceInTheCellOfSameColor(piece: ChessPiece, loc: ChessBoardLocation) -> Bool {
-        guard let pieceOnCell = self.piece(at: loc) else { return true }
-        return piece.color == pieceOnCell.color ? true : false
     }
 }
 
 // MARK: - Move Execution
 extension ChessBoard {
-    mutating func attemptMove(from startLocation: ChessBoardLocation,
-                         to endLocation: ChessBoardLocation) -> MoveResult {
+    mutating func attemptMove(from start: ChessBoardLocation,
+                         to end: ChessBoardLocation) -> MoveResult {
         
-        guard let pieceToMove = self.piece(at: startLocation) else {
+        guard let pieceToMove = self.piece(at: start) else {
             return .failure(reason: .noPieceAtStart)
         }
         
@@ -206,9 +108,9 @@ extension ChessBoard {
             return .failure(reason: .wrongTurn)
         }
 
-        let legalMoves = self.getLegalMoves(for: pieceToMove)
+        let legalMoves = self.getLegalMoves(for: pieceToMove, at: start)
 
-        let validMove = legalMoves.first { $0.endLocation == endLocation }
+        let validMove = legalMoves.first { $0.endLocation == end }
         
         guard let move = validMove else {
             return .failure(reason: .illegalMove)
@@ -220,10 +122,9 @@ extension ChessBoard {
     }
     
     mutating private func executeMove(_ move: ChessMove) {
-        var piece = self.piece(at: move.startLocation) ?? ChessPiece(color: .black, type: .pawn)
+        guard var piece = pieceMap.removeValue(forKey: move.startLocation) else { return }
         piece.hasMoved = true
-        self.pieceMap.updateValue(piece, forKey: move.endLocation)
-        self.pieceMap.removeValue(forKey: move.startLocation)
+        self.pieceMap[move.endLocation] = piece
         
         gameState.togglePlayer()
         gameState.moveHistory.append(move)
