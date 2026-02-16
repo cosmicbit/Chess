@@ -16,9 +16,9 @@ struct ChessBoard {
 extension ChessBoard {
     
     mutating func resetCellColors() {
-        for i in 0..<8 {
-            for j in 0..<8 {
-                self.cells[i][j].currectState = .none
+        for r in cells.indices {
+            for c in cells[r].indices {
+                cells[r][c].currectState = .none
             }
         }
     }
