@@ -15,29 +15,19 @@ class ChessBoardCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var stateImageView: UIImageView!
     @IBOutlet weak var chessPieceImageView: UIImageView!
     
-    var chessBoardCell: ChessBoardCell?
+    private(set) var chessBoardCell: ChessBoardCell?
+    private(set) var chessPiece: ChessPiece?
     
-    func configure(cell: ChessBoardCell) {
+    func configure(cell: ChessBoardCell, piece: ChessPiece? = nil) {
         self.chessBoardCell = cell
-        setupUI()
+        self.chessPiece = piece
+        self.setupUI()
     }
     
     private func setupUI() {
-        guard let cell = chessBoardCell else { return }
-        chessPieceImageView?.image = cell.piece?.asset
+        guard let cell = self.chessBoardCell else { return }
+        self.chessPieceImageView?.image = self.chessPiece?.asset
         self.backgroundImageView?.image = cell.currentColor == cell.defaultColor ? cell.currentColor.woodImage : nil
-        
-        switch cell.currectState {
-        case .selected:
-            self.stateImageView?.image = UIImage.cellSelected
-        case .highlighted:
-            self.stateImageView?.image = UIImage.cellHighlighted
-        case .vulnerable:
-            self.stateImageView?.image = UIImage.cellVulnerable
-        case .check:
-            self.stateImageView?.image = UIImage.cellCheck
-        default:
-            self.stateImageView?.image = nil
-        }
+        self.stateImageView?.image = cell.currectState.asset
     }
 }

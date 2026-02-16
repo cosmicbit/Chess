@@ -50,9 +50,20 @@ class ChessViewController: UIViewController {
         }, completion: { _ in
            
             animatingPieceView.removeFromSuperview()
-            self.collectionView.reloadData()//reloadItems(at: [startPath, endPath])
+            self.collectionView.reloadData()
             
         })
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.collectionView.dataSource = nil
+        self.collectionView.delegate = nil
+        self.viewModel.delegate = nil
+    }
+    
+    deinit {
+        print("deallocated")
     }
     
     @IBAction func closeButtonTapped(_ sender: Any) {
@@ -75,13 +86,14 @@ extension ChessViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.board.numberOfCells
+        return self.viewModel.board.numberOfCells
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChessBoardCollectionViewCell.id, for: indexPath) as? ChessBoardCollectionViewCell {
-            let chessBoardCell = viewModel.getCell(for: indexPath)
-            cell.configure(cell: chessBoardCell)
+            let chessBoardCell = self.viewModel.getCell(for: indexPath)
+            let piece = self.viewModel.getPiece(for: indexPath)
+            cell.configure(cell: chessBoardCell, piece: piece)
             return cell
         }
         return UICollectionViewCell()
@@ -95,7 +107,7 @@ extension ChessViewController: UICollectionViewDelegate {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ChessBoardCollectionViewCell,
               let currentTappedCell = cell.chessBoardCell
         else { return }
-        viewModel.didTapOnCell(currentTappedCell)
+        self.viewModel.didTapOnCell(currentTappedCell.location)
     }
 }
 

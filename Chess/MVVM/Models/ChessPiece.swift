@@ -8,17 +8,15 @@
 import UIKit
 import Foundation
 
-struct ChessPiece {
+struct ChessPiece: Equatable {
     let id = UUID()
     let color: ChessPieceColor
     let type: ChessPieceType
-    var location: ChessBoardLocation
     var hasMoved: Bool = false
     
-    init(color: ChessPieceColor, type: ChessPieceType, location: ChessBoardLocation) {
+    init(color: ChessPieceColor, type: ChessPieceType) {
         self.color = color
         self.type = type
-        self.location = location
     }
 }
 
@@ -61,14 +59,14 @@ extension ChessPiece {
      - Parameter fileExtension: The extension of the text file (e.g., "txt").
      - Returns: An array of ChessPiece objects, or nil if loading/parsing fails.
      */
-    static func loadPiecesFromFile(file: String) -> [ChessPiece]? {
+    static func loadPiecesFromFile(file: String) -> [ChessBoardLocation: ChessPiece]? {
         
         guard let fileMeta = Helper.getFileNameComponents(file),
             let lines = Helper.readFromFileAsLines(fileName: fileMeta[0], fileExtension: fileMeta[1])
         else {
             return nil
         }
-        var pieces: [ChessPiece] = []
+        var pieceMap: [ChessBoardLocation: ChessPiece] = [:]
         lines.forEach {
             guard let components = Helper.parseFromLine($0, componentCount: 4),
                   let color = ChessPieceColor(rawValue: components[0]),
@@ -79,10 +77,10 @@ extension ChessPiece {
                 return
             }
             let location = ChessBoardLocation(row: row, column: column)
-            let piece = ChessPiece(color: color, type: type, location: location)
-            pieces.append(piece)
+            let piece = ChessPiece(color: color, type: type)
+            pieceMap.updateValue(piece, forKey: location)
         }
-        return pieces
+        return pieceMap
     }
     
     static func loadDirectionsFromFile(file: String) -> [Direction]? {

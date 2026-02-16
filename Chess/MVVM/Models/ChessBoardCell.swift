@@ -6,20 +6,14 @@
 //
 import Foundation
 
-class ChessBoardCell: Hashable, Equatable {
+struct ChessBoardCell: Hashable, Equatable {
     let location: ChessBoardLocation
     let defaultColor: ChessBoardCellColor
     var currentColor: ChessBoardCellColor
     var currectState: ChessBoardCellState = .none
     
-    var piece: ChessPiece? {
-        didSet {
-            piece?.location = location
-        }
-    }
-    init(location: ChessBoardLocation, piece: ChessPiece? = nil) {
+    init(location: ChessBoardLocation) {
         self.location = location
-        self.piece = piece
         if ( (location.row + location.column) % 2 == 0) {
             defaultColor = .black
         } else {

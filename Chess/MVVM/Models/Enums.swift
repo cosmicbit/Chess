@@ -90,6 +90,21 @@ enum ChessBoardCellState {
     case enPassantTarget
     case lastMoveOrigin
     case lastMoveDestination
+    
+    var asset: UIImage? {
+        switch self {
+        case .selected:
+            UIImage.cellSelected
+        case .highlighted:
+            UIImage.cellHighlighted
+        case .vulnerable:
+            UIImage.cellVulnerable
+        case .check:
+            UIImage.cellCheck
+        default:
+            nil
+        }
+    }
 }
 
 enum AppTheme: Int, CaseIterable {
