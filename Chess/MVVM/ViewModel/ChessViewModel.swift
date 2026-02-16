@@ -14,7 +14,6 @@ class ChessViewModel {
     
     private(set) var mode = PlayerMode.passAndPlay
     private(set) var board = ChessBoard()
-    private(set) var lastTappedCell: ChessBoardCell?
     private(set) var lastTappedLocation: ChessBoardLocation?
     
     public weak var delegate: ChessViewModelDelegate?
@@ -67,62 +66,35 @@ class ChessViewModel {
     func resetAll() {
         print("Reseting Board.....")
         self.board = ChessBoard()
-        self.lastTappedCell = nil
         self.lastTappedLocation = nil
         self.delegate?.viewModelDidChangeBoard(self)
     }
     
     func didTapOnCell(_ currentTappedLocation: ChessBoardLocation) {
-        let currentTappedPiece = self.board.piece(at: currentTappedLocation)
         
-        
-        // 1. Handle Selection (First Tap or Tapping a new piece)
-        if self.lastTappedLocation == nil {
-            
+        // 1. If we tap a piece of the CURRENT player, always treat it as a "Selection"
+        if let piece = self.board.piece(at: currentTappedLocation), piece.color == board.gameState.currentPlayer {
             self.board.resetCellColors()
+            self.board.changeCellState(at: currentTappedLocation, with: .selected)
             
-            if let piece = currentTappedPiece {
-                if self.board.gameState.currentPlayer == piece.color {
-                    self.board.changeCellState(at: currentTappedLocation, with: .selected)
-                    let legalMoves = board.getLegalMoves(for: piece)
-                    self.highlightCells(for: legalMoves)
-                    self.lastTappedLocation = currentTappedLocation
-                    return
-                }
-                return
-            }
+            let legalMoves = self.board.getLegalMoves(for: piece)
+            self.highlightCells(for: legalMoves)
+            self.lastTappedLocation = currentTappedLocation
+            return
         }
         
-        if let location = self.lastTappedLocation {
-            let lastTappedPiece = self.board.piece(at: location)
-            if lastTappedPiece?.color == currentTappedPiece?.color {
-                self.board.resetCellColors()
-                
-                if let piece = currentTappedPiece {
-                    if self.board.gameState.currentPlayer == piece.color {
-                        self.board.changeCellState(at: currentTappedLocation, with: .selected)
-                        let legalMoves = board.getLegalMoves(for: piece)
-                        self.highlightCells(for: legalMoves)
-                        self.lastTappedLocation = currentTappedLocation
-                        return
-                    }
-                    return
-                }
-            }
-        }
-
-        // 2. Handle Move Attempt (Second Tap on an empty or enemy cell)
+        // 2. If we already have a selection and tap an empty square or enemy piece, try to move
         if let startLocation = lastTappedLocation {
             self.board.resetCellColors()
-            let result = board.attemptMove(from: startLocation, to: currentTappedLocation)
+            let result = self.board.attemptMove(from: startLocation, to: currentTappedLocation)
             
             switch result {
-            case .success(_):
-                break
+            case .success:
+                self.delegate?.viewModelDidChangeBoard(self)
             case .failure(let reason):
                 print("Move Failed: \(reason)")
+                self.delegate?.viewModelDidChangeBoard(self)
             }
-            self.delegate?.viewModelDidChangeBoard(self)
             self.lastTappedLocation = nil
         }
     }

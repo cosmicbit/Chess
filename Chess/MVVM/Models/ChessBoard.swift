@@ -23,22 +23,6 @@ struct ChessBoard {
             }
         }
     }
-    
-    func snapshot() {
-        print("--- Board Info: -----")
-        print("Cell count: \(cells.count)")
-        
-//        for i in 0..<8 {
-//            for j in 0..<8 {
-//                let locationString = cells[i][j].location.getLocationAsString()
-//                let pieceInfo = self.piece(at: ChessBoardLocation(row: i, column: j))
-//                let pieceInfo = cells[i][j].piece.map {
-//                    "Piece = \($0.color.rawValue) \($0.type.rawValue)"
-//                } ?? "Piece = Blank"
-//                print("\(locationString) has \(pieceInfo)")
-//            }
-//        }
-    }
 }
 
 //MARK: - State Changes
