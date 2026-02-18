@@ -12,29 +12,29 @@ enum ChessPieceType: String {
     func image(color: ChessPieceColor) -> UIImage {
         switch (self, color) {
         case (.king, .black):
-            return UIImage.blackKing
+            return AssetManager.Pieces.Classic.blackKing
         case (.queen, .black):
-            return .blackQueen
+            return AssetManager.Pieces.Classic.blackQueen
         case (.bishop, .black):
-            return .blackBishop
+            return AssetManager.Pieces.Classic.blackBishop
         case (.knight, .black):
-            return .blackKnight
+            return AssetManager.Pieces.Classic.blackKnight
         case (.rook, .black):
-            return .blackRook
+            return AssetManager.Pieces.Classic.blackRook
         case (.pawn, .black):
-            return .blackPawn
+            return AssetManager.Pieces.Classic.blackPawn
         case (.king, .white):
-            return .whiteKing
+            return AssetManager.Pieces.Classic.whiteKing
         case (.pawn, .white):
-            return .whitePawn
+            return AssetManager.Pieces.Classic.whitePawn
         case (.rook, .white):
-            return .whiteRook
+            return AssetManager.Pieces.Classic.whiteRook
         case (.knight, .white):
-            return .whiteKnight
+            return AssetManager.Pieces.Classic.whiteKnight
         case (.bishop, .white):
-            return .whiteBishop
+            return AssetManager.Pieces.Classic.whiteBishop
         case (.queen, .white):
-            return .whiteQueen
+            return AssetManager.Pieces.Classic.whiteQueen
         }
     }
     
@@ -63,14 +63,14 @@ enum ChessBoardCellColor {
         }
     }
     
-    var woodImage: UIImage {
+    var woodImage: UIImage? {
         switch self {
         case .black:
-            UIImage.boardWoodBlack
+            AssetManager.Cells.Wood.black
         case .white:
-            UIImage.boardWoodWhite
+            AssetManager.Cells.Wood.white
         default:
-            UIImage()
+            nil
         }
     }
 }
