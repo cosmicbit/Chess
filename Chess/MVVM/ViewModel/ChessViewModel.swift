@@ -15,8 +15,38 @@ class ChessViewModel {
     private(set) var mode = PlayerMode.passAndPlay
     private(set) var board = ChessBoard()
     private(set) var lastTappedLocation: ChessBoardLocation?
+    private(set) var playerOneCapturedPieces = [ChessPieceType : Int]()
+    private(set) var playerTwoCapturedPieces = [ChessPieceType : Int]()
     
     public weak var delegate: ChessViewModelDelegate?
+    
+    init() {
+        self.setupCapturedPiecesDictionaries()
+    }
+    
+    private func setupCapturedPiecesDictionaries() {
+        playerOneCapturedPieces = [
+            .king: 0,
+            .queen: 0,
+            .bishop: 1,
+            .knight: 0,
+            .rook: 0,
+            .pawn: 0
+        ]
+        
+        playerTwoCapturedPieces = [
+            .king: 0,
+            .queen: 0,
+            .bishop: 1,
+            .knight: 0,
+            .rook: 1,
+            .pawn: 0
+        ]
+    }
+    
+    public func getNonZeroPiecesCount(in dict: [ChessPieceType : Int]) -> Int {
+        return dict.count { $0.value != 0 }
+    }
     
     func setMode(mode: PlayerMode) {
         self.mode = mode

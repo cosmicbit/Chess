@@ -9,36 +9,32 @@ import UIKit
 
 class ChessViewController: UIViewController {
     
-    @IBOutlet private weak var collectionView: UICollectionView!
-    @IBOutlet weak var resetBoardButton: UIButton!
+    @IBOutlet private weak var playerOneCollectionView: UICollectionView!
+    @IBOutlet private weak var boardCollectionView: UICollectionView!
+    @IBOutlet private weak var playerTwoCollectionView: UICollectionView!
     
     public let viewModel = ChessViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupUI()
         self.viewModel.delegate = self
-    }
-    
-    func setupUI() {
-        self.resetBoardButton.layer.cornerRadius = 12
     }
     
     func animatePiece(from startPath: IndexPath, to endPath: IndexPath) {
         // 1. Get the starting cell and the piece's view (e.g., ImageView)
-        guard let startViewCell = self.collectionView.cellForItem(at: startPath) as? ChessBoardCollectionViewCell,
+        guard let startViewCell = self.boardCollectionView.cellForItem(at: startPath) as? ChessBoardCollectionViewCell,
               let startPieceView = startViewCell.chessPieceImageView else { return }
         
-        guard let endViewCell = self.collectionView.cellForItem(at: endPath) as? ChessBoardCollectionViewCell,
+        guard let endViewCell = self.boardCollectionView.cellForItem(at: endPath) as? ChessBoardCollectionViewCell,
               let endPieceView = endViewCell.chessPieceImageView else { return }
         
         // 2. Determine the destination frame (in the collectionView's coordinate space)
-        let endFrame = self.collectionView.convert(endPieceView.frame, from: endViewCell.contentView)
+        let endFrame = self.boardCollectionView.convert(endPieceView.frame, from: endViewCell.contentView)
 
         // 3. Move the piece view from the cell to the collectionView's root view layer
         let animatingPieceView = UIImageView(image: startPieceView.image)
-        animatingPieceView.frame = self.collectionView.convert(startPieceView.frame, from: startViewCell.contentView)
-        self.collectionView.addSubview(animatingPieceView)
+        animatingPieceView.frame = self.boardCollectionView.convert(startPieceView.frame, from: startViewCell.contentView)
+        self.boardCollectionView.addSubview(animatingPieceView)
         
         // 4. Hide the piece in the starting cell immediately
         startPieceView.isHidden = true
@@ -50,7 +46,7 @@ class ChessViewController: UIViewController {
         }, completion: { _ in
            
             animatingPieceView.removeFromSuperview()
-            self.collectionView.reloadData()
+            self.boardCollectionView.reloadData()
             
         })
     }
@@ -75,15 +71,39 @@ extension ChessViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewModel.board.cells.flatMap { $0 }.count
+        switch collectionView {
+        case boardCollectionView:
+            return self.viewModel.board.cells.flatMap { $0 }.count
+        case playerOneCollectionView:
+            return self.viewModel.getNonZeroPiecesCount(in: self.viewModel.playerOneCapturedPieces)
+        case playerTwoCollectionView:
+            return self.viewModel.getNonZeroPiecesCount(in: self.viewModel.playerTwoCapturedPieces)
+        default:
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChessBoardCollectionViewCell.id, for: indexPath) as? ChessBoardCollectionViewCell {
-            let chessBoardCell = self.viewModel.getCell(for: indexPath)
-            let piece = self.viewModel.getPiece(for: indexPath)
-            cell.configure(cell: chessBoardCell, piece: piece)
-            return cell
+        switch collectionView {
+        case boardCollectionView:
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChessBoardCollectionViewCell.id, for: indexPath) as? ChessBoardCollectionViewCell {
+                let chessBoardCell = self.viewModel.getCell(for: indexPath)
+                let piece = self.viewModel.getPiece(for: indexPath)
+                cell.configure(cell: chessBoardCell, piece: piece)
+                return cell
+            }
+        case playerOneCollectionView:
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayerOneCPCell", for: indexPath) as? CapturedPieceCell {
+                cell.configure(with: UIImage(systemName: "person.fill"))
+                return cell
+            }
+        case playerTwoCollectionView:
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayerTwoCPCell", for: indexPath) as? CapturedPieceCell {
+                cell.configure(with: UIImage(systemName: "person.fill"))
+                return cell
+            }
+        default:
+            break
         }
         return UICollectionViewCell()
     }
@@ -102,7 +122,14 @@ extension ChessViewController: UICollectionViewDelegate {
 
 extension ChessViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return self.viewModel.getCellSize(for: collectionView.bounds)
+        switch collectionView {
+        case boardCollectionView:
+            return self.viewModel.getCellSize(for: collectionView.bounds)
+        case playerOneCollectionView, playerTwoCollectionView:
+            return CGSize(width: 40, height: 40)
+        default:
+            return .zero
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -122,6 +149,6 @@ extension ChessViewController: UICollectionViewDelegateFlowLayout {
 extension ChessViewController: ChessViewModelDelegate {
     
     func viewModelDidChangeBoard(_ viewModel: ChessViewModel) {
-        self.collectionView.reloadData()
+        self.boardCollectionView.reloadData()
     }
 }
