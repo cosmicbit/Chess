@@ -39,6 +39,7 @@ struct Storyboards {
 struct TableViewCellIDs {
     static let profileCellWithAvatar = "ProfileCellWithAvatar"
     static let profileCellWithText = "ProfileCellWithText"
+    static let radioButtonCellID = "RadioButtonCell"
 }
 
 struct Strings {
