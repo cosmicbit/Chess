@@ -21,7 +21,7 @@ struct ChessPiece: Equatable {
 }
 
 extension ChessPiece {
-    var asset: UIImage {
+    var asset: UIImage? {
         self.type.image(color: self.color)
     }
 }

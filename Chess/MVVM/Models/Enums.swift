@@ -9,7 +9,7 @@ import UIKit
 enum ChessPieceType: String {
     case king, queen, bishop, knight, rook, pawn
     
-    func image(color: ChessPieceColor) -> UIImage {
+    func image(color: ChessPieceColor) -> UIImage? {
         switch (self, color) {
         case (.king, .black):
             return AssetManager.Pieces.Classic.blackKing
@@ -94,13 +94,13 @@ enum ChessBoardCellState {
     var asset: UIImage? {
         switch self {
         case .selected:
-            UIImage.cellSelected
+            AssetManager.CellStates.selected
         case .highlighted:
-            UIImage.cellHighlighted
+            AssetManager.CellStates.highlighted
         case .vulnerable:
-            UIImage.cellVulnerable
+            AssetManager.CellStates.vulnerable
         case .check:
-            UIImage.cellCheck
+            AssetManager.CellStates.check
         default:
             nil
         }

@@ -12,28 +12,33 @@ struct AssetManager {
     struct Pieces {
         
         struct Classic {
-            static let blackKing = UIImage.blackKing
-            static let blackQueen = UIImage.blackQueen
-            static let blackBishop = UIImage.blackBishop
-            static let blackKnight = UIImage.blackKnight
-            static let blackRook = UIImage.blackRook
-            static let blackPawn = UIImage.blackPawn
-            
-            static let whiteKing = UIImage.whiteKing
-            static let whiteQueen = UIImage.whiteQueen
-            static let whiteBishop = UIImage.whiteBishop
-            static let whiteKnight = UIImage.whiteKnight
-            static let whiteRook = UIImage.whiteRook
-            static let whitePawn = UIImage.whitePawn
+            static let blackKing   :UIImage? = UIImage(named: "BlackKing")
+            static let blackQueen  :UIImage? = UIImage(named: "BlackQueen")
+            static let blackBishop :UIImage? = UIImage(named: "BlackBishop")
+            static let blackKnight :UIImage? = UIImage(named: "BlackKnight")
+            static let blackRook   :UIImage? = UIImage(named: "BlackRook")
+            static let blackPawn   :UIImage? = UIImage(named: "BlackPawn")
+            static let whiteKing   :UIImage? = UIImage(named: "WhiteKing")
+            static let whiteQueen  :UIImage? = UIImage(named: "WhiteQueen")
+            static let whiteBishop :UIImage? = UIImage(named: "WhiteBishop")
+            static let whiteKnight :UIImage? = UIImage(named: "WhiteKnight")
+            static let whiteRook   :UIImage? = UIImage(named: "WhiteRook")
+            static let whitePawn   :UIImage? = UIImage(named: "WhitePawn")
         }
-        
     }
     
     struct Cells {
         struct Wood {
-            static let black = UIImage.boardWoodBlack
-            static let white = UIImage.boardWoodWhite
+            static let black :UIImage? = UIImage(named: "board_wood_black")?.resized(to: CGSize(width: 100, height: 100))
+            static let white :UIImage? = UIImage(named: "board_wood_white")?.resized(to: CGSize(width: 100, height: 100))
         }
+    }
+    
+    struct CellStates {
+        static let check       = UIImage(named: "cell_check")
+        static let highlighted = UIImage(named: "cell_highlighted")
+        static let selected    = UIImage(named: "cell_selected")
+        static let vulnerable  = UIImage(named: "cell_vulnerable")
     }
 
     static func downsample(imageAt imageURL: URL, to pointSize: CGSize, scale: CGFloat = UIScreen.main.scale) -> UIImage? {
