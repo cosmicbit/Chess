@@ -33,8 +33,8 @@ class SettingsDetailViewController: UIViewController {
     }
     
     private func setupBindings() {
-        self.viewModel.didChangeAppTheme = {
-            if let sceneDelegate = self.view.window?.windowScene?.delegate as? SceneDelegate {
+        self.viewModel.didChangeAppTheme = { [weak self] in
+            if let sceneDelegate = self?.view.window?.windowScene?.delegate as? SceneDelegate {
                 sceneDelegate.setAppTheme()
             }
         }
