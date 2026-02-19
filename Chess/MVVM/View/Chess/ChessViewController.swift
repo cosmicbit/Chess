@@ -21,7 +21,9 @@ class ChessViewController: UIViewController {
     }
     
     @IBAction func closeButtonTapped(_ sender: Any) {
-        self.showAlert(title: "Are you sure want to exit?", message: "The game progress will be lost") { [weak self] ok in
+        self.showAlert(title: Strings.Alerts.chessGameExitAlertTitle,
+                       message: Strings.Alerts.chessGameExitAlertMessage
+        ) { [weak self] ok in
             if ok {
                 self?.navigationController?.popViewController(animated: true)
             }
@@ -85,7 +87,6 @@ extension ChessViewController: UICollectionViewDataSource {
 
 extension ChessViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         guard let cell = collectionView.cellForItem(at: indexPath) as? ChessBoardCollectionViewCell,
               let currentTappedCell = cell.chessBoardCell
         else { return }
