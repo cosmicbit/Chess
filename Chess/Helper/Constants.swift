@@ -65,6 +65,11 @@ struct Strings {
     static let modeTitles = [
         "Online", "Pass And Play", "Play vs Computer"
     ]
+    
+    struct Alerts {
+        static let chessGameExitAlertTitle = "Are you sure want to exit?"
+        static let chessGameExitAlertMessage = "The game progress will be lost"
+    }
 }
 
 struct SystemImageNames {
