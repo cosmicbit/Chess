@@ -20,37 +20,6 @@ class ChessViewController: UIViewController {
         self.viewModel.delegate = self
     }
     
-    func animatePiece(from startPath: IndexPath, to endPath: IndexPath) {
-        // 1. Get the starting cell and the piece's view (e.g., ImageView)
-        guard let startViewCell = self.boardCollectionView.cellForItem(at: startPath) as? ChessBoardCollectionViewCell,
-              let startPieceView = startViewCell.chessPieceImageView else { return }
-        
-        guard let endViewCell = self.boardCollectionView.cellForItem(at: endPath) as? ChessBoardCollectionViewCell,
-              let endPieceView = endViewCell.chessPieceImageView else { return }
-        
-        // 2. Determine the destination frame (in the collectionView's coordinate space)
-        let endFrame = self.boardCollectionView.convert(endPieceView.frame, from: endViewCell.contentView)
-
-        // 3. Move the piece view from the cell to the collectionView's root view layer
-        let animatingPieceView = UIImageView(image: startPieceView.image)
-        animatingPieceView.frame = self.boardCollectionView.convert(startPieceView.frame, from: startViewCell.contentView)
-        self.boardCollectionView.addSubview(animatingPieceView)
-        
-        // 4. Hide the piece in the starting cell immediately
-        startPieceView.isHidden = true
-        
-        // 5. Animate the piece
-        UIView.animate(withDuration: 0.3, animations: {
-            // Move the animating view to the target cell's frame
-            animatingPieceView.frame = endFrame
-        }, completion: { _ in
-           
-            animatingPieceView.removeFromSuperview()
-            self.boardCollectionView.reloadData()
-            
-        })
-    }
-    
     @IBAction func closeButtonTapped(_ sender: Any) {
         self.showAlert(title: "Are you sure want to exit?", message: "The game progress will be lost") { [weak self] ok in
             if ok {
@@ -93,12 +62,16 @@ extension ChessViewController: UICollectionViewDataSource {
                 return cell
             }
         case playerOneCollectionView:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayerOneCPCell", for: indexPath) as? CapturedPieceCell {
+            if let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CollectionViewCellIDS.PlayerOneCPCell,
+                for: indexPath) as? CapturedPieceCell {
                 cell.configure(with: UIImage(systemName: "person.fill"))
                 return cell
             }
         case playerTwoCollectionView:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayerTwoCPCell", for: indexPath) as? CapturedPieceCell {
+            if let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CollectionViewCellIDS.PlayerTwoCPCell,
+                for: indexPath) as? CapturedPieceCell {
                 cell.configure(with: UIImage(systemName: "person.fill"))
                 return cell
             }

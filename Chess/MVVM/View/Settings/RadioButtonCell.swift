@@ -9,7 +9,7 @@ import UIKit
 
 class RadioButtonCell: UITableViewCell {
 
-    static let id = TableViewCellIDs.radioButtonCellID
+    static let id = TableViewCellIDs.RadioButtonCell
     
     @IBOutlet private weak var optionNameLabel: UILabel!
     @IBOutlet private weak var selectionStatusImageView: UIImageView!

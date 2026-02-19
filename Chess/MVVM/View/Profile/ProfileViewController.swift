@@ -55,7 +55,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     private func getHeaderCell(for indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIDs.profileCellWithAvatar, for: indexPath) as? ProfileTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIDs.ProfileCellWithAvatar, for: indexPath) as? ProfileTableViewCell else {
             return UITableViewCell()
         }
         cell.configure(avatar: self.viewModel.currentUser.avatar)
@@ -64,7 +64,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     private func getTextFieldCell(for indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIDs.profileCellWithText, for: indexPath) as? ProfileTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIDs.ProfileCellWithText, for: indexPath) as? ProfileTableViewCell else {
             return UITableViewCell()
         }
         cell.configure(item: self.viewModel.items[indexPath.row - 1])

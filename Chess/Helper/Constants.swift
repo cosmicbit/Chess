@@ -36,10 +36,15 @@ struct Storyboards {
     }
 }
 
+struct CollectionViewCellIDS {
+    static let PlayerOneCPCell = "PlayerOneCPCell"
+    static let PlayerTwoCPCell = "PlayerTwoCPCell"
+}
+
 struct TableViewCellIDs {
-    static let profileCellWithAvatar = "ProfileCellWithAvatar"
-    static let profileCellWithText = "ProfileCellWithText"
-    static let radioButtonCellID = "RadioButtonCell"
+    static let ProfileCellWithAvatar = "ProfileCellWithAvatar"
+    static let ProfileCellWithText = "ProfileCellWithText"
+    static let RadioButtonCell = "RadioButtonCell"
 }
 
 struct Strings {
