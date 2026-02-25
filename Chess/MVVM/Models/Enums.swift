@@ -6,7 +6,7 @@
 //
 import UIKit
 
-enum ChessPieceType: String {
+enum ChessPieceType: String, Hashable {
     case king, queen, bishop, knight, rook, pawn
     
     func image(color: ChessPieceColor) -> UIImage? {

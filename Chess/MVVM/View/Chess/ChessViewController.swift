@@ -100,7 +100,7 @@ extension ChessViewController: UICollectionViewDelegateFlowLayout {
         case boardCollectionView:
             return self.viewModel.getCellSize(for: collectionView.bounds)
         case playerOneCollectionView, playerTwoCollectionView:
-            return CGSize(width: 40, height: 40)
+            return CGSize(width: 40, height: 50)
         default:
             return .zero
         }
@@ -111,8 +111,7 @@ extension ChessViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        let cellSpacing: CGFloat = 0.5
-        return cellSpacing
+        return 0.5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
