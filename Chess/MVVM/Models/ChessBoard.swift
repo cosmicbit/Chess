@@ -79,7 +79,7 @@ extension ChessBoard {
         guard isInBounds(loc: target) else { return nil }
         
         if let targetPiece = self.piece(at: target) {
-            return targetPiece.color != piece.color ? ChessMove(start: start, end: target, piece: piece, direction: dir, isAttacking: true) : nil
+            return targetPiece.color != piece.color ? ChessMove(start: start, end: target, piece: piece, direction: dir, isAttacking: true, capturedPiece: targetPiece) : nil
         }
         return ChessMove(start: start, end: target, piece: piece, direction: dir, isAttacking: false)
     }
