@@ -13,8 +13,9 @@ class CapturedPieceCell: UICollectionViewCell {
     @IBOutlet private weak var chessPieceImageView: UIImageView!
     
     
-    public func configure(with image: UIImage? = nil) {
+    public func configure(with image: UIImage? = nil, and count: Int = 0) {
         chessPieceImageView?.image = image
+        chessPieceCount?.text = "\(count)"
     }
 
     override func awakeFromNib() {
