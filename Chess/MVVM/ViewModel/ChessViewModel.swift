@@ -4,10 +4,12 @@
 //
 //  Created by Philips Jose on 06/11/25.
 //
-import UIKit
+import Foundation
+import CoreGraphics
 
 protocol ChessViewModelDelegate: AnyObject {
     func viewModelDidChangeBoard(_ viewModel: ChessViewModel)
+    func viewModelDidCapturePiece(_ viewModel: ChessViewModel, capturedPieceArray: [CapturedPiece])
 }
 
 class ChessViewModel {
@@ -15,52 +17,36 @@ class ChessViewModel {
     private(set) var mode = PlayerMode.passAndPlay
     private(set) var board = ChessBoard()
     private(set) var lastTappedLocation: ChessBoardLocation?
-    private(set) var playerOneCapturedPieces = [ChessPieceType : Int]()
-    private(set) var playerTwoCapturedPieces = [ChessPieceType : Int]()
+    private(set) var playerOneCapturedPieces = [CapturedPiece]()
+    private(set) var playerTwoCapturedPieces = [CapturedPiece]()
     
     public weak var delegate: ChessViewModelDelegate?
     
     init() {
-        self.setupCapturedPiecesDictionaries()
+
     }
     
-    private func setupCapturedPiecesDictionaries() {
-        playerOneCapturedPieces = [
-            .king: 0,
-            .queen: 0,
-            .bishop: 1,
-            .knight: 0,
-            .rook: 0,
-            .pawn: 0
-        ]
-        
-        playerTwoCapturedPieces = [
-            .king: 0,
-            .queen: 0,
-            .bishop: 1,
-            .knight: 0,
-            .rook: 1,
-            .pawn: 0
-        ]
+    public func getCapturedPieceCellID(isPlayerOne: Bool) -> String {
+        isPlayerOne ? CollectionViewCellIDS.PlayerOneCPCell : CollectionViewCellIDS.PlayerTwoCPCell
     }
     
-    public func getNonZeroPiecesCount(in dict: [ChessPieceType : Int]) -> Int {
-        return dict.count { $0.value != 0 }
+    public func getCapturedPieceData(isPlayerOne: Bool, index: Int) -> CapturedPiece {
+        isPlayerOne ? self.playerOneCapturedPieces[index] : self.playerTwoCapturedPieces[index]
     }
     
     func setMode(mode: PlayerMode) {
         self.mode = mode
     }
     
-    func getCell(for indexPath: IndexPath) -> ChessBoardCell {
-        let rowIndex = indexPath.item / 8
-        let columnIndex = indexPath.item % 8
+    func getCell(for index: Int) -> ChessBoardCell {
+        let rowIndex = index / 8
+        let columnIndex = index % 8
         return self.board.cells[rowIndex][columnIndex]
     }
     
-    func getPiece(for indexPath: IndexPath) -> ChessPiece? {
-        let rowIndex = indexPath.item / 8
-        let columnIndex = indexPath.item % 8
+    func getPiece(for index: Int) -> ChessPiece? {
+        let rowIndex = index / 8
+        let columnIndex = index % 8
         return self.board.piece(at: .init(row: rowIndex, column: columnIndex))
     }
     
@@ -68,12 +54,12 @@ class ChessViewModel {
         return self.board.piece(at: cell.location)
     }
     
-    func getIndexPath(for location: ChessBoardLocation) -> IndexPath {
+    func getIndexPath(for location: ChessBoardLocation) -> Int {
         let item = location.row * 8 + location.column
-        return IndexPath(item: item, section: 0)
+        return item
     }
  
-    func getCellSize(for collectionViewBounds: CGRect) -> CGSize{
+    func getCellSize(for collectionViewBounds: CGRect) -> CGSize {
         let cellSpacing: CGFloat = 0.5
         let marginSpacing: CGFloat = 0
         let numberOfCellsInARow: CGFloat = 8
@@ -120,13 +106,31 @@ class ChessViewModel {
             let result = self.board.attemptMove(from: startLocation, to: currentTappedLocation)
             
             switch result {
-            case .success:
+            case .success(let move):
+                if let capturedPiece = move.capturedPiece {
+                    if capturedPiece.color == .white {
+                        self.updateCapturedList(piece: capturedPiece, in: &playerOneCapturedPieces)
+                        self.delegate?.viewModelDidCapturePiece(self, capturedPieceArray: playerOneCapturedPieces)
+                    } else {
+                        self.updateCapturedList(piece: capturedPiece, in: &playerTwoCapturedPieces)
+                        self.delegate?.viewModelDidCapturePiece(self, capturedPieceArray: playerTwoCapturedPieces)
+                    }
+                }
                 self.delegate?.viewModelDidChangeBoard(self)
             case .failure(let reason):
                 print("Move Failed: \(reason)")
                 self.delegate?.viewModelDidChangeBoard(self)
             }
             self.lastTappedLocation = nil
+        }
+    }
+    
+    func updateCapturedList(piece: ChessPiece, in list: inout [CapturedPiece])   {
+        if let index = list.firstIndex(where: { $0.type == piece.type && $0.color == piece.color }) {
+            list[index].count += 1
+        } else {
+            let newCaptured = CapturedPiece(type: piece.type, color: piece.color , count: 1)
+            list.append(newCaptured)
         }
     }
     

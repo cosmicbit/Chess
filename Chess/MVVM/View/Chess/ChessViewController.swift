@@ -46,41 +46,35 @@ extension ChessViewController: UICollectionViewDataSource {
         case boardCollectionView:
             return self.viewModel.board.cells.flatMap { $0 }.count
         case playerOneCollectionView:
-            return self.viewModel.getNonZeroPiecesCount(in: self.viewModel.playerOneCapturedPieces)
+            return self.viewModel.playerOneCapturedPieces.count
         case playerTwoCollectionView:
-            return self.viewModel.getNonZeroPiecesCount(in: self.viewModel.playerTwoCapturedPieces)
+            return self.viewModel.playerTwoCapturedPieces.count
         default:
             return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch collectionView {
-        case boardCollectionView:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChessBoardCollectionViewCell.id, for: indexPath) as? ChessBoardCollectionViewCell {
-                let chessBoardCell = self.viewModel.getCell(for: indexPath)
-                let piece = self.viewModel.getPiece(for: indexPath)
-                cell.configure(cell: chessBoardCell, piece: piece)
-                return cell
-            }
-        case playerOneCollectionView:
-            if let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: CollectionViewCellIDS.PlayerOneCPCell,
-                for: indexPath) as? CapturedPieceCell {
-                cell.configure(with: UIImage(systemName: "person.fill"))
-                return cell
-            }
-        case playerTwoCollectionView:
-            if let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: CollectionViewCellIDS.PlayerTwoCPCell,
-                for: indexPath) as? CapturedPieceCell {
-                cell.configure(with: UIImage(systemName: "person.fill"))
-                return cell
-            }
-        default:
-            break
+        
+        if collectionView == boardCollectionView {
+            return self.configureBoardCell(for: collectionView, at: indexPath)
         }
-        return UICollectionViewCell()
+        return self.configureCapturedPieceCell(for: collectionView, at: indexPath)
+    }
+    
+    private func configureBoardCell(for cv: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = cv.dequeueReusableCell(withReuseIdentifier: ChessBoardCollectionViewCell.id, for: indexPath) as! ChessBoardCollectionViewCell
+        cell.configure(cell: viewModel.getCell(for: indexPath.item), piece: viewModel.getPiece(for: indexPath.item))
+        return cell
+    }
+    
+    private func configureCapturedPieceCell(for cv: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        let isPlayerOne = (cv == playerOneCollectionView)
+        let id = viewModel.getCapturedPieceCellID(isPlayerOne: isPlayerOne)
+        let data = self.viewModel.getCapturedPieceData(isPlayerOne: isPlayerOne, index: indexPath.item)
+        let cell = cv.dequeueReusableCell(withReuseIdentifier: id, for: indexPath) as! CapturedPieceCell
+        cell.configure(with: data.type.image(color: data.color), and: data.count)
+        return cell
     }
     
 }
@@ -123,5 +117,16 @@ extension ChessViewController: ChessViewModelDelegate {
     
     func viewModelDidChangeBoard(_ viewModel: ChessViewModel) {
         self.boardCollectionView.reloadData()
+    }
+    
+    func viewModelDidCapturePiece(_ viewModel: ChessViewModel, capturedPieceArray: [CapturedPiece]) {
+        switch capturedPieceArray {
+        case self.viewModel.playerOneCapturedPieces:
+            self.playerOneCollectionView.reloadData()
+        case self.viewModel.playerTwoCapturedPieces:
+            self.playerTwoCollectionView.reloadData()
+        default:
+            break
+        }
     }
 }
