@@ -18,9 +18,4 @@ class CapturedPieceCell: UICollectionViewCell {
         chessPieceCount?.text = "\(count)"
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
 }

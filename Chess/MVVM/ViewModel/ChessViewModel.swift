@@ -22,10 +22,6 @@ class ChessViewModel {
     
     public weak var delegate: ChessViewModelDelegate?
     
-    init() {
-
-    }
-    
     public func getCapturedPieceCellID(isPlayerOne: Bool) -> String {
         isPlayerOne ? CollectionViewCellIDS.PlayerOneCPCell : CollectionViewCellIDS.PlayerTwoCPCell
     }
