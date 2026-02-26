@@ -45,4 +45,32 @@ extension UIView {
             return self.layer.cornerRadius == self.frame.height / 2
         }
     }
+    
+    @IBInspectable var borderWidth: CGFloat {
+        set {
+            self.layer.borderWidth = newValue
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                self.layer.borderWidth = newValue
+            }
+        }
+        get {
+            return self.layer.borderWidth
+        }
+    }
+    
+    @IBInspectable var borderColor: UIColor {
+        set {
+            self.layer.borderColor = newValue.cgColor
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                self.layer.borderColor = newValue.cgColor
+            }
+        }
+        get {
+            if let color = self.layer.borderColor {
+                return UIColor(cgColor: color)
+            } else {
+                return UIColor.clear
+            }
+        }
+    }
 }
