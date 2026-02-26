@@ -10,7 +10,7 @@ import UIKit
 
 class ShatterAnimator {
     
-    static func massiveShatter(view: UIView, rows: Int, cols: Int) {
+    static func massiveShatter(view: UIView, rows: Int = 20, cols: Int = 20, completion: @escaping ()->Void = {}) {
         guard let container = view.superview, let image = view.snapshotToImage() else { return }
         
         let frame = view.frame
@@ -31,6 +31,7 @@ class ShatterAnimator {
             }
             createdLayers.removeAll()
             print("Cleanup complete: Thousands of layers removed.")
+            completion()
         }
 
         for row in 0..<rows {

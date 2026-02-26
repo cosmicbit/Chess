@@ -24,6 +24,10 @@ class ChessBoardCollectionViewCell: UICollectionViewCell {
         self.setupUI()
     }
     
+    public func shatterPiece(completion: @escaping () -> Void = {}) {
+        ShatterAnimator.massiveShatter(view: chessPieceImageView)
+    }
+    
     private func setupUI() {
         guard let cell = self.chessBoardCell else { return }
         self.chessPieceImageView?.image = self.chessPiece?.asset

@@ -9,7 +9,7 @@ import CoreGraphics
 
 protocol ChessViewModelDelegate: AnyObject {
     func viewModelDidChangeBoard(_ viewModel: ChessViewModel)
-    func viewModelDidCapturePiece(_ viewModel: ChessViewModel, capturedPieceArray: [CapturedPiece])
+    func viewModelDidCapturePiece(_ viewModel: ChessViewModel, capturedPieceArray: [CapturedPiece], move: ChessMove)
 }
 
 class ChessViewModel {
@@ -50,9 +50,9 @@ class ChessViewModel {
         return self.board.piece(at: cell.location)
     }
     
-    func getIndexPath(for location: ChessBoardLocation) -> Int {
+    func getIndexPath(for location: ChessBoardLocation) -> IndexPath {
         let item = location.row * 8 + location.column
-        return item
+        return IndexPath(indexes: [0, item])
     }
  
     func getCellSize(for collectionViewBounds: CGRect) -> CGSize {
@@ -106,10 +106,10 @@ class ChessViewModel {
                 if let capturedPiece = move.capturedPiece {
                     if capturedPiece.color == .white {
                         self.updateCapturedList(piece: capturedPiece, in: &playerOneCapturedPieces)
-                        self.delegate?.viewModelDidCapturePiece(self, capturedPieceArray: playerOneCapturedPieces)
+                        self.delegate?.viewModelDidCapturePiece(self, capturedPieceArray: playerOneCapturedPieces, move: move)
                     } else {
                         self.updateCapturedList(piece: capturedPiece, in: &playerTwoCapturedPieces)
-                        self.delegate?.viewModelDidCapturePiece(self, capturedPieceArray: playerTwoCapturedPieces)
+                        self.delegate?.viewModelDidCapturePiece(self, capturedPieceArray: playerTwoCapturedPieces, move: move)
                     }
                 }
                 self.delegate?.viewModelDidChangeBoard(self)

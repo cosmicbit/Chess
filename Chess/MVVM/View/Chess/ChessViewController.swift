@@ -119,7 +119,13 @@ extension ChessViewController: ChessViewModelDelegate {
         self.boardCollectionView.reloadData()
     }
     
-    func viewModelDidCapturePiece(_ viewModel: ChessViewModel, capturedPieceArray: [CapturedPiece]) {
+    func viewModelDidCapturePiece(_ viewModel: ChessViewModel, capturedPieceArray: [CapturedPiece], move: ChessMove) {
+        if let piece = move.capturedPiece {
+            let end = move.endLocation
+            let indexPath = self.viewModel.getIndexPath(for: end)
+            let cell = self.boardCollectionView.cellForItem(at: indexPath) as! ChessBoardCollectionViewCell
+            //cell.shatterPiece()
+        }
         switch capturedPieceArray {
         case self.viewModel.playerOneCapturedPieces:
             self.playerOneCollectionView.reloadData()
