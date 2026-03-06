@@ -179,6 +179,11 @@
                                                                 <constraint firstAttribute="width" secondItem="OFP-zs-W9M" secondAttribute="height" multiplier="1:1" id="Gir-ZI-hti"/>
                                                             </constraints>
                                                         </imageView>
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vnN-cI-9x7">
+                                                            <rect key="frame" x="0.0" y="0.0" width="7.666666666666667" height="14.333333333333334"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="cNq-iG-9oK" firstAttribute="top" secondItem="x2w-yl-8TI" secondAttribute="top" id="1NT-6Z-0Ri"/>
@@ -186,8 +191,10 @@
                                                         <constraint firstAttribute="trailing" secondItem="cNq-iG-9oK" secondAttribute="trailing" id="9oL-4g-rAW"/>
                                                         <constraint firstItem="OFP-zs-W9M" firstAttribute="centerY" secondItem="x2w-yl-8TI" secondAttribute="centerY" id="FaB-Uc-DF6"/>
                                                         <constraint firstAttribute="trailing" secondItem="X7P-NM-bhY" secondAttribute="trailing" id="OJ8-Tg-L0z"/>
+                                                        <constraint firstItem="vnN-cI-9x7" firstAttribute="leading" secondItem="x2w-yl-8TI" secondAttribute="leading" id="P00-t6-Zgo"/>
                                                         <constraint firstItem="OFP-zs-W9M" firstAttribute="centerX" secondItem="x2w-yl-8TI" secondAttribute="centerX" id="Pw6-Ym-dXA"/>
                                                         <constraint firstItem="X7P-NM-bhY" firstAttribute="leading" secondItem="x2w-yl-8TI" secondAttribute="leading" id="TWR-Bg-jLn"/>
+                                                        <constraint firstItem="vnN-cI-9x7" firstAttribute="top" secondItem="x2w-yl-8TI" secondAttribute="top" id="WE6-Fe-Yy6"/>
                                                         <constraint firstItem="OFP-zs-W9M" firstAttribute="width" secondItem="x2w-yl-8TI" secondAttribute="width" multiplier="0.95" id="Zfr-lg-v5R"/>
                                                         <constraint firstAttribute="bottom" secondItem="X7P-NM-bhY" secondAttribute="bottom" id="iGi-ih-Ng7"/>
                                                         <constraint firstAttribute="bottom" secondItem="cNq-iG-9oK" secondAttribute="bottom" id="jgX-ZX-vrC"/>
@@ -197,6 +204,7 @@
                                                 <connections>
                                                     <outlet property="backgroundImageView" destination="X7P-NM-bhY" id="Iad-gk-iDQ"/>
                                                     <outlet property="chessPieceImageView" destination="OFP-zs-W9M" id="deL-Ul-4Sm"/>
+                                                    <outlet property="idLabel" destination="vnN-cI-9x7" id="bEu-5x-PIS"/>
                                                     <outlet property="stateImageView" destination="cNq-iG-9oK" id="5Fx-cx-qdJ"/>
                                                 </connections>
                                             </collectionViewCell>
