@@ -30,8 +30,7 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func settingsButtonTapped(_ sender: Any) {
-        let settings = UIStoryboard(name: Storyboards.settings, bundle: .main)
-        let settingsVC = settings.instantiateViewController(withIdentifier: Storyboards.Identifiers.settingsVC)
+        let settingsVC = UIStoryboard.instantiate(SettingsViewController.self, from: Storyboards.settings)
         settingsVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(settingsVC, animated: true)
     }

@@ -88,8 +88,7 @@ class ModeSelectionViewController: UIViewController {
                let mode = PlayerMode.allCases.first(where: {$0.string == text}) {
                 AppPreferences.shared.currentPlayerMode = mode
                 if mode == .passAndPlay {
-                    let mainSB = UIStoryboard(name: Storyboards.main, bundle: .main)
-                    let chessVC = mainSB.instantiateViewController(withIdentifier: Storyboards.Identifiers.chessVC)
+                    let chessVC = UIStoryboard.instantiate(ChessViewController.self, from: Storyboards.main)
                     chessVC.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(chessVC, animated: true)
                 } else {

@@ -18,11 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        let splashSB = UIStoryboard(
-            name: Storyboards.splash,
-            bundle: .main
-        )
-        window.rootViewController = splashSB.instantiateInitialViewController()
+        window.rootViewController = UIStoryboard.instantiate(SplashViewController.self, from: Storyboards.splash)
         self.window = window
         window.makeKeyAndVisible()
         self.setAppTheme()

@@ -74,11 +74,10 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         let setting = self.viewModel.sections[indexPath.section].items[indexPath.row]
         if setting.details.type == .navigation {
-            let sb = UIStoryboard(name: Storyboards.settings, bundle: .main)
-            if let vc = sb.instantiateViewController(withIdentifier: Storyboards.Identifiers.settingsDetailVC) as? SettingsDetailViewController {
-                vc.viewModel.currentSetting = setting
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
+            let vc = UIStoryboard.instantiate(SettingsDetailViewController.self, from: Storyboards.settings)
+            vc.viewModel.currentSetting = setting
+            self.navigationController?.pushViewController(vc, animated: true)
+            
         }
     }
 }
