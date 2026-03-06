@@ -28,6 +28,7 @@ struct Storyboards {
         static let splashVC = "SplashViewController"
         static let chessVC = "ChessViewController"
         static let setttingsVC = "SettingsViewController"
+        static let profileVC = "ProfileViewController"
         static let settingsDetailVC = "SettingsDetailViewController"
     }
     
