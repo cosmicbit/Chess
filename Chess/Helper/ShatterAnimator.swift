@@ -10,7 +10,7 @@ import UIKit
 
 class ShatterAnimator {
     
-    static func massiveShatter(view: UIView, rows: Int = 20, cols: Int = 20, completion: @escaping ()->Void = {}) {
+    static func massiveShatter(view: UIView, rows: Int = 20, cols: Int = 20, gravity: Int = 1, completion: @escaping ()->Void = {}) {
         guard let container = view.superview, let image = view.snapshotToImage() else { return }
         
         let frame = view.frame
@@ -57,12 +57,12 @@ class ShatterAnimator {
         CATransaction.commit()
     }
     
-    static func addShatterAnimation(to layer: CALayer) {
+    static func addShatterAnimation(to layer: CALayer, gravity: Int = 1) {
         let duration = Double.random(in: 0.7...1.5)
         
-        // Movement: Random X blast, and a Y drop (simulating gravity)
         let xBlast = CGFloat.random(in: -150...150)
-        let yDrop = CGFloat.random(in: 200...400) // Positive Y goes down in iOS
+        let baseDrop = CGFloat.random(in: -150...150)
+        let yDrop = baseDrop * CGFloat(max(1, gravity))
         
         let animGroup = CAAnimationGroup()
         animGroup.duration = duration
