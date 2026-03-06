@@ -64,7 +64,10 @@ extension ChessViewController: UICollectionViewDataSource {
     
     private func configureBoardCell(for cv: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = cv.dequeueReusableCell(withReuseIdentifier: ChessBoardCollectionViewCell.id, for: indexPath) as! ChessBoardCollectionViewCell
-        cell.configure(cell: viewModel.getCell(for: indexPath.item), piece: viewModel.getPiece(for: indexPath.item))
+        cell.configure(cell: viewModel.getCell(for: indexPath.item),
+                       piece: viewModel.getPiece(for: indexPath.item),
+                       at: indexPath
+        )
         return cell
     }
     
@@ -120,11 +123,11 @@ extension ChessViewController: ChessViewModelDelegate {
     }
     
     func viewModelDidCapturePiece(_ viewModel: ChessViewModel, capturedPieceArray: [CapturedPiece], move: ChessMove) {
-        if let piece = move.capturedPiece {
+        if let _ = move.capturedPiece {
             let end = move.endLocation
             let indexPath = self.viewModel.getIndexPath(for: end)
             let cell = self.boardCollectionView.cellForItem(at: indexPath) as! ChessBoardCollectionViewCell
-            //cell.shatterPiece()
+            handlePieceCaptureAnimation(imageView: cell.chessPieceImageView)
         }
         switch capturedPieceArray {
         case self.viewModel.playerOneCapturedPieces:
@@ -133,6 +136,20 @@ extension ChessViewController: ChessViewModelDelegate {
             self.playerTwoCollectionView.reloadData()
         default:
             break
+        }
+    }
+    
+    private func handlePieceCaptureAnimation(imageView: UIImageView) {
+        let scatterPieceImageView = UIImageView(image: imageView.image)
+        scatterPieceImageView.contentMode = .scaleAspectFill
+        scatterPieceImageView.clipsToBounds = true
+        self.boardCollectionView.addSubview(scatterPieceImageView)
+        
+        let toBeScatterPieceFrame = imageView.convert(imageView.bounds, to: self.boardCollectionView)
+        scatterPieceImageView.frame = toBeScatterPieceFrame
+        
+        ShatterAnimator.massiveShatter(view: scatterPieceImageView, rows: 20, cols: 20) {
+            scatterPieceImageView.removeFromSuperview()
         }
     }
 }
