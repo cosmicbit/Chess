@@ -4,7 +4,12 @@
 //
 //  Created by Philips Jose on 06/03/26.
 //
+import UIKit
 
+protocol Coordinator: AnyObject {
+    var navigationController: UINavigationController { get set }
+    func start()
+}
 
 class MainCoordinator: Coordinator {
     var navigationController: UINavigationController // Not used for tabs, but required by protocol
@@ -20,21 +25,33 @@ class MainCoordinator: Coordinator {
 
     func start() {
         // 1. Setup Home Tab
-        let homeNav = UINavigationController()
-        let homeCoordinator = HomeCoordinator(navigationController: homeNav)
+        let playNav = UINavigationController()
+        let playCoordinator = PlayCoordinator(navigationController: playNav)
         
         // 2. Setup Settings Tab
-        let settingsNav = UINavigationController()
-        let settingsCoordinator = SettingsCoordinator(navigationController: settingsNav)
+        let profileNav = UINavigationController()
+        let profileCoordinator = ProfileCoordinator(navigationController: profileNav)
 
         // 3. Start Child Coordinators
-        childCoordinators.append(homeCoordinator)
-        childCoordinators.append(settingsCoordinator)
+        self.childCoordinators.append(playCoordinator)
+        self.childCoordinators.append(profileCoordinator)
         
-        homeCoordinator.start()
-        settingsCoordinator.start()
+        playCoordinator.start()
+        profileCoordinator.start()
 
         // 4. Set the Tab Bar's ViewControllers
-        tabBarController.viewControllers = [homeNav, settingsNav]
+        self.tabBarController.viewControllers = [playNav, profileNav]
+    }
+    
+    private func configureAppearance() {
+        self.tabBarController.tabBar.tintColor = .link
+        self.tabBarController.tabBar.unselectedItemTintColor = .lightGray
+        
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .secondarySystemBackground
+        
+        self.tabBarController.tabBar.standardAppearance = appearance
+        self.tabBarController.tabBar.scrollEdgeAppearance = appearance
     }
 }

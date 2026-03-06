@@ -20,6 +20,7 @@ class ModeSelectionViewController: UIViewController {
     @IBOutlet private weak var navBar: UIView!
     @IBOutlet private weak var titleLabel: UILabel!
     
+    weak var coordinator: Coordinator?
     private var optionButtons: [UIButton] = []
     
     private let stackView: UIStackView = {

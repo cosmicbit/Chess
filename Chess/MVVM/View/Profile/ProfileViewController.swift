@@ -11,6 +11,7 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet private weak var tableView: UITableView!
     
+    weak var coordinator: Coordinator?
     private let viewModel = ProfileViewModel()
 
     override func viewDidLoad() {
