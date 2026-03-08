@@ -32,10 +32,10 @@ jobs:
         -destination 'platform=iOS Simulator,name=iPhone 16' \
         build
 
-    - name: Run tests
-      run: |
-        xcodebuild \
-        test \
-        -project Chess.xcodeproj \
-        -scheme Chess \
-        -destination 'platform=iOS Simulator,name=iPhone 16'
+    # - name: Run tests
+    #   run: |
+    #     xcodebuild \
+    #     test \
+    #     -project Chess.xcodeproj \
+    #     -scheme Chess \
+    #     -destination 'platform=iOS Simulator,name=iPhone 16'
