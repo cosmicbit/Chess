@@ -38,4 +38,4 @@ jobs:
         test \
         -project Chess.xcodeproj \
         -scheme Chess \
-        -destination 'platform=iOS Simulator,name=iPhone 15'
+        -destination 'platform=iOS Simulator,name=iPhone 16'
