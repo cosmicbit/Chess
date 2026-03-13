@@ -11,16 +11,30 @@ protocol Coordinator: AnyObject {
     func start()
 }
 
+enum TabBar: Int, CaseIterable {
+    case play, profile, settings
+    var title: String {
+        return Strings.TabBarTitles[self.rawValue]
+    }
+    
+    var imageName: String {
+        return SystemImageNames.TabBarImages[self.rawValue]
+    }
+    
+    var systemImage: UIImage? {
+        return UIImage(systemName: self.imageName)
+    }
+}
+
 class MainCoordinator: Coordinator {
-    var navigationController: UINavigationController // Not used for tabs, but required by protocol
+    var navigationController: UINavigationController = UINavigationController() // Not used for tabs, but required by protocol
     var tabBarController: UITabBarController
     
     // Keep track of child coordinators so they aren't deallocated
     var childCoordinators = [Coordinator]()
 
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-        self.tabBarController = UITabBarController()
+    init(tabBarController: UITabBarController) {
+        self.tabBarController = tabBarController
     }
 
     func start() {
@@ -41,6 +55,13 @@ class MainCoordinator: Coordinator {
 
         // 4. Set the Tab Bar's ViewControllers
         self.tabBarController.viewControllers = [playNav, profileNav]
+    }
+    
+    private func createNav(with item: TabBar) -> UINavigationController {
+        let nav = UINavigationController()
+        nav.tabBarItem.image = item.systemImage
+        nav.isNavigationBarHidden = true
+        return nav
     }
     
     private func configureAppearance() {

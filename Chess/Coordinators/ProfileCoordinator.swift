@@ -13,7 +13,8 @@ class ProfileCoordinator: Coordinator {
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
         // Configure the tab bar item here
-        navigationController.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gear"), tag: 1)
+        navigationController.isNavigationBarHidden = true
+        navigationController.tabBarItem.image = TabBar.profile.systemImage
     }
 
     func start() {

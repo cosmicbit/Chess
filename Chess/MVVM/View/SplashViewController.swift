@@ -31,6 +31,10 @@ class SplashViewController: UIViewController {
     
     private func navigateToNextPage() {
         guard let window = view.window else { return }
-        window.rootViewController = MainTabBarController()
+        let tabBarController = UITabBarController()
+        let coordinator = MainCoordinator(tabBarController: tabBarController)
+        coordinator.start()
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
     }
 }
