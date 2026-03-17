@@ -11,6 +11,7 @@ class SettingsViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView!
     
+    weak var coordinator: ProfileCoordinator?
     private let viewModel = SettingsViewModel()
 
     override func viewDidLoad() {

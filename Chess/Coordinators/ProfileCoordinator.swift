@@ -25,6 +25,7 @@ class ProfileCoordinator: Coordinator {
     
     func showSettings() {
         let vc = UIStoryboard.instantiate(SettingsViewController.self, from: Storyboards.settings)
+        vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
     }
 }
