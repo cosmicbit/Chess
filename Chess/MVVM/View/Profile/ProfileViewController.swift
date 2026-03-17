@@ -11,7 +11,7 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet private weak var tableView: UITableView!
     
-    weak var coordinator: Coordinator?
+    weak var coordinator: ProfileCoordinator?
     private let viewModel = ProfileViewModel()
 
     override func viewDidLoad() {
@@ -31,9 +31,7 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func settingsButtonTapped(_ sender: Any) {
-        let settingsVC = UIStoryboard.instantiate(SettingsViewController.self, from: Storyboards.settings)
-        settingsVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(settingsVC, animated: true)
+        coordinator?.showSettings()
     }
 }
 

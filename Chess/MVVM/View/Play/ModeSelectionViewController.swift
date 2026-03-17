@@ -20,7 +20,7 @@ class ModeSelectionViewController: UIViewController {
     @IBOutlet private weak var navBar: UIView!
     @IBOutlet private weak var titleLabel: UILabel!
     
-    weak var coordinator: Coordinator?
+    weak var coordinator: PlayCoordinator?
     private var optionButtons: [UIButton] = []
     
     private let stackView: UIStackView = {
@@ -89,9 +89,7 @@ class ModeSelectionViewController: UIViewController {
                let mode = PlayerMode.allCases.first(where: {$0.string == text}) {
                 AppPreferences.shared.currentPlayerMode = mode
                 if mode == .passAndPlay {
-                    let chessVC = UIStoryboard.instantiate(ChessViewController.self, from: Storyboards.main)
-                    chessVC.hidesBottomBarWhenPushed = true
-                    self.navigationController?.pushViewController(chessVC, animated: true)
+                    self.coordinator?.showChessVC()
                 } else {
                     self.showAlert(title: Strings.vsComputerAlert.title, message: Strings.vsComputerAlert.description)
                 }

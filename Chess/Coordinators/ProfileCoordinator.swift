@@ -13,17 +13,25 @@ class ProfileCoordinator: Coordinator {
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
         // Configure the tab bar item here
-        navigationController.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gear"), tag: 1)
+        navigationController.isNavigationBarHidden = true
+        navigationController.tabBarItem.image = TabBar.profile.systemImage
     }
 
     func start() {
         let vc = UIStoryboard.instantiate(ProfileViewController.self, from: Storyboards.profile)
         vc.coordinator = self
-        navigationController.pushViewController(vc, animated: false)
+        self.navigationController.pushViewController(vc, animated: false)
     }
     
     func showSettings() {
         let vc = UIStoryboard.instantiate(SettingsViewController.self, from: Storyboards.settings)
-        navigationController.pushViewController(vc, animated: true)
+        vc.coordinator = self
+        self.navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func showSettings(of setting: SettingsDestination) {
+        let vc = UIStoryboard.instantiate(SettingsDetailViewController.self, from: Storyboards.settings)
+        vc.viewModel.currentSetting = setting
+        self.navigationController.pushViewController(vc, animated: true)
     }
 }

@@ -11,6 +11,7 @@ class SettingsViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView!
     
+    weak var coordinator: ProfileCoordinator?
     private let viewModel = SettingsViewModel()
 
     override func viewDidLoad() {
@@ -72,12 +73,9 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let setting = self.viewModel.sections[indexPath.section].items[indexPath.row]
+        let setting = self.viewModel.getSettings(at: indexPath)
         if setting.details.type == .navigation {
-            let vc = UIStoryboard.instantiate(SettingsDetailViewController.self, from: Storyboards.settings)
-            vc.viewModel.currentSetting = setting
-            self.navigationController?.pushViewController(vc, animated: true)
-            
+            coordinator?.showSettings(of: setting)
         }
     }
 }

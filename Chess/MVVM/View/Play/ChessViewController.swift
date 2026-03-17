@@ -13,6 +13,7 @@ class ChessViewController: UIViewController {
     @IBOutlet private weak var boardCollectionView: UICollectionView!
     @IBOutlet private weak var playerTwoCollectionView: UICollectionView!
     
+    weak var coordinator: Coordinator?
     public let viewModel = ChessViewModel()
     
     override func viewDidLoad() {

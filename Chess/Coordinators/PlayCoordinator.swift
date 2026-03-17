@@ -13,7 +13,8 @@ class PlayCoordinator: Coordinator {
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
         // Configure the tab bar item here
-        navigationController.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gear"), tag: 1)
+        navigationController.isNavigationBarHidden = true
+        navigationController.tabBarItem.image = TabBar.play.systemImage
     }
 
     func start() {
@@ -24,6 +25,8 @@ class PlayCoordinator: Coordinator {
     
     func showChessVC() {
         let vc = UIStoryboard.instantiate(ChessViewController.self, from: Storyboards.main)
+        vc.coordinator = self
+        vc.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(vc, animated: true)
     }
 }
