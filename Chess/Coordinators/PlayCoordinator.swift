@@ -25,6 +25,7 @@ class PlayCoordinator: Coordinator {
     
     func showChessVC() {
         let vc = UIStoryboard.instantiate(ChessViewController.self, from: Storyboards.main)
+        vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
     }
 }
