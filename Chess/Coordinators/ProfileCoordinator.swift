@@ -20,12 +20,18 @@ class ProfileCoordinator: Coordinator {
     func start() {
         let vc = UIStoryboard.instantiate(ProfileViewController.self, from: Storyboards.profile)
         vc.coordinator = self
-        navigationController.pushViewController(vc, animated: false)
+        self.navigationController.pushViewController(vc, animated: false)
     }
     
     func showSettings() {
         let vc = UIStoryboard.instantiate(SettingsViewController.self, from: Storyboards.settings)
         vc.coordinator = self
-        navigationController.pushViewController(vc, animated: true)
+        self.navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func showSettings(of setting: SettingsDestination) {
+        let vc = UIStoryboard.instantiate(SettingsDetailViewController.self, from: Storyboards.settings)
+        vc.viewModel.currentSetting = setting
+        self.navigationController.pushViewController(vc, animated: true)
     }
 }

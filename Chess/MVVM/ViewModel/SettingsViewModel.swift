@@ -4,6 +4,7 @@
 //
 //  Created by Philips Jose on 30/01/26.
 //
+import Foundation
 
 enum SettingType {
     case toggle
@@ -62,5 +63,9 @@ class SettingsViewModel {
     
     public func setupData() {
         sections = SettingsSection.allCases
+    }
+    
+    public func getSettings(at indexPath: IndexPath) -> SettingsDestination {
+        return sections[indexPath[0]].items[indexPath[1]]
     }
 }
