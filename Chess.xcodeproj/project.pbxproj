@@ -6,8 +6,38 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		44B4DD282F86450000F792DB /* ChessEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B4DD262F8643FD00F792DB /* ChessEngine.framework */; };
+		44B4DD292F86450000F792DB /* ChessEngine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 44B4DD262F8643FD00F792DB /* ChessEngine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		44B4DD252F8643FD00F792DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 44B4DD1D2F8643FD00F792DB /* ChessEngine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 44B4DD132F8643DD00F792DB;
+			remoteInfo = ChessEngine;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		44B4DD2A2F86450000F792DB /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				44B4DD292F86450000F792DB /* ChessEngine.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		447B4A5C2EBCA5B800255281 /* Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		44B4DD1D2F8643FD00F792DB /* ChessEngine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ChessEngine.xcodeproj; path = ../ChessEngine/ChessEngine.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -20,24 +50,11 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		44C60EF32EDEAD07008A7C75 /* Exceptions for "Chess" folder in "Compile Sources" phase from "Chess" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 447B4A582EBCA5B800255281 /* Sources */;
-			membershipExceptions = (
-				Resources/DataFiles/BishopDirections.txt,
-				Resources/DataFiles/KingDirections.txt,
-				Resources/DataFiles/KnightDirections.txt,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		447B4A5E2EBCA5B800255281 /* Chess */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				447B4A6E2EBCA5BB00255281 /* Exceptions for "Chess" folder in "Chess" target */,
-				44C60EF32EDEAD07008A7C75 /* Exceptions for "Chess" folder in "Compile Sources" phase from "Chess" target */,
 			);
 			path = Chess;
 			sourceTree = "<group>";
@@ -49,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44B4DD282F86450000F792DB /* ChessEngine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,7 +76,9 @@
 		447B4A532EBCA5B800255281 = {
 			isa = PBXGroup;
 			children = (
+				44B4DD1D2F8643FD00F792DB /* ChessEngine.xcodeproj */,
 				447B4A5E2EBCA5B800255281 /* Chess */,
+				44B4DD272F86450000F792DB /* Frameworks */,
 				447B4A5D2EBCA5B800255281 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +91,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		44B4DD222F8643FD00F792DB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				44B4DD262F8643FD00F792DB /* ChessEngine.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		44B4DD272F86450000F792DB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -81,6 +116,7 @@
 				447B4A582EBCA5B800255281 /* Sources */,
 				447B4A592EBCA5B800255281 /* Frameworks */,
 				447B4A5A2EBCA5B800255281 /* Resources */,
+				44B4DD2A2F86450000F792DB /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -123,12 +159,28 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 447B4A5D2EBCA5B800255281 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 44B4DD222F8643FD00F792DB /* Products */;
+					ProjectRef = 44B4DD1D2F8643FD00F792DB /* ChessEngine.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				447B4A5B2EBCA5B800255281 /* Chess */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		44B4DD262F8643FD00F792DB /* ChessEngine.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ChessEngine.framework;
+			remoteRef = 44B4DD252F8643FD00F792DB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		447B4A5A2EBCA5B800255281 /* Resources */ = {
