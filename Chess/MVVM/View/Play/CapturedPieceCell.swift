@@ -17,5 +17,4 @@ class CapturedPieceCell: UICollectionViewCell {
         chessPieceImageView?.image = image
         chessPieceCount?.text = "\(count)"
     }
-
 }
