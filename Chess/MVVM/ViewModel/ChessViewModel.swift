@@ -6,6 +6,7 @@
 //
 import Foundation
 import CoreGraphics
+import ChessEngine
 
 protocol ChessViewModelDelegate: AnyObject {
     func viewModelDidChangeBoard(_ viewModel: ChessViewModel)
@@ -14,6 +15,7 @@ protocol ChessViewModelDelegate: AnyObject {
 
 class ChessViewModel {
     
+    public let numberOfCells = 64
     private(set) var mode = PlayerMode.passAndPlay
     private(set) var board = ChessBoard()
     private(set) var lastTappedLocation: ChessBoardLocation?
@@ -130,4 +132,21 @@ class ChessViewModel {
         }
     }
     
+}
+
+extension ChessViewModel: ChessServiceDelegate {
+    func chessService(_ engine: ChessEngine.ChessService, didUpdateBoard fen: String, error: ChessEngine.ChessError?) {
+        print("[INFO]: didUpdateBoard")
+        guard let _ = error else { return }
+        
+        
+    }
+    
+    func chessService(_ engine: ChessEngine.ChessService, didFindBestMove move: String, error: ChessEngine.ChessError?) {
+        print("[INFO]: didFindBestMove")
+    }
+    
+    func chessService(_ engine: ChessEngine.ChessService, didGameOver winner: String?, error: ChessEngine.ChessError?) {
+        print("[INFO]: didGameOver")
+    }
 }

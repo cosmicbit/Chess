@@ -22,20 +22,24 @@ class AppChessService {
     public func printBoard() {
         ChessService.shared().printBoard()
     }
+    
+    public func startNewGame() {
+        ChessService.shared().startNewGame()
+    }
 }
 
 extension AppChessService: ChessServiceDelegate {
     
     func chessService(_ engine: ChessEngine.ChessService, didUpdateBoard fen: String, error: ChessEngine.ChessError?) {
-        
+        print("[INFO]: didUpdateBoard")
     }
     
     func chessService(_ engine: ChessEngine.ChessService, didFindBestMove move: String, error: ChessEngine.ChessError?) {
-        
+        print("[INFO]: didFindBestMove")
     }
     
     func chessService(_ engine: ChessEngine.ChessService, didGameOver winner: String?, error: ChessEngine.ChessError?) {
-        
+        print("[INFO]: didGameOver")
     }
     
     

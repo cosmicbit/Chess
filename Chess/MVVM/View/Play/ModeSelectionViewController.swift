@@ -91,8 +91,8 @@ class ModeSelectionViewController: UIViewController {
                 if mode == .passAndPlay {
                     self.coordinator?.showChessVC()
                 } else {
-                    AppChessService.shared.printBoard()
-                    self.showAlert(title: Strings.vsComputerAlert.title, message: Strings.vsComputerAlert.description)
+                    AppChessService.shared.startNewGame()
+//                    self.showAlert(title: Strings.vsComputerAlert.title, message: Strings.vsComputerAlert.description)
                 }
             }
         }

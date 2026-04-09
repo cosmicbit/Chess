@@ -45,7 +45,7 @@ extension ChessViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case boardCollectionView:
-            return self.viewModel.board.cells.flatMap { $0 }.count
+            return self.viewModel.numberOfCells
         case playerOneCollectionView:
             return self.viewModel.playerOneCapturedPieces.count
         case playerTwoCollectionView:
@@ -116,6 +116,8 @@ extension ChessViewController: UICollectionViewDelegateFlowLayout {
         return 0.5
     }
 }
+
+//MARK: - ChessViewModelDelegate
 
 extension ChessViewController: ChessViewModelDelegate {
     
