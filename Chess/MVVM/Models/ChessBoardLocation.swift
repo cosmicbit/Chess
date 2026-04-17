@@ -34,6 +34,12 @@ extension ChessBoardLocation {
         let column = location.column + colChange * distance
         return ChessBoardLocation(row: row, column: column)
     }
+    
+    static func getLocation(for index: Int) -> ChessBoardLocation {
+        let rowIndex = index / 8
+        let columnIndex = index % 8
+        return ChessBoardLocation(row: rowIndex, column: columnIndex)
+    }
 }
 
 extension ChessBoardLocation {
