@@ -36,6 +36,8 @@ class ChessViewController: UIViewController {
     }
 }
 
+//MARK: - UICollectionViewDataSource
+
 extension ChessViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -83,6 +85,8 @@ extension ChessViewController: UICollectionViewDataSource {
     
 }
 
+//MARK: - UICollectionViewDelegate
+
 extension ChessViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ChessBoardCollectionViewCell,
@@ -91,6 +95,8 @@ extension ChessViewController: UICollectionViewDelegate {
         self.viewModel.didTapOnCell(currentTappedCell.location)
     }
 }
+
+//MARK: - UICollectionViewDelegateFlowLayout
 
 extension ChessViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
