@@ -9,7 +9,7 @@
 struct GameState {
     // 1. Turn Management
     var currentPlayer: ChessPieceColor = .white
-
+    var isCheck = false
     // 2. Castling Rights (Crucial for legality)
     var canWhiteKingSideCastle: Bool = true  // e.g., e1-g1, or K-side
     var canWhiteQueenSideCastle: Bool = true // e.g., e1-c1, or Q-side
