@@ -42,6 +42,15 @@ enum ChessPieceType: String, Hashable {
 
 enum ChessPieceColor: String {
     case white, black
+    
+    var otherColor: ChessPieceColor {
+        switch self {
+        case .white:
+            .black
+        case .black:
+            .white
+        }
+    }
 }
 
 enum ChessBoardCellColor {
