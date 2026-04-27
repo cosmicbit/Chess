@@ -27,26 +27,70 @@ extension ChessBoard {
 //MARK: - Helpers
 extension ChessBoard {
     func piece(at loc: ChessBoardLocation) -> ChessPiece? { pieceMap[loc] }
+    
+    func loc(of piece: ChessPieceType, with color: ChessPieceColor) -> ChessBoardLocation? {
+        pieceMap.first { $0.value.type == piece && $0.value.color == color }?.key
+    }
+    
     private func isOccupied(at loc: ChessBoardLocation) -> Bool { pieceMap.keys.contains(loc) }
+    
     private func isInBounds(loc: ChessBoardLocation) -> Bool { (0..<8).contains(loc.row) && (0..<8).contains(loc.column) }
     
+    private func willItMakeKingInCheck(_  move: ChessMove) -> Bool {
+        // 1. Create a copy of the current board
+        var tempBoard = self
+        
+        // 2. Simulate the move
+        // Note: Use a simplified execution that doesn't trigger side effects like UI updates
+        tempBoard.executeMove(move)
+        
+        // 3. Find the King's new position
+        let kingColor = move.piece.color
+        guard let kingLocation = tempBoard.pieceMap.first(where: {
+            $1.type == .king && $1.color == kingColor
+        })?.key else { return true } // Should never happen in valid chess
+
+        // 4. Check if any enemy piece can move to the King's location
+        let enemyColor = kingColor.otherColor
+        for (loc, piece) in tempBoard.pieceMap where piece.color == enemyColor {
+            // We only need pseudo-legal moves here to avoid infinite recursion
+            let enemyMoves = tempBoard.getPseudoLegalMoves(for: piece, at: loc)
+            if enemyMoves.contains(where: { $0.endLocation == kingLocation }) {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    private func getKingPosition(color: ChessPieceColor) -> ChessBoardLocation {
+        return loc(of: .king, with: color) ?? ChessBoardLocation(row: 0, column: 0)
+    }
 }
 
 //MARK: - Move Generation
 extension ChessBoard {
     
     func getLegalMoves(for piece: ChessPiece, at start: ChessBoardLocation) -> [ChessMove] {
+        let moves = self.getPseudoLegalMoves(for: piece, at: start)
+        
+        return moves.filter { move in
+            !willItMakeKingInCheck(move)
+        }
+    }
+    
+    private func getPseudoLegalMoves(for piece: ChessPiece, at loc: ChessBoardLocation) -> [ChessMove] {
         let directions = piece.getDirections()
         
         switch piece.type {
         case .king, .knight:
-            return directions.compactMap { validate(piece, from: start, dir: $0, dist: 1) }
+            return directions.compactMap { validate(piece, from: loc, dir: $0, dist: 1) }
             
         case .pawn:
-            return getPawnMoves(for: piece, from: start)
+            return getPawnMoves(for: piece, from: loc)
             
         case .queen, .bishop, .rook:
-            return directions.flatMap { slide(piece, from: start, dir: $0) }
+            return directions.flatMap { slide(piece, from: loc, dir: $0) }
         }
     }
     
@@ -77,11 +121,19 @@ extension ChessBoard {
                           dir: Direction, dist: Int) -> ChessMove? {
         let target = start.offset(by: dir, distance: dist)
         guard isInBounds(loc: target) else { return nil }
+        let move: ChessMove
         
         if let targetPiece = self.piece(at: target) {
-            return targetPiece.color != piece.color ? ChessMove(start: start, end: target, piece: piece, direction: dir, isAttacking: true, capturedPiece: targetPiece) : nil
+            if targetPiece.color != piece.color {
+                move = ChessMove(start: start, end: target, piece: piece, direction: dir, isAttacking: true, capturedPiece: targetPiece)
+            } else {
+                return nil
+            }
+        } else {
+            move = ChessMove(start: start, end: target, piece: piece, direction: dir, isAttacking: false)
         }
-        return ChessMove(start: start, end: target, piece: piece, direction: dir, isAttacking: false)
+        
+        return move //self.willItMakeKingInCheck(move, board: self) ? nil : move
     }
     
     private func slide(_ piece: ChessPiece, from start: ChessBoardLocation, dir: Direction) -> [ChessMove] {
@@ -127,6 +179,25 @@ extension ChessBoard {
         self.pieceMap[move.endLocation] = piece
         
         gameState.togglePlayer()
+        gameState.isCheck = isKingInCheck(color: gameState.currentPlayer)
         gameState.moveHistory.append(move)
+    }
+    
+    private func isKingInCheck(color: ChessPieceColor) -> Bool {
+        // 1. Find the King
+        guard let kingLocation = self.loc(of: .king, with: color) else {
+            return false
+        }
+        
+        // 2. Check if any opponent piece can move to that location
+        let opponentColor = color.otherColor
+        for (loc, piece) in pieceMap where piece.color == opponentColor {
+            // Use pseudo-legal moves (no king-in-check filtering) to avoid recursion
+            let possibleMoves = getPseudoLegalMoves(for: piece, at: loc)
+            if possibleMoves.contains(where: { $0.endLocation == kingLocation }) {
+                return true
+            }
+        }
+        return false
     }
 }

@@ -68,12 +68,20 @@ class ChessViewModel {
         return CGSize(width: cellWidth, height: cellWidth)
     }
     
-    func highlightCells(for moves: [ChessMove]) {
+    private func highlightCells(for moves: [ChessMove]) {
         moves.forEach {
             let state: ChessBoardCellState = $0.isAttacking ? .vulnerable : .highlighted
             self.board.cells[$0.endLocation.row][$0.endLocation.column].currectState = state
         }
         self.delegate?.viewModelDidChangeBoard(self)
+    }
+    
+    private func markKingsInCheck(_ move: ChessMove) {
+        if self.board.gameState.isCheck {
+            let color = self.board.gameState.currentPlayer
+            let loc = self.board.loc(of: .king, with: color) ?? .init(row: 0, column: 0)
+            self.board.cells[loc.row][loc.column].currectState = .check
+        }
     }
     
     func resetAll() {
@@ -112,6 +120,7 @@ class ChessViewModel {
                         self.delegate?.viewModelDidCapturePiece(self, capturedPieceArray: playerTwoCapturedPieces, move: move)
                     }
                 }
+                self.markKingsInCheck(move)
                 self.delegate?.viewModelDidChangeBoard(self)
             case .failure(let reason):
                 print("Move Failed: \(reason)")
